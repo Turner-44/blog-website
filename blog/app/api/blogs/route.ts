@@ -70,7 +70,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
     try {
-        const formData = await req.formData()
+        const reqData = await req.json()
 
         const id = uuidv4()
 
@@ -84,18 +84,16 @@ export async function POST(req: Request) {
             SK: `${publishedAtDateTime}#${uuidv4()}`,
             id: uuidv4(),
             markdownId: uuidv4(),
-            title: formData.get(attributes.title) as string,
-            slug: formData.get(attributes.slug) as string,
-            shortBlurb: formData.get(attributes.shortBlurb) as string,
-            featureImage: formData.get(attributes.featureImage) as string,
-            publishedAt: formData.get(attributes.publishedAt) as string,
-            tags: (formData.getAll(attributes.tags) as string[]) || [],
+            title: reqData.title,
+            slug: reqData.slug,
+            shortBlurb: reqData.shortBlurb,
+            featureImage: reqData.featureImage,
+            publishedAt: reqData.publishedAt,
+            tags: reqData.tags || [],
         }
 
         // ensure tags is an array
-        const tags = Array.isArray(formData.get(attributes.tags))
-            ? formData.get(attributes.tags)
-            : []
+        const tags = Array.isArray(reqData.tags) ? reqData.tags : []
 
         const command = new PutCommand({
             TableName: TABLE_NAME,
