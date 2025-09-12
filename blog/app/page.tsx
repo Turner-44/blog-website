@@ -1,5 +1,5 @@
+import Link from 'next/link'
 import FetchBlogsButton from './shared-components/FetchBlogsButton'
-import PostBlogForm from './shared-components/PostBlogForm'
 
 export default function Home() {
     return (
@@ -9,7 +9,12 @@ export default function Home() {
                 I'm <span className="font-bold">Matthew</span>
             </p>
             <FetchBlogsButton />
-            <PostBlogForm />
+            <Link
+                href="/internal-app/create-blog"
+                className="hover:underline hover:text-lg"
+            >
+                Create Blog
+            </Link>
         </main>
     )
 }

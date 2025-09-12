@@ -36,7 +36,7 @@ export default function FetchBlogsButton() {
                 <ul className="list-disc pl-6">
                     {blogs.map((blog) => (
                         <li key={blog.id}>
-                            <strong>{blog.title}</strong> – {blog.shortBlurb}
+                            <strong>{blog.title}</strong> - {blog.shortBlurb}
                         </li>
                     ))}
                 </ul>

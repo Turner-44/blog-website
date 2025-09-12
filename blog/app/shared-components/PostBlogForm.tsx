@@ -1,15 +1,18 @@
 'use client'
 
-import { useState } from 'react'
 import { Button } from './Button'
 import Form from 'next/form'
-import createBlog from '@/app/api/blogs/create-blog'
+import { createBlog } from '@/app/internal-app/create-blog/store-blog-data'
+import React from 'react'
 
 export default function CreateBlogForm() {
-    const [success, setSuccess] = useState(false)
+    const [state, formAction] = React.useActionState(createBlog, {
+        success: false,
+        message: '',
+    })
     return (
         <Form
-            action={createBlog}
+            action={formAction}
             className="flex flex-col gap-2 p-4 rounded min-w-md"
         >
             <input
@@ -33,10 +36,17 @@ export default function CreateBlogForm() {
             <textarea
                 name="markdownContent"
                 placeholder="Write your blog markdown..."
-                rows={10}
+                className="form-input"
+                rows={2}
                 required
             />
-            <input type="file" name="featureImage" accept="image/*" required />
+            <input
+                type="file"
+                name="featureImage"
+                accept="image/*"
+                className="form-input"
+                required
+            />
             <input
                 name="tags"
                 placeholder="Tag Relevant Topics"
@@ -46,7 +56,7 @@ export default function CreateBlogForm() {
             <Button type="submit" className="mt-6 w-32 mx-auto">
                 Create Blog
             </Button>
-            {success && (
+            {state.success && (
                 <p className="text-green-600 text-center mt-4">
                     Blog submitted successfully!
                 </p>

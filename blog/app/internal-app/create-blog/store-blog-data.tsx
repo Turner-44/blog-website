@@ -9,7 +9,10 @@ type CreateBlogForm = {
     tags: string[]
 }
 
-export default async function createBlog(formData: FormData) {
+export async function createBlog(
+    prevState: { success: boolean; message: string },
+    formData: FormData
+) {
     const blogFormData: CreateBlogForm = {
         title: formData.get('title') as string,
         slug: formData.get('slug') as string,
@@ -68,4 +71,6 @@ export default async function createBlog(formData: FormData) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(meta),
     })
+
+    return { success: true, message: 'Blog created!' }
 }
