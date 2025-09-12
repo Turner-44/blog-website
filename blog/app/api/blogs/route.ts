@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import { QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb'
 import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb'
 import { dynamoDBClient } from '@/app/lib/db'
-import { v4 as uuidv4 } from 'uuid'
 
 const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts'
 
@@ -14,7 +13,7 @@ type CreateBlogItem = {
     title: string
     slug: string
     shortBlurb: string
-    featureImage: string // "<id>/cover.jpg"
+    featureImageKey: string
     publishedAt: string // from <input type="datetime-local">
     tags: string[] // array of strings
 }
@@ -24,7 +23,7 @@ const attributes = {
     slug: 'slug',
     title: 'title',
     shortBlurb: 'shortBlurb',
-    featureImage: 'featureImage',
+    featureImageKey: 'featureImageKey',
     publishedAt: 'publishedAt',
     tags: 'tags',
     markdownId: 'markdownId',
@@ -72,8 +71,6 @@ export async function POST(req: Request) {
     try {
         const reqData = await req.json()
 
-        const id = uuidv4()
-
         // 👇 Stamp publish time as "now" in UTC ISO format
         const publishedAtDateTime = new Date()
             .toISOString()
@@ -81,19 +78,16 @@ export async function POST(req: Request) {
 
         const item: CreateBlogItem = {
             PK: 'BLOG',
-            SK: `${publishedAtDateTime}#${uuidv4()}`,
-            id: uuidv4(),
-            markdownId: uuidv4(),
+            SK: `${publishedAtDateTime}#${reqData.id}`,
+            id: reqData.id,
+            markdownId: reqData.markdownId,
             title: reqData.title,
             slug: reqData.slug,
             shortBlurb: reqData.shortBlurb,
-            featureImage: reqData.featureImage,
+            featureImageKey: reqData.featureImageKey,
             publishedAt: reqData.publishedAt,
-            tags: reqData.tags || [],
+            tags: reqData.tags,
         }
-
-        // ensure tags is an array
-        const tags = Array.isArray(reqData.tags) ? reqData.tags : []
 
         const command = new PutCommand({
             TableName: TABLE_NAME,

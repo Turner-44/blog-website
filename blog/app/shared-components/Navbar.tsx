@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const containerClasses =
-    'prose prose-xl mx-auto flex flex-col items-center justify-between'
+    'prose prose-md mx-auto flex flex-col items-center justify-between'
 const navLinks = [
     { href: '/', label: 'Blog' },
     { href: '/about', label: 'About' },

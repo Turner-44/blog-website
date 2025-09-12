@@ -2,32 +2,14 @@
 
 import { useState } from 'react'
 import { Button } from './Button'
+import Form from 'next/form'
+import createBlog from '@/app/api/blogs/create-blog'
 
 export default function CreateBlogForm() {
     const [success, setSuccess] = useState(false)
-
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-
-        const formData = new FormData(event.currentTarget)
-
-        const res = await fetch('/api/blogs', {
-            method: 'POST',
-            body: JSON.stringify(Object.fromEntries(formData)),
-            headers: { 'Content-Type': 'application/json' },
-        })
-
-        if (res.ok) {
-            setSuccess(true)
-            ;(event.target as HTMLFormElement).reset()
-        } else {
-            alert('Failed to submit blog')
-        }
-    }
-
     return (
-        <form
-            onSubmit={handleSubmit}
+        <Form
+            action={createBlog}
             className="flex flex-col gap-2 p-4 rounded min-w-md"
         >
             <input
@@ -48,11 +30,13 @@ export default function CreateBlogForm() {
                 className="form-input"
                 required
             />
-            <input
-                name="featureImage"
-                placeholder="Feature Image URL"
-                className="form-input"
+            <textarea
+                name="markdownContent"
+                placeholder="Write your blog markdown..."
+                rows={10}
+                required
             />
+            <input type="file" name="featureImage" accept="image/*" required />
             <input
                 name="tags"
                 placeholder="Tag Relevant Topics"
@@ -60,13 +44,13 @@ export default function CreateBlogForm() {
                 required
             />
             <Button type="submit" className="mt-6 w-32 mx-auto">
-                Submit
+                Create Blog
             </Button>
             {success && (
                 <p className="text-green-600 text-center mt-4">
                     Blog submitted successfully!
                 </p>
             )}
-        </form>
+        </Form>
     )
 }
