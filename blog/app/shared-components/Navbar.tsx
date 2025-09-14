@@ -1,13 +1,13 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from 'next/link';
+import Image from 'next/image';
 
 const containerClasses =
-    'prose prose-md mx-auto flex flex-col items-center justify-between'
+    'prose prose-md mx-auto flex flex-col items-center justify-between';
 const navLinks = [
     { href: '/', label: 'Blog' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
-]
+];
 
 export default function Navbar() {
     return (
@@ -38,5 +38,5 @@ export default function Navbar() {
                 </div>
             </nav>
         </div>
-    )
+    );
 }

@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import React from 'react'
-import { cva, VariantProps } from 'class-variance-authority'
-import { cn } from '@/app/lib/utils'
+import React from 'react';
+import { cva, VariantProps } from 'class-variance-authority';
+import { cn } from '@/app/lib/utils';
 
 const buttonVariants = cva('rounded transition-colors duration-200', {
     variants: {
@@ -21,7 +21,7 @@ const buttonVariants = cva('rounded transition-colors duration-200', {
         variant: 'default',
         size: 'default',
     },
-})
+});
 
 interface ButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -40,9 +40,9 @@ const Button: React.FC<ButtonProps> = ({
         >
             {props.children}
         </button>
-    )
-}
+    );
+};
 
-Button.displayName = 'Button'
+Button.displayName = 'Button';
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };

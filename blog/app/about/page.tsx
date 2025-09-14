@@ -4,5 +4,5 @@ export default function About() {
             <h1>About</h1>
             <p>This is the about page of the blog.</p>
         </div>
-    )
+    );
 }

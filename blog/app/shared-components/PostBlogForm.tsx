@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { Button } from './Button'
-import Form from 'next/form'
-import { createBlog } from '@/app/internal-app/create-blog/store-blog-data'
-import React from 'react'
+import { Button } from './Button';
+import Form from 'next/form';
+import { createBlog } from '@/app/internal-app/create-blog/store-blog-data';
+import React from 'react';
 
 export default function CreateBlogForm() {
     const [state, formAction, pending] = React.useActionState(createBlog, {
         success: false,
         message: '',
-    })
+    });
     return (
         <Form
             action={formAction}
@@ -66,5 +66,5 @@ export default function CreateBlogForm() {
                 </p>
             )}
         </Form>
-    )
+    );
 }

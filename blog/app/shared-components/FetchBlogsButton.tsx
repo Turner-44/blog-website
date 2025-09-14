@@ -1,28 +1,28 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Button } from './Button'
+import { useState } from 'react';
+import { Button } from './Button';
 
 export default function FetchBlogsButton() {
-    const [blogs, setBlogs] = useState<any[]>([])
-    const [loading, setLoading] = useState(false)
+    const [blogs, setBlogs] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
 
     async function handleClick() {
-        setLoading(true)
+        setLoading(true);
         try {
             const res = await fetch('/api/blogs?limit=50', {
                 cache: 'no-store',
-            })
-            const { items } = await res.json()
+            });
+            const { items } = await res.json();
 
-            if (!res.ok) throw new Error('Failed to fetch blogs')
+            if (!res.ok) throw new Error('Failed to fetch blogs');
 
-            setBlogs(items)
+            setBlogs(items);
         } catch (err) {
-            console.error(err)
-            alert('Error fetching blogs')
+            console.error(err);
+            alert('Error fetching blogs');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 
@@ -42,5 +42,5 @@ export default function FetchBlogsButton() {
                 </ul>
             )}
         </div>
-    )
+    );
 }

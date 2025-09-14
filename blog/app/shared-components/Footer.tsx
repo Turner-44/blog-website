@@ -1,14 +1,14 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from 'next/link';
+import Image from 'next/image';
 
 const containerClasses =
-    'prose prose-xl mx-auto flex flex-col items-center justify-between'
+    'prose prose-xl mx-auto flex flex-col items-center justify-between';
 
 const navLinks = [
     { href: '/privacy-policy', label: 'Privacy Policy' },
     { href: '/disclaimer', label: 'Disclaimer' },
     { href: '/terms-conditions', label: 'Terms and Conditions' },
-]
+];
 export default function Navbar() {
     return (
         <nav>
@@ -26,5 +26,5 @@ export default function Navbar() {
                 </div>
             </div>
         </nav>
-    )
+    );
 }

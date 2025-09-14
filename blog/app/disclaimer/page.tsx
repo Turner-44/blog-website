@@ -4,5 +4,5 @@ export default function Disclaimer() {
             <h1>Disclaimer</h1>
             <p>This is the disclaimer page.</p>
         </div>
-    )
+    );
 }

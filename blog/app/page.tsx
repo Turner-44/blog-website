@@ -1,5 +1,6 @@
-import Link from 'next/link'
-import FetchBlogsButton from './shared-components/FetchBlogsButton'
+import Link from 'next/link';
+import FetchBlogsButton from './shared-components/FetchBlogsButton';
+import BlogCarousel from './shared-components/BlogCarousel';
 
 export default function Home() {
     return (
@@ -9,6 +10,7 @@ export default function Home() {
                 I'm <span className="font-bold">Matthew</span>
             </p>
             <FetchBlogsButton />
+            <BlogCarousel />
             <Link
                 href="/internal-app/create-blog"
                 className="hover:underline hover:text-lg"
@@ -16,5 +18,5 @@ export default function Home() {
                 Create Blog
             </Link>
         </main>
-    )
+    );
 }
