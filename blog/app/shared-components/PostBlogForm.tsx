@@ -6,7 +6,7 @@ import { createBlog } from '@/app/internal-app/create-blog/store-blog-data'
 import React from 'react'
 
 export default function CreateBlogForm() {
-    const [state, formAction] = React.useActionState(createBlog, {
+    const [state, formAction, pending] = React.useActionState(createBlog, {
         success: false,
         message: '',
     })
@@ -53,8 +53,12 @@ export default function CreateBlogForm() {
                 className="form-input"
                 required
             />
-            <Button type="submit" className="mt-6 w-32 mx-auto">
-                Create Blog
+            <Button
+                type="submit"
+                className="mt-6 w-32 mx-auto"
+                disabled={pending}
+            >
+                {pending ? 'Creating...' : 'Create Blog'}
             </Button>
             {state.success && (
                 <p className="text-green-600 text-center mt-4">
