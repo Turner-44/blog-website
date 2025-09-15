@@ -1,4 +1,4 @@
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '@/app/lib/s3';
 
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
@@ -42,4 +42,46 @@ export async function POST(req: Request) {
             { status: 500 }
         );
     }
+}
+
+export async function GET(req: Request) {
+    const url = new URL(req.url);
+    const markdownKeysParam = url.searchParams.get('markdownKey');
+
+    if (!markdownKeysParam) {
+        return NextResponse.json(
+            {
+                error: `Missing markdownKey parameter`,
+            },
+            { status: 400 }
+        );
+    }
+
+    const markdownKeys = markdownKeysParam.split(',');
+
+    // Retrieve each image from S3
+    const results = await Promise.all(
+        markdownKeys.map(async (markdownKey, index) => {
+            try {
+                const command = new GetObjectCommand({
+                    Bucket: BUCKET_NAME,
+                    Key: markdownKey,
+                });
+                const s3Res = await s3Client.send(command);
+
+                if (!s3Res.Body) throw new Error('No markdown body returned');
+
+                return {
+                    content: await s3Res.Body.transformToString(),
+                };
+            } catch (err) {
+                return {
+                    id: markdownKey,
+                    error: String(err),
+                };
+            }
+        })
+    );
+
+    return NextResponse.json({ results });
 }

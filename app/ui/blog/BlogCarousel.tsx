@@ -36,7 +36,6 @@ export default function BlogCarousel() {
                     return { ...blog, image };
                 })
             );
-            console.log(addFeatureImages);
             setBlogs(addFeatureImages);
         } catch (err) {
             console.error(err);

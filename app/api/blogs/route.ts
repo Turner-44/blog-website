@@ -40,13 +40,33 @@ const getQueryCommandAttr = (url: URL): QueryCommandInput => ({
     ProjectionExpression: Object.values(attributes).join(', '),
 });
 
+const getQueryCommandAttrBySlug = (url: URL): QueryCommandInput => ({
+    TableName: TABLE_NAME,
+    IndexName: 'slug-index', // whatever name you gave it
+    KeyConditionExpression: 'slug = :slug',
+    ExpressionAttributeValues: {
+        ':slug': `${url.searchParams.get('slug')}`,
+    },
+});
+
 export async function GET(req: Request) {
     try {
         const url = new URL(req.url);
 
-        const out = await dynamoDBClient.send(
-            new QueryCommand(getQueryCommandAttr(url))
+        console.log(
+            'GET /api/blogs called with params:',
+            url.searchParams.toString()
         );
+
+        let queryParams;
+
+        if (url.searchParams.get('slug')) {
+            queryParams = getQueryCommandAttrBySlug(url);
+        } else {
+            queryParams = getQueryCommandAttr(url);
+        }
+
+        const out = await dynamoDBClient.send(new QueryCommand(queryParams));
 
         return NextResponse.json({
             items: out.Items ?? [],

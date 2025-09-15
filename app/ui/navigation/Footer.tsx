@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 const containerClasses =
     'prose prose-xl mx-auto flex flex-col items-center justify-between';
