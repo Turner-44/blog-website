@@ -23,9 +23,9 @@ export default function BlogCarousel() {
             const addFeatureImages = await Promise.all(
                 items.map(async (blog: any) => {
                     let image = null;
-                    if (blog.featureImageKey) {
+                    if (blog.imageKey) {
                         const imageRes = await fetch(
-                            `/api/blogs/${blog.id}/images?featureImageKey=${encodeURIComponent(blog.featureImageKey)}`,
+                            `/api/blogs/${blog.id}/images?imageKey=${encodeURIComponent(blog.imageKey)}`,
                             { cache: 'no-store' }
                         );
                         if (imageRes.ok) {

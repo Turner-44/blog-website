@@ -31,7 +31,6 @@ export async function POST(req: Request) {
                 blogId: formData.get('blogId'),
                 slug: formData.get('slug'),
                 imageKey,
-                s3Url: `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${imageKey}`,
             },
             { status: 201 }
         );
@@ -47,12 +46,12 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
     const url = new URL(req.url);
 
-    const imageKeysParam = url.searchParams.get('featureImageKey');
+    const imageKeysParam = url.searchParams.get('imageKey');
 
     if (!imageKeysParam) {
         return NextResponse.json(
             {
-                error: `Missing featureImageKey parameter`,
+                error: `Missing imageKey parameter`,
             },
             { status: 400 }
         );

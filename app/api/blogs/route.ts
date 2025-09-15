@@ -9,11 +9,11 @@ type CreateBlogItem = {
     PK: 'BLOG';
     SK: string;
     id?: string;
-    markdownId?: string;
-    title: string;
     slug: string;
+    title: string;
     summary: string;
-    featureImageKey: string;
+    imageKey: string;
+    markdownKey?: string;
     publishedAt: string; // from <input type="datetime-local">
     tags: string[]; // array of strings
 };
@@ -23,10 +23,10 @@ const attributes = {
     slug: 'slug',
     title: 'title',
     summary: 'summary',
-    featureImageKey: 'featureImageKey',
+    imageKey: 'imageKey',
+    markdownKey: 'markdownKey',
     publishedAt: 'publishedAt',
     tags: 'tags',
-    markdownId: 'markdownId',
 };
 
 const getQueryCommandAttr = (url: URL): QueryCommandInput => ({
@@ -47,12 +47,6 @@ export async function GET(req: Request) {
         const out = await dynamoDBClient.send(
             new QueryCommand(getQueryCommandAttr(url))
         );
-
-        // Ensure tags always comes out as a plain array
-        const items = (out.Items ?? []).map((item) => ({
-            ...item,
-            tags: Array.isArray(item.tags) ? item.tags : [],
-        }));
 
         return NextResponse.json({
             items: out.Items ?? [],
@@ -80,11 +74,11 @@ export async function POST(req: Request) {
             PK: 'BLOG',
             SK: `${publishedAtDateTime}#${reqData.id}`,
             id: reqData.id,
-            markdownId: reqData.markdownId,
             title: reqData.title,
             slug: reqData.slug,
             summary: reqData.summary,
-            featureImageKey: reqData.featureImageKey,
+            imageKey: reqData.imageKey,
+            markdownKey: reqData.markdownKey,
             publishedAt: reqData.publishedAt,
             tags: reqData.tags,
         };

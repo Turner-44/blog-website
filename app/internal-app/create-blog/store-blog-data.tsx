@@ -56,13 +56,12 @@ export async function createBlog(
     // 3. Save metadata
     const meta = {
         id: markdownResp.blogId,
-        markdownId: markdownResp.markdownId,
         title: blogFormData.title,
         slug: blogFormData.slug,
         summary: blogFormData.summary,
-        publishedAt: new Date().toISOString(),
+        imageKey: imageResp.imageKey,
         markdownKey: markdownResp.markdownKey,
-        featureImageKey: imageResp.imageKey,
+        publishedAt: new Date().toISOString(),
         tags: blogFormData.tags,
     };
 

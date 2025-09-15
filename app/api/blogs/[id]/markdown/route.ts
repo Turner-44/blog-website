@@ -16,8 +16,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const markdownId = crypto.randomUUID();
-        const markdownKey = `blog-posts/${reqData.blogId}/content/${markdownId}.md`;
+        const markdownKey = `blog-posts/${reqData.blogId}/content/blog.md`;
 
         await s3Client.send(
             new PutObjectCommand({
@@ -27,13 +26,12 @@ export async function POST(req: Request) {
                 ContentType: 'text/markdown',
             })
         );
+
         return NextResponse.json(
             {
                 ok: true,
                 blogId: reqData.blogId,
-                markdownId,
                 markdownKey,
-                s3Url: `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${markdownKey}`,
             },
             { status: 201 }
         );
