@@ -1,4 +1,4 @@
-import PostBlogForm from '@/app/shared-components/PostBlogForm';
+import PostBlogForm from '@/app/internal-app/create-blog/PostBlogForm';
 
 export default function CreateBlogPage() {
     return (

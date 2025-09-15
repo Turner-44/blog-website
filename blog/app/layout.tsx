@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Roboto, Nunito } from 'next/font/google';
 import './globals.css';
-import Navbar from './shared-components/Navbar';
-import Footer from './shared-components/Footer';
+import Navbar from './ui/navigation/Navbar';
+import Footer from './ui/navigation/Footer';
 
 const roboto = Roboto({
     variable: '--font-roboto',
@@ -28,7 +28,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${nunito.variable} ${nunito.variable} antialiased dark:bg-black dark:text-white`}
+                className={`${roboto.variable} ${nunito.variable} antialiased dark:bg-black dark:text-white`}
             >
                 <Navbar />
                 {children}

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from './Button';
+import { Button } from '../shared-components/Button';
+import BlogCard from './BlogCard';
 
 export default function BlogCarousel() {
     const [blogs, setBlogs] = useState<
@@ -35,6 +36,7 @@ export default function BlogCarousel() {
                     return { ...blog, image };
                 })
             );
+            console.log(addFeatureImages);
             setBlogs(addFeatureImages);
         } catch (err) {
             console.error(err);
@@ -49,22 +51,12 @@ export default function BlogCarousel() {
             <Button onClick={handleClick} disabled={loading}>
                 {loading ? 'Loading...' : 'Load Blogs'}
             </Button>
+
             {blogs.length > 0 && (
-                <div className="grid grid-cols-3 gap-5 p-5">
-                    {blogs.map((blog) => (
-                        <div className="w-96 h-100 bg-black" key={blog.id}>
-                            <div>
-                                {blog.image ? (
-                                    <img
-                                        src={`data:image/png;base64,${blog.image}`}
-                                        alt={blog.title || 'Blog image'}
-                                    />
-                                ) : (
-                                    <span className="text-white">No image</span>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                <div className="grid grid-cols-3 gap-10 p-5">
+                    {blogs.map((blog, index) => {
+                        return <BlogCard blog={blog} key={index} />;
+                    })}
                 </div>
             )}
         </div>

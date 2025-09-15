@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import FetchBlogsButton from './shared-components/FetchBlogsButton';
-import BlogCarousel from './shared-components/BlogCarousel';
+import BlogCarousel from './ui/blog/BlogCarousel';
 
 export default function Home() {
     return (
@@ -9,7 +8,6 @@ export default function Home() {
                 Welcome to my blog! <br />
                 I'm <span className="font-bold">Matthew</span>
             </p>
-            <FetchBlogsButton />
             <BlogCarousel />
             <Link
                 href="/internal-app/create-blog"

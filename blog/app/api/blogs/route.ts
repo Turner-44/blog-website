@@ -12,7 +12,7 @@ type CreateBlogItem = {
     markdownId?: string;
     title: string;
     slug: string;
-    shortBlurb: string;
+    summary: string;
     featureImageKey: string;
     publishedAt: string; // from <input type="datetime-local">
     tags: string[]; // array of strings
@@ -22,7 +22,7 @@ const attributes = {
     id: 'id',
     slug: 'slug',
     title: 'title',
-    shortBlurb: 'shortBlurb',
+    summary: 'summary',
     featureImageKey: 'featureImageKey',
     publishedAt: 'publishedAt',
     tags: 'tags',
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
             markdownId: reqData.markdownId,
             title: reqData.title,
             slug: reqData.slug,
-            shortBlurb: reqData.shortBlurb,
+            summary: reqData.summary,
             featureImageKey: reqData.featureImageKey,
             publishedAt: reqData.publishedAt,
             tags: reqData.tags,

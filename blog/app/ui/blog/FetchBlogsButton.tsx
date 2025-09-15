@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from './Button';
+import { Button } from '../shared-components/Button';
 
 export default function FetchBlogsButton() {
     const [blogs, setBlogs] = useState<any[]>([]);
@@ -36,7 +36,7 @@ export default function FetchBlogsButton() {
                 <ul className="list-disc pl-6">
                     {blogs.map((blog) => (
                         <li key={blog.id}>
-                            <strong>{blog.title}</strong> - {blog.shortBlurb}
+                            <strong>{blog.title}</strong> - {blog.summary}
                         </li>
                     ))}
                 </ul>

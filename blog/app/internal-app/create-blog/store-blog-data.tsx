@@ -3,7 +3,7 @@
 type CreateBlogForm = {
     title: string;
     slug: string;
-    shortBlurb: string;
+    summary: string;
     markdownContent: string;
     featureImage: File;
     tags: string[];
@@ -16,7 +16,7 @@ export async function createBlog(
     const blogFormData: CreateBlogForm = {
         title: formData.get('title') as string,
         slug: formData.get('slug') as string,
-        shortBlurb: formData.get('shortBlurb') as string,
+        summary: formData.get('summary') as string,
         markdownContent: formData.get('markdownContent') as string,
         featureImage: formData.get('featureImage') as File,
         tags: (formData.get('tags') as string).split(',').map((t) => t.trim()),
@@ -59,7 +59,7 @@ export async function createBlog(
         markdownId: markdownResp.markdownId,
         title: blogFormData.title,
         slug: blogFormData.slug,
-        shortBlurb: blogFormData.shortBlurb,
+        summary: blogFormData.summary,
         publishedAt: new Date().toISOString(),
         markdownKey: markdownResp.markdownKey,
         featureImageKey: imageResp.imageKey,

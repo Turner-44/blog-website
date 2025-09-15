@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from './Button';
+import { Button } from '../../ui/shared-components/Button';
 import Form from 'next/form';
 import { createBlog } from '@/app/internal-app/create-blog/store-blog-data';
 import React from 'react';
@@ -28,7 +28,7 @@ export default function CreateBlogForm() {
                 required
             />
             <input
-                name="shortBlurb"
+                name="summary"
                 placeholder="Short Blurb"
                 className="form-input"
                 required
