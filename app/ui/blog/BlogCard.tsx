@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function BlogCard({ blog }: { blog: any }) {
     return (
-        <Link href={`/blog-post/${blog.slug}`} className="no-underline">
+        <Link href={`/blog/${blog.slug}`} className="no-underline">
             <div
                 className="w-90 mx-auto sm:w-96 h-80 bg-black relative rounded-2xl hover:scale-105"
                 key={blog.id}

@@ -34,7 +34,6 @@ const getQueryCommandAttr = (url: URL): QueryCommandInput => ({
     KeyConditionExpression: '#pk = :blog',
     ExpressionAttributeNames: { '#pk': 'PK' },
     ExpressionAttributeValues: { ':blog': 'BLOG' },
-    // SK is "publishedAt#id" → newest first
     ScanIndexForward: false,
     Limit: Number(url.searchParams.get('limit')) ?? 50,
     ProjectionExpression: Object.values(attributes).join(', '),
@@ -42,7 +41,7 @@ const getQueryCommandAttr = (url: URL): QueryCommandInput => ({
 
 const getQueryCommandAttrBySlug = (url: URL): QueryCommandInput => ({
     TableName: TABLE_NAME,
-    IndexName: 'slug-index', // whatever name you gave it
+    IndexName: 'slug-index',
     KeyConditionExpression: 'slug = :slug',
     ExpressionAttributeValues: {
         ':slug': `${url.searchParams.get('slug')}`,
@@ -53,31 +52,47 @@ export async function GET(req: Request) {
     try {
         const url = new URL(req.url);
 
-        console.log(
-            'GET /api/blogs called with params:',
-            url.searchParams.toString()
-        );
-
         let queryParams;
 
         if (url.searchParams.get('slug')) {
+            const slug = url.searchParams.get('slug');
+
+            if (typeof slug !== 'string') {
+                return NextResponse.json(
+                    { error: 'Blog slug must be a string' },
+                    { status: 400 }
+                );
+            }
+
+            if (slug.includes(' ')) {
+                return NextResponse.json(
+                    { error: 'Blog slug must not contain spaces' },
+                    { status: 400 }
+                );
+            }
+
             queryParams = getQueryCommandAttrBySlug(url);
         } else {
             queryParams = getQueryCommandAttr(url);
         }
 
-        const out = await dynamoDBClient.send(new QueryCommand(queryParams));
+        const dynamodbRes = await dynamoDBClient.send(
+            new QueryCommand(queryParams)
+        );
+
+        if (!dynamodbRes.Items) {
+            return NextResponse.json(
+                { error: 'Failed to retrieve any blogs' },
+                { status: 404 }
+            );
+        }
 
         return NextResponse.json({
-            items: out.Items ?? [],
-            count: out.Count ?? 0,
+            items: dynamodbRes.Items,
         });
-    } catch (e) {
-        console.error(e);
-        return NextResponse.json(
-            { error: 'Failed to load posts' },
-            { status: 500 }
-        );
+    } catch (err) {
+        console.error('API Error: ', err);
+        return NextResponse.json({ error: String(err) }, { status: 500 });
     }
 }
 
@@ -85,15 +100,17 @@ export async function POST(req: Request) {
     try {
         const reqData = await req.json();
 
-        // 👇 Stamp publish time as "now" in UTC ISO format
+        const id = reqData.id || crypto.randomUUID();
+
+        // Stamp publish time as "now" in UTC ISO format
         const publishedAtDateTime = new Date()
             .toISOString()
             .replace(/\.\d{3}Z$/, 'Z');
 
         const item: CreateBlogItem = {
             PK: 'BLOG',
-            SK: `${publishedAtDateTime}#${reqData.id}`,
-            id: reqData.id,
+            SK: `${publishedAtDateTime}#${id}`,
+            id: id,
             title: reqData.title,
             slug: reqData.slug,
             summary: reqData.summary,
@@ -103,27 +120,36 @@ export async function POST(req: Request) {
             tags: reqData.tags,
         };
 
+        //TODO: Build out validation
+
+        if (reqData.slug.includes(' ')) {
+            return NextResponse.json(
+                { error: 'Blog slug must not contain spaces' },
+                { status: 400 }
+            );
+        }
+
         const command = new PutCommand({
             TableName: TABLE_NAME,
             Item: item,
-            // uncomment if you want to prevent overwrites:
-            // ConditionExpression: "attribute_not_exists(PK) AND attribute_not_exists(SK)",
         });
 
-        const resp = await dynamoDBClient.send(command);
+        const dynamodbRes = await dynamoDBClient.send(command);
+        if (!dynamodbRes) {
+            return NextResponse.json(
+                { error: 'Failed to create blog post' },
+                { status: 500 }
+            );
+        }
 
         return NextResponse.json(
             {
-                ok: true,
-                meta: { consumed: resp.ConsumedCapacity },
+                meta: dynamodbRes.ConsumedCapacity,
             },
             { status: 201 }
         );
-    } catch (err: any) {
-        console.error('POST /api/blogs error:', err);
-        return NextResponse.json(
-            { ok: false, error: String(err) },
-            { status: 500 }
-        );
+    } catch (err) {
+        console.error('API Error: ', err);
+        return NextResponse.json({ error: String(err) }, { status: 500 });
     }
 }

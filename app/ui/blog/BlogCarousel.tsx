@@ -16,21 +16,22 @@ export default function BlogCarousel() {
             const res = await fetch('/api/blogs?limit=3', {
                 cache: 'no-store',
             });
+
             if (!res.ok) throw new Error('Failed to fetch blogs');
             const { items } = await res.json();
 
-            // Fetch images for each blog
             const addFeatureImages = await Promise.all(
                 items.map(async (blog: any) => {
                     let image = null;
                     if (blog.imageKey) {
                         const imageRes = await fetch(
-                            `/api/blogs/${blog.id}/images?imageKey=${encodeURIComponent(blog.imageKey)}`,
+                            `/api/blogs/${blog.id}/image?imageKey=${encodeURIComponent(blog.imageKey)}`,
                             { cache: 'no-store' }
                         );
+
                         if (imageRes.ok) {
-                            const { results } = await imageRes.json();
-                            image = results[0]?.image || null;
+                            const imageJson = await imageRes.json();
+                            image = imageJson.image || null;
                         }
                     }
                     return { ...blog, image };

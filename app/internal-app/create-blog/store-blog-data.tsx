@@ -4,7 +4,7 @@ type CreateBlogForm = {
     title: string;
     slug: string;
     summary: string;
-    markdownContent: string;
+    markdown: string;
     featureImage: File;
     tags: string[];
 };
@@ -17,15 +17,14 @@ export async function createBlog(
         title: formData.get('title') as string,
         slug: formData.get('slug') as string,
         summary: formData.get('summary') as string,
-        markdownContent: formData.get('markdownContent') as string,
+        markdown: formData.get('markdown') as string,
         featureImage: formData.get('featureImage') as File,
         tags: (formData.get('tags') as string).split(',').map((t) => t.trim()),
     };
 
     const id = crypto.randomUUID();
 
-    // 1. Upload markdown
-    const markdownContent = blogFormData.markdownContent;
+    const markdown = blogFormData.markdown;
     const markdownResp = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/markdown`,
         {
@@ -33,29 +32,26 @@ export async function createBlog(
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 blogId: id,
-                markdownContent,
+                markdown,
             }),
         }
     ).then((r) => r.json());
 
-    // 2. Upload image
     const imageFormData = new FormData();
     imageFormData.append('blogId', id);
     imageFormData.append('slug', blogFormData.slug);
-    imageFormData.append('featureImage', blogFormData.featureImage); // File object
+    imageFormData.append('featureImage', blogFormData.featureImage);
 
     const imageResp = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/images`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/image`,
         {
             method: 'POST',
             body: imageFormData,
-            // Do NOT set Content-Type header; browser will set it for FormData
         }
     ).then((r) => r.json());
 
-    // 3. Save metadata
     const meta = {
-        id: markdownResp.blogId,
+        id: id,
         title: blogFormData.title,
         slug: blogFormData.slug,
         summary: blogFormData.summary,

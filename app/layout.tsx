@@ -1,18 +1,7 @@
 import type { Metadata } from 'next';
-import { Roboto, Nunito } from 'next/font/google';
 import './globals.css';
 import Navbar from './ui/navigation/Navbar';
 import Footer from './ui/navigation/Footer';
-
-const roboto = Roboto({
-    variable: '--font-roboto',
-    subsets: ['latin'],
-});
-
-const nunito = Nunito({
-    variable: '--font-nunito',
-    subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
     title: 'Becoming Matthew',
@@ -27,9 +16,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body
-                className={`${roboto.variable} ${nunito.variable} antialiased dark:bg-black dark:text-white`}
-            >
+            <body>
                 <Navbar />
                 {children}
                 <Footer />

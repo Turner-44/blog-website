@@ -34,7 +34,7 @@ export default function CreateBlogForm() {
                 required
             />
             <textarea
-                name="markdownContent"
+                name="markdown"
                 placeholder="Write your blog markdown..."
                 className="form-input"
                 rows={2}

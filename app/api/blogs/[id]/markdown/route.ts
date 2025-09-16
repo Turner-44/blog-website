@@ -7,11 +7,25 @@ import { BUCKET_NAME } from '@/app/lib/s3';
 export async function POST(req: Request) {
     try {
         const reqData = await req.json();
-        const markdownContent = reqData.markdownContent;
+        const markdown = reqData.markdown;
 
-        if (!markdownContent) {
+        if (!markdown) {
             return NextResponse.json(
                 { error: 'Markdown content is required' },
+                { status: 400 }
+            );
+        }
+
+        if (typeof markdown !== 'string') {
+            return NextResponse.json(
+                { error: 'Markdown content must be in string format' },
+                { status: 400 }
+            );
+        }
+
+        if (typeof reqData.blogId !== 'string') {
+            return NextResponse.json(
+                { error: 'Blog ID must be in string format' },
                 { status: 400 }
             );
         }
@@ -22,33 +36,28 @@ export async function POST(req: Request) {
             new PutObjectCommand({
                 Bucket: BUCKET_NAME,
                 Key: markdownKey,
-                Body: Buffer.from(markdownContent),
-                ContentType: 'text/markdown',
+                Body: markdown,
             })
         );
 
         return NextResponse.json(
             {
-                ok: true,
                 blogId: reqData.blogId,
                 markdownKey,
             },
             { status: 201 }
         );
     } catch (err: any) {
-        console.error('POST /api/blogs/[id]/markdown error:', err);
-        return NextResponse.json(
-            { ok: false, error: String(err) },
-            { status: 500 }
-        );
+        console.error('API Error: ', err);
+        return NextResponse.json({ error: String(err) }, { status: 500 });
     }
 }
 
 export async function GET(req: Request) {
     const url = new URL(req.url);
-    const markdownKeysParam = url.searchParams.get('markdownKey');
+    const markdownKey = url.searchParams.get('markdownKey');
 
-    if (!markdownKeysParam) {
+    if (!markdownKey) {
         return NextResponse.json(
             {
                 error: `Missing markdownKey parameter`,
@@ -57,31 +66,28 @@ export async function GET(req: Request) {
         );
     }
 
-    const markdownKeys = markdownKeysParam.split(',');
+    try {
+        const command = new GetObjectCommand({
+            Bucket: BUCKET_NAME,
+            Key: markdownKey,
+        });
 
-    // Retrieve each image from S3
-    const results = await Promise.all(
-        markdownKeys.map(async (markdownKey, index) => {
-            try {
-                const command = new GetObjectCommand({
-                    Bucket: BUCKET_NAME,
-                    Key: markdownKey,
-                });
-                const s3Res = await s3Client.send(command);
+        const s3Res = await s3Client.send(command);
+        const markdown = await s3Res.Body?.transformToString();
 
-                if (!s3Res.Body) throw new Error('No markdown body returned');
+        if (!markdown) {
+            return NextResponse.json(
+                { error: 'Failed to retrieve markdown', id: markdownKey },
+                { status: 404 }
+            );
+        }
 
-                return {
-                    content: await s3Res.Body.transformToString(),
-                };
-            } catch (err) {
-                return {
-                    id: markdownKey,
-                    error: String(err),
-                };
-            }
-        })
-    );
-
-    return NextResponse.json({ results });
+        return NextResponse.json({ markdown });
+    } catch (err) {
+        console.error('API Error: ', err);
+        return NextResponse.json(
+            { error: String(err), id: markdownKey },
+            { status: 500 }
+        );
+    }
 }

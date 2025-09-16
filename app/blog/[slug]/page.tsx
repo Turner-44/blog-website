@@ -1,4 +1,3 @@
-// app/blog/[id]/page.tsx
 import BlogContent from '@/app/ui/blog/BlogContent';
 import { notFound } from 'next/navigation';
 
@@ -8,49 +7,46 @@ async function getBlog(slug: string) {
     const metaDataRes = await fetch(
         `${baseUrl}/api/blogs?slug=${encodeURIComponent(slug)}`,
         {
-            // pick one strategy:
-            // next: { revalidate: 60 }, // ISR (good if content changes occasionally)
-            cache: 'no-store', // always fresh (good while developing)
+            cache: 'no-store',
         }
     );
 
-    if (!metaDataRes.ok) return null;
-    const metaData = await metaDataRes.json().then((r) => r.items[0]);
+    if (metaDataRes.status !== 200) {
+        console.error('Failed to fetch blog metadata:', metaDataRes.statusText);
+        return notFound();
+    }
 
-    console.log('Meta data:', metaData);
+    const metaDataResJson = await metaDataRes.json();
+
+    const metaData = metaDataResJson.items[0];
 
     const markdownRes = await fetch(
         `${baseUrl}/api/blogs/${metaData.id}/markdown?markdownKey=${encodeURIComponent(metaData.markdownKey)}`,
         {
-            // pick one strategy:
-            // next: { revalidate: 60 }, // ISR (good if content changes occasionally)
-            cache: 'no-store', // always fresh (good while developing)
+            cache: 'no-store',
         }
     );
 
     if (!markdownRes.ok) return null;
+    const markdownJson = await markdownRes.json();
 
     const featureImageRes = await fetch(
-        `${baseUrl}/api/blogs/${metaData.id}/images?imageKey=${encodeURIComponent(metaData.imageKey)}`,
+        `${baseUrl}/api/blogs/${metaData.id}/image?imageKey=${encodeURIComponent(metaData.imageKey)}`,
         {
-            // pick one strategy:
-            // next: { revalidate: 60 }, // ISR (good if content changes occasionally)
-            cache: 'no-store', // always fresh (good while developing)
+            cache: 'no-store',
         }
     );
 
     if (!featureImageRes.ok) return null;
-
-    const markdown = await markdownRes.json();
-    const markdownContent = markdown.results?.[0]?.content || null;
     const featureImageJson = await featureImageRes.json();
-    const featureImageBase64 = featureImageJson.results?.[0]?.image || null;
+
+    const featureImageBase64 = featureImageJson.image || null;
 
     return {
         id: metaData.id,
         slug: metaData.slug,
         title: metaData.title,
-        markdown: markdownContent,
+        markdown: markdownJson.markdown,
         featureImageBase64: featureImageBase64,
     };
 }
@@ -68,8 +64,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 className="object-cover object-center rounded-2xl h-full w-full"
             />
             <BlogContent markdown={blog.markdown} />
-
-            {/* Simple next/prev nav (optional) */}
         </main>
     );
 }
