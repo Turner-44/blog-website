@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import BlogCarousel from './ui/blog/BlogCarousel';
+import BlogCarousel from '@/components/blog/carousel/blog-carousel';
+import { Suspense } from 'react';
 
 export default function Home() {
     return (
@@ -8,7 +9,9 @@ export default function Home() {
                 Welcome to my blog! <br />
                 I'm <span className="font-bold">Matthew</span>
             </p>
-            <BlogCarousel />
+            <Suspense fallback={<div>Loading...</div>}>
+                <BlogCarousel />
+            </Suspense>
             <Link
                 href="/internal-app/create-blog"
                 className="hover:underline hover:text-lg"

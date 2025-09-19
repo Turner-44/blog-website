@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Navbar from './ui/navigation/Navbar';
-import Footer from './ui/navigation/Footer';
+import Navbar from '@/components/navigation/navbar';
+import Footer from '@/components/navigation/footer';
 
 export const metadata: Metadata = {
     title: 'Becoming Matthew',

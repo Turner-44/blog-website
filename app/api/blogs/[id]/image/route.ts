@@ -1,7 +1,7 @@
-import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
-import { s3Client } from '@/app/lib/s3';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { s3Client } from '@/lib/s3';
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
-import { BUCKET_NAME } from '@/app/lib/s3';
+import { BUCKET_NAME } from '@/lib/s3';
 
 export async function POST(req: Request) {
     try {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const imageKey = `blog-posts/${formData.get('blogId')}/image/${formData.get('slug')}.png`;
+        const imageKey = `blog-posts/${formData.get('blogId')}/images/${formData.get('slug')}.png`;
 
         await s3Client.send(
             new PutObjectCommand({
@@ -37,56 +37,5 @@ export async function POST(req: Request) {
     } catch (err: any) {
         console.error('API Error: ', err);
         return NextResponse.json({ error: String(err) }, { status: 500 });
-    }
-}
-
-export async function GET(req: Request) {
-    const url = new URL(req.url);
-
-    const imageKey = url.searchParams.get('imageKey');
-
-    if (!imageKey) {
-        return NextResponse.json({
-            error: `Missing imageKey parameter`,
-            status: 400,
-        });
-    }
-
-    if (typeof imageKey !== 'string') {
-        return NextResponse.json({
-            error: `imageKey must be a string`,
-            status: 400,
-        });
-    }
-
-    try {
-        const s3Res = await s3Client.send(
-            new GetObjectCommand({
-                Bucket: BUCKET_NAME,
-                Key: imageKey,
-            })
-        );
-
-        if (!s3Res.Body) {
-            return NextResponse.json({
-                error: 'No image found',
-                status: 404,
-            });
-        }
-
-        const arrayBuffer = await s3Res.Body.transformToByteArray();
-
-        const base64Image = Buffer.from(arrayBuffer).toString('base64');
-
-        return NextResponse.json({
-            id: imageKey,
-            image: base64Image,
-        });
-    } catch (err) {
-        console.error('API Error: ', err);
-        return NextResponse.json({
-            error: String(err),
-            status: 500,
-        });
     }
 }

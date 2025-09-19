@@ -1,9 +1,10 @@
 'use client';
 
-import { Button } from '../../ui/shared-components/Button';
 import Form from 'next/form';
-import { createBlog } from '@/app/internal-app/create-blog/store-blog-data';
 import React from 'react';
+
+import { Button } from '@/components/shared-components/button';
+import { createBlog } from '@/components/blog/upload/store-blog-data';
 
 export default function CreateBlogForm() {
     const [state, formAction, pending] = React.useActionState(createBlog, {

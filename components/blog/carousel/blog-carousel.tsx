@@ -1,21 +1,26 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '../shared-components/Button';
+import { useActionState, useState } from 'react';
 
-export default function FetchBlogsButton() {
-    const [blogs, setBlogs] = useState<any[]>([]);
+import { Button } from '@/components/shared-components/button';
+import BlogCard from '@/components/blog/carousel/blog-card';
+
+export default function BlogCarousel() {
+    const [blogs, setBlogs] = useState<
+        Array<{ id: string; image?: string; [key: string]: any }>
+    >([]);
+
     const [loading, setLoading] = useState(false);
 
     async function handleClick() {
         setLoading(true);
         try {
-            const res = await fetch('/api/blogs?limit=50', {
+            const res = await fetch('/api/blogs?limit=3', {
                 cache: 'no-store',
             });
-            const { items } = await res.json();
 
             if (!res.ok) throw new Error('Failed to fetch blogs');
+            const { items } = await res.json();
 
             setBlogs(items);
         } catch (err) {
@@ -31,15 +36,13 @@ export default function FetchBlogsButton() {
             <Button onClick={handleClick} disabled={loading}>
                 {loading ? 'Loading...' : 'Load Blogs'}
             </Button>
-            {/* Render blogs if loaded */}
+
             {blogs.length > 0 && (
-                <ul className="list-disc pl-6">
-                    {blogs.map((blog) => (
-                        <li key={blog.id}>
-                            <strong>{blog.title}</strong> - {blog.summary}
-                        </li>
-                    ))}
-                </ul>
+                <div className="grid grid-cols-3 gap-10 p-5">
+                    {blogs.map((blog, index) => {
+                        return <BlogCard blog={blog} key={index} />;
+                    })}
+                </div>
             )}
         </div>
     );

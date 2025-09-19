@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
-import { dynamoDBClient } from '@/app/lib/db';
+import { dynamoDBClient } from '@/lib/db';
 
 const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
 
