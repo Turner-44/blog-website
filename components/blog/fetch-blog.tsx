@@ -1,10 +1,8 @@
 import { notFound } from 'next/navigation';
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-
 export default async function fetchBlog(slug: string) {
     const metaDataRes = await fetch(
-        `${baseUrl}/api/blogs?slug=${encodeURIComponent(slug)}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?slug=${encodeURIComponent(slug)}`,
         {
             cache: 'no-store',
         }
@@ -20,7 +18,7 @@ export default async function fetchBlog(slug: string) {
     const metaData = metaDataResJson.items[0];
 
     const markdownRes = await fetch(
-        `${baseUrl}/api/blogs/${metaData.id}/markdown?markdownKey=${encodeURIComponent(metaData.markdownKey)}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${metaData.id}/markdown?markdownKey=${encodeURIComponent(metaData.markdownKey)}`,
         {
             cache: 'no-store',
         }

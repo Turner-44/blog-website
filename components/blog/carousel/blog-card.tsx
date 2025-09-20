@@ -1,11 +1,10 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
 
 import { formattedDate } from '@/lib/utils';
+import { BlogMetaData } from '@/app/blog/[slug]/page';
 
-export default function BlogCard({ blog }: { blog: any }) {
+export default function BlogCard({ blog }: { blog: BlogMetaData }) {
     return (
         <Link href={`/blog/${blog.slug}`} className="no-underline">
             <div

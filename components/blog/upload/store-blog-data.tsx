@@ -1,5 +1,7 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 type CreateBlogForm = {
     title: string;
     slug: string;
@@ -67,5 +69,6 @@ export async function createBlog(
         body: JSON.stringify(meta),
     });
 
+    revalidatePath('/', 'layout');
     return { success: true, message: 'Blog created!' };
 }

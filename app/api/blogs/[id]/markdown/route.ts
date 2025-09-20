@@ -3,6 +3,7 @@ import { s3Client } from '@/lib/s3';
 
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 import { BUCKET_NAME } from '@/lib/s3';
+import { notFound } from 'next/navigation';
 
 export async function POST(req: Request) {
     try {
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
             },
             { status: 201 }
         );
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('API Error: ', err);
         return NextResponse.json({ error: String(err) }, { status: 500 });
     }
@@ -76,14 +77,11 @@ export async function GET(req: Request) {
         const markdown = await s3Res.Body?.transformToString();
 
         if (!markdown) {
-            return NextResponse.json(
-                { error: 'Failed to retrieve markdown', id: markdownKey },
-                { status: 404 }
-            );
+            notFound();
         }
 
         return NextResponse.json({ markdown });
-    } catch (err) {
+    } catch (err: unknown) {
         console.error('API Error: ', err);
         return NextResponse.json(
             { error: String(err), id: markdownKey },

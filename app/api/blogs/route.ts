@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 import { dynamoDBClient } from '@/lib/db';
+import { notFound } from 'next/navigation';
 
 const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
 
@@ -81,10 +82,7 @@ export async function GET(req: Request) {
         );
 
         if (!dynamodbRes.Items) {
-            return NextResponse.json(
-                { error: 'Failed to retrieve any blogs' },
-                { status: 404 }
-            );
+            notFound();
         }
 
         return NextResponse.json({

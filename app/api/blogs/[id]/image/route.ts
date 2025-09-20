@@ -34,7 +34,7 @@ export async function POST(req: Request) {
             },
             { status: 201 }
         );
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('API Error: ', err);
         return NextResponse.json({ error: String(err) }, { status: 500 });
     }
