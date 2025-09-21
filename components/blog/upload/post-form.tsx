@@ -54,6 +54,11 @@ export default function CreateBlogForm() {
                 className="form-input"
                 required
             />
+            <input
+                type="datetime-local"
+                name="publishedAt"
+                className="form-input"
+            />
             <Button
                 type="submit"
                 className="mt-6 w-32 mx-auto"

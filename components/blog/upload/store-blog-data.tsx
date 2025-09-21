@@ -9,6 +9,7 @@ type CreateBlogForm = {
     markdown: string;
     featureImage: File;
     tags: string[];
+    publishedAt?: string;
 };
 
 export async function createBlog(
@@ -22,6 +23,7 @@ export async function createBlog(
         markdown: formData.get('markdown') as string,
         featureImage: formData.get('featureImage') as File,
         tags: (formData.get('tags') as string).split(',').map((t) => t.trim()),
+        publishedAt: formData.get('publishedAt') as string | undefined,
     };
 
     const id = crypto.randomUUID();
@@ -52,6 +54,15 @@ export async function createBlog(
         }
     ).then((r) => r.json());
 
+    console.log('Published At:', blogFormData.publishedAt);
+
+    // Stamp publish time as "now" in UTC ISO format
+    const publishedAtDateTime =
+        blogFormData.publishedAt === undefined ||
+        blogFormData.publishedAt === ''
+            ? new Date().toISOString()
+            : blogFormData.publishedAt + ':00.000Z';
+
     const meta = {
         id: id,
         title: blogFormData.title,
@@ -59,7 +70,7 @@ export async function createBlog(
         summary: blogFormData.summary,
         imageKey: imageResp.imageKey,
         markdownKey: markdownResp.markdownKey,
-        publishedAt: new Date().toISOString(),
+        publishedAt: publishedAtDateTime,
         tags: blogFormData.tags,
     };
 

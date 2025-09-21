@@ -1,7 +1,7 @@
 import BlogCard from '@/components/blog/carousel/blog-card';
 import { BlogMetaData } from '@/app/blog/[slug]/page';
 
-export async function getBlogs() {
+export default async function BlogCarousel() {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=3`,
         {
@@ -10,19 +10,14 @@ export async function getBlogs() {
     );
 
     if (!res.ok) throw new Error('Failed to fetch blogs');
-    const { items } = await res.json();
 
-    return items as BlogMetaData[];
-}
-
-export default async function BlogCarousel() {
-    const blogs = await getBlogs();
+    const { items }: { items: BlogMetaData[] } = await res.json();
 
     return (
         <div className="flex flex-col items-center space-y-4">
-            {blogs.length > 0 && (
+            {items.length > 0 && (
                 <div className="grid grid-cols-3 gap-10 p-5">
-                    {blogs.map((blog, index) => {
+                    {items.map((blog, index) => {
                         return <BlogCard blog={blog} key={index} />;
                     })}
                 </div>

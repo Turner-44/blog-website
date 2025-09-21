@@ -100,14 +100,9 @@ export async function POST(req: Request) {
 
         const id = reqData.id || crypto.randomUUID();
 
-        // Stamp publish time as "now" in UTC ISO format
-        const publishedAtDateTime = new Date()
-            .toISOString()
-            .replace(/\.\d{3}Z$/, 'Z');
-
         const item: CreateBlogItem = {
             PK: 'BLOG',
-            SK: `${publishedAtDateTime}#${id}`,
+            SK: `${reqData.publishedAt}#${id}`,
             id: id,
             title: reqData.title,
             slug: reqData.slug,

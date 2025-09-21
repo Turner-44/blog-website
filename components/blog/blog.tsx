@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import BlogContent from './blog-markdown';
 
-export default async function fetchBlog(slug: string) {
+export default async function Blog({ slug }: { slug: string }) {
     const metaDataRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?slug=${encodeURIComponent(slug)}`,
         {
@@ -31,8 +33,22 @@ export default async function fetchBlog(slug: string) {
 
     const markdownJson = await markdownRes.json();
 
-    return {
-        metaData,
-        markdown: markdownJson.markdown,
-    };
+    return (
+        <main className="mx-auto max-w-3xl px-4 py-8 space-y-6">
+            <h1 className="text-3xl font-bold tracking-tight">
+                {metaData.title}
+            </h1>
+            <div className="relative h-100 aspect-w-1 aspect-h-1">
+                <Image
+                    src={`https://becomingmatthew-blog-bucket.s3.us-east-1.amazonaws.com/${metaData.imageKey}`}
+                    alt={metaData.title || 'Blog image'}
+                    className="object-cover object-center rounded-2xl"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    fill
+                />
+            </div>
+
+            <BlogContent markdown={markdownJson.markdown} />
+        </main>
+    );
 }
