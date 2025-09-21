@@ -85,9 +85,18 @@ export async function GET(req: Request) {
             notFound();
         }
 
-        return NextResponse.json({
-            items: dynamodbRes.Items,
-        });
+        return NextResponse.json(
+            {
+                items: dynamodbRes.Items,
+            },
+            {
+                status: 200,
+                headers: {
+                    'Cache-Control':
+                        's-maxage=31536000, stale-while-revalidate=31536000',
+                },
+            }
+        );
     } catch (err) {
         console.error('API Error: ', err);
         return NextResponse.json({ error: String(err) }, { status: 500 });

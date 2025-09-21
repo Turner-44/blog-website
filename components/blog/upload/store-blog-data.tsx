@@ -80,6 +80,8 @@ export async function createBlog(
         body: JSON.stringify(meta),
     });
 
-    revalidatePath('/', 'layout');
+    revalidatePath('/');
+    revalidatePath('/blog/library');
+    revalidatePath(`/blog/${blogFormData.slug}`);
     return { success: true, message: 'Blog created!' };
 }

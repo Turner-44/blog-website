@@ -23,6 +23,7 @@ export async function POST(req: Request) {
                 Key: imageKey,
                 Body: Buffer.from(await imageFile.arrayBuffer()),
                 ContentType: imageFile.type,
+                CacheControl: 'public, max-age=31536000, immutable',
             })
         );
 

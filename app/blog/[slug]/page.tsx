@@ -14,11 +14,17 @@ export interface BlogMetaData {
     title: string;
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const { slug } = await params;
+
     return (
         <div>
             <Suspense fallback={<div>Loading...</div>}>
-                <Blog slug={params.slug} />
+                <Blog slug={slug} />
             </Suspense>
         </div>
     );

@@ -3,7 +3,7 @@ import { BlogMetaData } from '../[slug]/page';
 
 export default async function BlogLibrary() {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=50`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=30`,
         {
             cache: 'no-store',
         }

@@ -38,6 +38,7 @@ export async function POST(req: Request) {
                 Bucket: BUCKET_NAME,
                 Key: markdownKey,
                 Body: markdown,
+                CacheControl: 'public, max-age=31536000, immutable',
             })
         );
 
@@ -80,7 +81,16 @@ export async function GET(req: Request) {
             notFound();
         }
 
-        return NextResponse.json({ markdown });
+        return NextResponse.json(
+            { markdown },
+            {
+                status: 200,
+                headers: {
+                    'Cache-Control':
+                        's-maxage=31536000, stale-while-revalidate=31536000',
+                },
+            }
+        );
     } catch (err: unknown) {
         console.error('API Error: ', err);
         return NextResponse.json(
