@@ -1,6 +1,8 @@
 import Link from 'next/link';
-import BlogCarousel from '@/components/blog/carousel/blog-carousel';
 import { Suspense } from 'react';
+
+import BlogCarousel from '@/components/blog/carousel/blog-carousel';
+import { Button } from '@/components/shared-components/button';
 
 export default function Home() {
     return (
@@ -13,6 +15,13 @@ export default function Home() {
             <Suspense fallback={<div>Loading...</div>}>
                 <BlogCarousel />
             </Suspense>
+
+            <Link href="/blog/library">
+                <Button className="hover:opacity-90 cursor-pointer">
+                    Find More
+                </Button>
+            </Link>
+
             <Link
                 href="/internal-app/create-blog"
                 className="hover:underline hover:text-lg"
