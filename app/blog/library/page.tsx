@@ -1,4 +1,4 @@
-import BlogGrid from '@/components/blog/library/BlogGrid';
+import BlogGrid from '@/components/blog/library/blog-grid';
 import { BlogMetaData } from '../[slug]/page';
 
 export default async function BlogLibrary() {

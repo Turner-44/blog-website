@@ -34,10 +34,17 @@ export default async function Blog({ slug }: { slug: string }) {
     const markdownJson = await markdownRes.json();
 
     return (
-        <main className="mx-auto max-w-3xl px-4 py-8 space-y-6">
-            <h1 className="text-3xl font-bold tracking-tight">
+        <main className="mx-auto max-w-3xl px-4 py-8 space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight text-center">
                 {metaData.title}
             </h1>
+            <p className="text-center text-md">
+                {new Date(metaData.publishedAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                })}
+            </p>
             <div className="relative h-100 aspect-w-1 aspect-h-1">
                 <Image
                     src={`https://becomingmatthew-blog-bucket.s3.us-east-1.amazonaws.com/${metaData.imageKey}`}
@@ -47,7 +54,6 @@ export default async function Blog({ slug }: { slug: string }) {
                     fill
                 />
             </div>
-
             <BlogContent markdown={markdownJson.markdown} />
         </main>
     );

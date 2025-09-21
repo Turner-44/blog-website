@@ -12,7 +12,7 @@ const schema = {
 
 export default function BlogContent({ markdown }: { markdown: string }) {
     return (
-        <article className="prose prose-neutral lg:prose-lg max-w-none">
+        <article className="prose prose-neutral lg:prose-lg max-w-none py-5">
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[[rehypeSanitize, schema]]}
