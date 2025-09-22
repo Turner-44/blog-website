@@ -15,7 +15,7 @@ export default function BlogGrid({ blogs }: { blogs: BlogMetaData[] }) {
                         <article className="flex items-start space-x-4 max-w-4xl mx-auto">
                             <div className="w-48 h-32 flex-shrink-0 relative">
                                 <Image
-                                    src={`https://becomingmatthew-blog-bucket.s3.us-east-1.amazonaws.com/${blog.imageKey}`}
+                                    src={`https://cdn.becomingmatthew.com/${blog.imageKey}`}
                                     alt={blog.title || 'Blog image'}
                                     className=" object-cover object-center rounded-2xl"
                                     fill

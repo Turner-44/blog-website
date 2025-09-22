@@ -4,10 +4,7 @@ import BlogContent from './blog-markdown';
 
 export default async function Blog({ slug }: { slug: string }) {
     const metaDataRes = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?slug=${encodeURIComponent(slug)}`,
-        {
-            cache: 'no-store',
-        }
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?slug=${encodeURIComponent(slug)}`
     );
 
     if (metaDataRes.status !== 200) {
@@ -20,10 +17,7 @@ export default async function Blog({ slug }: { slug: string }) {
     const metaData = metaDataResJson.items[0];
 
     const markdownRes = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${metaData.id}/markdown?markdownKey=${encodeURIComponent(metaData.markdownKey)}`,
-        {
-            cache: 'no-store',
-        }
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${metaData.id}/markdown?markdownKey=${encodeURIComponent(metaData.markdownKey)}`
     );
 
     if (!markdownRes.ok) {
@@ -47,7 +41,7 @@ export default async function Blog({ slug }: { slug: string }) {
             </p>
             <div className="relative h-100 aspect-w-1 aspect-h-1">
                 <Image
-                    src={`https://becomingmatthew-blog-bucket.s3.us-east-1.amazonaws.com/${metaData.imageKey}`}
+                    src={`https://cdn.becomingmatthew.com/${metaData.imageKey}`}
                     alt={metaData.title || 'Blog image'}
                     className="object-cover object-center rounded-2xl"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

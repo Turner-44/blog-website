@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 
 type CreateBlogForm = {
     title: string;
@@ -16,6 +17,10 @@ export async function createBlog(
     prevState: { success: boolean; message: string },
     formData: FormData
 ) {
+    // Get cookies to forward to API routes
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+
     const blogFormData: CreateBlogForm = {
         title: formData.get('title') as string,
         slug: formData.get('slug') as string,
@@ -33,7 +38,10 @@ export async function createBlog(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/markdown`,
         {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookieHeader,
+            },
             body: JSON.stringify({
                 blogId: id,
                 markdown,
@@ -50,6 +58,7 @@ export async function createBlog(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/image`,
         {
             method: 'POST',
+            headers: { Cookie: cookieHeader },
             body: imageFormData,
         }
     ).then((r) => r.json());
@@ -76,7 +85,8 @@ export async function createBlog(
 
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Cookie: cookieHeader },
+
         body: JSON.stringify(meta),
     });
 

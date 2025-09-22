@@ -3,10 +3,7 @@ import { BlogMetaData } from '@/app/blog/[slug]/page';
 
 export default async function BlogCarousel() {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=3`,
-        {
-            cache: 'no-store',
-        }
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=3`
     );
 
     if (!res.ok) throw new Error('Failed to fetch blogs');

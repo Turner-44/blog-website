@@ -1,12 +1,20 @@
 import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
-import { s3Client } from '@/lib/s3';
+import { getServerSession } from 'next-auth';
+import { notFound } from 'next/navigation';
 
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
-import { BUCKET_NAME } from '@/lib/s3';
-import { notFound } from 'next/navigation';
+import { BUCKET_NAME, s3Client } from '@/lib/s3';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export async function POST(req: Request) {
     try {
+        const session = await getServerSession(authOptions);
+
+        if (!session) return new Response('Unauthorized', { status: 401 });
+        if (session.user?.email !== process.env.ADMIN_EMAIL) {
+            return new Response('Forbidden', { status: 403 });
+        }
+
         const reqData = await req.json();
         const markdown = reqData.markdown;
 

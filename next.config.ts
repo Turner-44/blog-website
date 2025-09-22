@@ -6,8 +6,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname:
-                    'becomingmatthew-blog-bucket.s3.us-east-1.amazonaws.com',
+                hostname: 'cdn.becomingmatthew.com',
                 port: '',
                 pathname: '/**',
             },

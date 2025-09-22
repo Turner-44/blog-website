@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
+import { notFound } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+
 import { QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
+
 import { dynamoDBClient } from '@/lib/db';
-import { notFound } from 'next/navigation';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
 
@@ -105,6 +109,13 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
     try {
+        const session = await getServerSession(authOptions);
+
+        if (!session) return new Response('Unauthorized', { status: 401 });
+        if (session.user?.email !== process.env.ADMIN_EMAIL) {
+            return new Response('Forbidden', { status: 403 });
+        }
+
         const reqData = await req.json();
 
         const id = reqData.id || crypto.randomUUID();

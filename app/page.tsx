@@ -21,13 +21,6 @@ export default function Home() {
                     Find More
                 </Button>
             </Link>
-
-            <Link
-                href="/internal-app/create-blog"
-                className="hover:underline hover:text-lg"
-            >
-                Create Blog
-            </Link>
         </main>
     );
 }
