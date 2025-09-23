@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+
 import Image from 'next/image';
 import BlogContent from './blog-markdown';
 
@@ -25,7 +26,7 @@ export default async function Blog({ slug }: { slug: string }) {
         return notFound();
     }
 
-    const markdownJson = await markdownRes.json();
+    const { markdown } = await markdownRes.json();
 
     return (
         <main className="mx-auto max-w-3xl px-4 py-8 space-y-1">
@@ -48,7 +49,7 @@ export default async function Blog({ slug }: { slug: string }) {
                     fill
                 />
             </div>
-            <BlogContent markdown={markdownJson.markdown} />
+            <BlogContent markdown={markdown} />
         </main>
     );
 }

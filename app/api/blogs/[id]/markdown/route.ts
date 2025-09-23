@@ -39,7 +39,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const markdownKey = `blog-posts/${reqData.blogId}/content/blog.md`;
+        const markdownKey = `blog-posts/${reqData.blogId}/content/blog.mdx`;
 
         await s3Client.send(
             new PutObjectCommand({

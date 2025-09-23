@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
+import createMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
+    pageExtensions: ['mdx', 'ts', 'tsx'],
     /* config options here */
     images: {
         remotePatterns: [
@@ -16,7 +18,12 @@ const nextConfig: NextConfig = {
         serverActions: {
             bodySizeLimit: '2mb',
         },
+        mdxRs: true,
     },
 };
+
+const withMDX = createMDX({
+    extension: /\.(md|mdx)$/,
+});
 
 export default nextConfig;
