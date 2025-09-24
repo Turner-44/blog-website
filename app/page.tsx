@@ -17,9 +17,7 @@ export default function Home() {
             </Suspense>
 
             <Link href="/blog/library">
-                <Button className="hover:opacity-90 cursor-pointer">
-                    Find More
-                </Button>
+                <Button className="Button-primary">Find More</Button>
             </Link>
         </main>
     );

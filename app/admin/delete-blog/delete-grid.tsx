@@ -63,6 +63,7 @@ export default function DeleteGrid({ blogs }: { blogs: BlogMetaData[] }) {
                             </div>
                             <div>
                                 <Button
+                                    className="Button-primary"
                                     onClick={(e) => handleDeleteClick(blog, e)}
                                     disabled={isDeleting === blog.id}
                                 >

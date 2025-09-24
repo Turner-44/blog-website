@@ -4,3 +4,7 @@
 .form-input {
     @apply border border-gray-700 rounded px-2 py-1;
 }
+
+.Button-primary {
+    @apply cursor-pointer duration-200 ease-in-out hover:scale-105 active:scale-95;
+}

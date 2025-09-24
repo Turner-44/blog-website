@@ -87,11 +87,7 @@ export default function CreateBlogForm() {
             <span className="text-xs text-red-400">
                 {state.fieldErrors?.properties?.publishedAt?.errors[0]}
             </span>
-            <Button
-                type="submit"
-                className="mt-6 w-32 mx-auto"
-                disabled={pending}
-            >
+            <Button type="submit" className="Button-primary" disabled={pending}>
                 {pending ? 'Creating...' : 'Create Blog'}
             </Button>
             {state.success && (
