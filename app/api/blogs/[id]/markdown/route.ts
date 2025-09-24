@@ -1,4 +1,8 @@
-import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import {
+    PutObjectCommand,
+    GetObjectCommand,
+    DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
 import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 
@@ -64,19 +68,21 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-    const url = new URL(req.url);
-    const markdownKey = url.searchParams.get('markdownKey');
-
-    if (!markdownKey) {
-        return NextResponse.json(
-            {
-                error: `Missing markdownKey parameter`,
-            },
-            { status: 400 }
-        );
-    }
+    let markdownKey: string | null = null;
 
     try {
+        const url = new URL(req.url);
+        const markdownKey = url.searchParams.get('markdownKey');
+
+        if (!markdownKey) {
+            return NextResponse.json(
+                {
+                    error: `Missing markdownKey parameter`,
+                },
+                { status: 400 }
+            );
+        }
+
         const command = new GetObjectCommand({
             Bucket: BUCKET_NAME,
             Key: markdownKey,
@@ -103,6 +109,52 @@ export async function GET(req: Request) {
         console.error('API Error: ', err);
         return NextResponse.json(
             { error: String(err), id: markdownKey },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(req: Request) {
+    let markdownKey: string | null = null;
+
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session) return new Response('Unauthorized', { status: 401 });
+        if (session.user?.email !== process.env.ADMIN_EMAIL) {
+            return new Response('Forbidden', { status: 403 });
+        }
+
+        const url = new URL(req.url);
+        markdownKey = url.searchParams.get('markdownKey');
+
+        if (!markdownKey) {
+            return NextResponse.json(
+                {
+                    error: `Missing markdownKey parameter`,
+                },
+                { status: 400 }
+            );
+        }
+
+        const deleteCommand = new DeleteObjectCommand({
+            Bucket: BUCKET_NAME,
+            Key: markdownKey,
+        });
+
+        const s3Res = await s3Client.send(deleteCommand);
+
+        return NextResponse.json(
+            {
+                message: 'Markdown file deleted successfully',
+                markdownKey,
+            },
+            { status: 200 }
+        );
+    } catch (err: unknown) {
+        console.error('API Error: ', err);
+        return NextResponse.json(
+            { error: String(err), filePath: markdownKey },
             { status: 500 }
         );
     }

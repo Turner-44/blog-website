@@ -18,12 +18,22 @@ export default async function AdminPage() {
     return (
         <>
             <h1>Write those blogs boy!</h1>
-            <Link
-                href="/admin/create-blog"
-                className="hover:underline hover:text-lg"
-            >
-                Create Blog
-            </Link>
+            <div>
+                <div className="flex space-x-4">
+                    <Link
+                        href="/admin/create-blog"
+                        className="hover:underline hover:text-lg"
+                    >
+                        Create Blog
+                    </Link>
+                    <Link
+                        href="/admin/delete-blog"
+                        className="hover:underline hover:text-lg"
+                    >
+                        Delete Blog
+                    </Link>
+                </div>
+            </div>
         </>
     );
 }

@@ -7,6 +7,7 @@ import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 
 import { dynamoDBClient } from '@/lib/db';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 
 const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
 
@@ -32,6 +33,7 @@ const attributes = {
     markdownKey: 'markdownKey',
     publishedAt: 'publishedAt',
     tags: 'tags',
+    SK: 'SK',
 };
 
 const getQueryCommandAttr = (url: URL): QueryCommandInput => ({
@@ -51,6 +53,7 @@ const getQueryCommandAttrBySlug = (url: URL): QueryCommandInput => ({
     ExpressionAttributeValues: {
         ':slug': `${url.searchParams.get('slug')}`,
     },
+    ProjectionExpression: Object.values(attributes).join(', '),
 });
 
 export async function GET(req: Request) {
@@ -160,6 +163,46 @@ export async function POST(req: Request) {
                 meta: dynamodbRes.ConsumedCapacity,
             },
             { status: 201 }
+        );
+    } catch (err) {
+        console.error('API Error: ', err);
+        return NextResponse.json({ error: String(err) }, { status: 500 });
+    }
+}
+
+export async function DELETE(req: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session) return new Response('Unauthorized', { status: 401 });
+        if (session.user?.email !== process.env.ADMIN_EMAIL) {
+            return new Response('Forbidden', { status: 403 });
+        }
+
+        const url = new URL(req.url);
+
+        const sk = url.searchParams.get('sk') as string;
+
+        if (sk === '') {
+            return NextResponse.json({ error: 'No SK' }, { status: 404 });
+        }
+
+        // Now delete using the primary key
+        const deleteCommand = new DeleteItemCommand({
+            TableName: TABLE_NAME,
+            Key: {
+                PK: { S: 'BLOG' },
+                SK: { S: sk },
+            },
+        });
+
+        const dynamodbRes = await dynamoDBClient.send(deleteCommand);
+
+        return NextResponse.json(
+            {
+                meta: dynamodbRes.ConsumedCapacity,
+            },
+            { status: 200 }
         );
     } catch (err) {
         console.error('API Error: ', err);
