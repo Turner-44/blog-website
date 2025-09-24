@@ -24,12 +24,14 @@ export default function BlogCard({ blog }: { blog: BlogMetaData }) {
                     <div className="flex-1 flex flex-col px-5 py-8 bg-gradient-to-t from-black rounded-2xl">
                         <div className="flex-1"></div>
                         <div>
-                            <h1 className="text-xl font-semibold text-white mt-1">
+                            <p className="text-xl font-semibold text-white">
                                 {blog.title}
-                            </h1>
+                            </p>
                         </div>
-                        <div className="flex items-center justify-between text-gray-300 text-sm">
-                            <h1>{formattedDate(blog.publishedAt)}</h1>
+                        <div className="flex items-center justify-between text-gray-300 text-sm py-1.5">
+                            <p className="font-bold text-md">
+                                {formattedDate(blog.publishedAt)}
+                            </p>
                         </div>
                         <p className="text-sm font text-gray-300 text-md">
                             {blog.summary}

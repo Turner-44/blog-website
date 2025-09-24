@@ -1,6 +1,5 @@
 import BlogCard from '@/components/blog/carousel/blog-card';
 import getBlogs from '@/lib/api/blog/get/get-blogs';
-import { BlogMetaData } from '@/types/blog';
 
 export default async function BlogCarousel() {
     const blogs = await getBlogs(3);
