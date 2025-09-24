@@ -30,7 +30,7 @@ export default async function Blog({ slug }: { slug: string }) {
 
     return (
         <main className="mx-auto max-w-3xl px-4 py-5 space-y-1">
-            <h1 className="text-3xl font-bold tracking-tight text-center">
+            <h1 className="text-3xl font-bold tracking-tight text-center py-5">
                 {metaData.title}
             </h1>
             <p className="text-center text-md">

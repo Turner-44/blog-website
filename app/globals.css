@@ -25,6 +25,10 @@
     @apply list-disc list-inside space-y-2 mb-4 pl-4;
 }
 
+.legal-header {
+    @apply py-5 tracking-tight text-center underline;
+}
+
 :root {
     --font-roboto: 'Roboto', sans-serif;
     --font-nunito: 'Nunito', sans-serif;
@@ -36,22 +40,22 @@ body {
 
 h1 {
     font-family: var(--font-roboto);
-    @apply text-3xl font-bold py-5;
+    @apply text-3xl font-bold;
 }
 
 h2 {
     font-family: var(--font-roboto);
-    @apply text-2xl font-bold py-5;
+    @apply text-2xl font-bold;
 }
 
 h3 {
     font-family: var(--font-roboto);
-    @apply text-xl font-bold py-5;
+    @apply text-xl font-bold;
 }
 
 h4 {
     font-family: var(--font-roboto);
-    @apply text-lg font-bold py-5;
+    @apply text-lg font-bold;
 }
 
 li {

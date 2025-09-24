@@ -2,9 +2,7 @@ export default function TermsAndConditions() {
     return (
         <main className="mx-auto max-w-3xl px-4 py-5">
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    TERMS & CONDITIONS
-                </h2>
+                <h2 className="legal-header">TERMS & CONDITIONS</h2>
                 <p className="text-justify">
                     By visiting and using becomingmatthew.com (hereinafter the
                     “Website”),{' '}
@@ -35,9 +33,7 @@ export default function TermsAndConditions() {
                 </strong>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    INTENDED AGE
-                </h2>
+                <h2 className="legal-header">INTENDED AGE</h2>
 
                 <p className="text-justify">
                     All information and content on this website are intended for
@@ -46,9 +42,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    PRIVACY POLICY
-                </h2>
+                <h2 className="legal-header">PRIVACY POLICY</h2>
 
                 <p className="text-justify">
                     We are dedicated to respecting the privacy of your personal
@@ -58,9 +52,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    DISCLAIMER
-                </h2>
+                <h2 className="legal-header">DISCLAIMER</h2>
 
                 <p className="text-justify">
                     Your acceptance of our Disclaimer is expressly incorporated
@@ -69,7 +61,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     MANDATORY ARBITRATION AND GOVERNING LAW
                 </h2>
 
@@ -102,9 +94,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    INTELLECTUAL PROPERTY
-                </h2>
+                <h2 className="legal-header">INTELLECTUAL PROPERTY</h2>
 
                 <p className="text-justify">
                     All content on this website including but not limited to
@@ -135,7 +125,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     USER CONTENT AND LAWFUL USE OF THE WEBSITE
                 </h2>
 
@@ -205,9 +195,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    THIRD-PARTY LINKS
-                </h2>
+                <h2 className="legal-header">THIRD-PARTY LINKS</h2>
 
                 <p className="text-justify">
                     The website may contain links to third-party websites or
@@ -232,7 +220,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     USE OF OUR PAID AND FREE PRODUCTS
                 </h2>
 
@@ -264,9 +252,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    TERMINATION
-                </h2>
+                <h2 className="legal-header">TERMINATION</h2>
 
                 <p className="text-justify">
                     We reserve the right in our sole discretion to refuse,
@@ -276,9 +262,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    NO WARRANTIES
-                </h2>
+                <h2 className="legal-header">NO WARRANTIES</h2>
 
                 <p className="text-justify">
                     ALL CONTENT, INFORMATION, PRODUCTS AND/OR SERVICES ON THE
@@ -297,9 +281,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    LIMITATION OF LIABILITY
-                </h2>
+                <h2 className="legal-header">LIMITATION OF LIABILITY</h2>
 
                 <p className="text-justify">
                     You agree that under no circumstances, we and/or our
@@ -347,9 +329,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    INDEMNIFICATION
-                </h2>
+                <h2 className="legal-header">INDEMNIFICATION</h2>
 
                 <p className="text-justify">
                     You agree to indemnify and hold the Company and/or its
@@ -375,9 +355,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    WAIVER OF CLASS ACTIONS
-                </h2>
+                <h2 className="legal-header">WAIVER OF CLASS ACTIONS</h2>
 
                 <p className="text-justify">
                     You agree that any dispute arising from or related to this
@@ -388,9 +366,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    ENTIRE AGREEMENT
-                </h2>
+                <h2 className="legal-header">ENTIRE AGREEMENT</h2>
 
                 <p className="text-justify">
                     These Terms and Conditions along with our Privacy Policy and
@@ -411,9 +387,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    SEVERABILITY
-                </h2>
+                <h2 className="legal-header">SEVERABILITY</h2>
 
                 <p className="text-justify">
                     If any provision in these Terms and Conditions is deemed by
@@ -427,9 +401,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    MODIFICATIONS
-                </h2>
+                <h2 className="legal-header">MODIFICATIONS</h2>
 
                 <p className="text-justify">
                     Company reserves the right, in its sole discretion and
@@ -445,9 +417,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    ACKNOWLEDGEMENT
-                </h2>
+                <h2 className="legal-header">ACKNOWLEDGEMENT</h2>
 
                 <p className="text-justify">
                     By using any of our products, or services or accessing the
@@ -456,9 +426,7 @@ export default function TermsAndConditions() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    CONTACT
-                </h2>
+                <h2 className="legal-header">CONTACT</h2>
                 <br />
                 For any questions, please contact us via the
                 <a href="https://becomingmatthew.com/contact/">PENDING</a>.

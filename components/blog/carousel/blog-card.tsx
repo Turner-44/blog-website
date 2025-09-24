@@ -24,9 +24,7 @@ export default function BlogCard({ blog }: { blog: BlogMetaData }) {
                     <div className="flex-1 flex flex-col px-5 py-8 bg-gradient-to-t from-black rounded-2xl">
                         <div className="flex-1"></div>
                         <div>
-                            <p className="text-xl font-semibold text-white">
-                                {blog.title}
-                            </p>
+                            <h2 className="text-white">{blog.title}</h2>
                         </div>
                         <div className="flex items-center justify-between text-gray-300 text-sm py-1.5">
                             <p className="font-bold text-md">

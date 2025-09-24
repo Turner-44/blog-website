@@ -56,7 +56,7 @@ export default function About() {
             </section>
 
             <section aria-labelledby="purpose">
-                <h2 id="purpose" className="text-xl font-semibold mb-4">
+                <h2 id="purpose" className="py-5">
                     What Becoming Matthew Is Really About
                 </h2>
 
@@ -83,10 +83,7 @@ export default function About() {
             </section>
 
             <section aria-labelledby="values">
-                <h2
-                    id="values"
-                    className="text-xl font-semibold text-center mb-4"
-                >
+                <h2 id="values" className="py-5">
                     Becoming Matthew is grounded in the values of:
                 </h2>
 
@@ -130,7 +127,7 @@ export default function About() {
             </section>
 
             <section aria-labelledby="contact">
-                <h2 id="contact" className="text-xl font-semibold mb-4">
+                <h2 id="contact" className="py-5">
                     Find Me Elsewhere
                 </h2>
 

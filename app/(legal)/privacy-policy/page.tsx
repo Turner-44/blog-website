@@ -2,9 +2,7 @@ export default function PrivacyPolicy() {
     return (
         <main className="mx-auto max-w-3xl px-4 py-5">
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    PRIVACY POLICY
-                </h2>
+                <h2 className="legal-header">PRIVACY POLICY</h2>
                 <p className="text-justify">
                     Becoming Matthew (“company”, “I”, “we” or “us”) is dedicated
                     to respecting the privacy of your personal information. This
@@ -43,9 +41,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    CHILDREN’S PRIVACY
-                </h2>
+                <h2 className="legal-header">CHILDREN’S PRIVACY</h2>
 
                 <p className="text-justify">
                     We respect the privacy of children and “child” means an
@@ -63,7 +59,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     WHAT INFORMATION WE COLLECT AND HOW IT IS USED
                 </h2>
 
@@ -100,9 +96,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    GOOGLE ANALYTICS
-                </h2>
+                <h2 className="legal-header">GOOGLE ANALYTICS</h2>
 
                 <p className="text-justify">
                     Just like other websites, this website automatically
@@ -128,9 +122,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    COMMENTS
-                </h2>
+                <h2 className="legal-header">COMMENTS</h2>
 
                 <p className="text-justify">
                     If you leave a comment, the comment and its metadata are
@@ -158,7 +150,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">MEDIA</h2>
+                <h2 className="legal-header">MEDIA</h2>
 
                 <p className="text-justify">
                     If you upload images to the website, you should avoid
@@ -168,9 +160,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    SOCIAL MEDIA
-                </h2>
+                <h2 className="legal-header">SOCIAL MEDIA</h2>
 
                 <p className="text-justify">
                     Social media accounts and sharing options are available on
@@ -192,9 +182,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    USE OF COOKIES
-                </h2>
+                <h2 className="legal-header">USE OF COOKIES</h2>
 
                 <p className="text-justify">
                     The website may use cookies to facilitate your use of the
@@ -265,9 +253,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    USE OF WEB BEACONS AND PIXELS
-                </h2>
+                <h2 className="legal-header">USE OF WEB BEACONS AND PIXELS</h2>
 
                 <p className="text-justify">
                     In conjunction with the use of cookies, third parties may
@@ -297,9 +283,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    THIRD-PARTY LINKS AND USE
-                </h2>
+                <h2 className="legal-header">THIRD-PARTY LINKS AND USE</h2>
 
                 <p className="text-justify">
                     We may include, offer, or advertise third-party links,
@@ -340,9 +324,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    DISCLOSURE OF YOUR INFORMATION
-                </h2>
+                <h2 className="legal-header">DISCLOSURE OF YOUR INFORMATION</h2>
 
                 <p className="text-justify">
                     As a general rule, we do not disclose your personal
@@ -400,9 +382,7 @@ export default function PrivacyPolicy() {
                 </ol>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    EMAIL MARKETING
-                </h2>
+                <h2 className="legal-header">EMAIL MARKETING</h2>
 
                 <p className="text-justify">
                     You have the option of opting in or unsubscribing from our
@@ -438,9 +418,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    OPT-OUT
-                </h2>
+                <h2 className="legal-header">OPT-OUT</h2>
 
                 <p className="text-justify">
                     We comply with the CAN-SPAM Act of 2003 and do not spam or
@@ -461,7 +439,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     GDPR VISITOR RIGHTS (FOR EU AND UK CUSTOMERS AND VISITORS)
                 </h2>
 
@@ -557,7 +535,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     LEGAL BASIS FOR PROCESSING DATA UNDER THE GDPR
                 </h2>
 
@@ -606,9 +584,7 @@ export default function PrivacyPolicy() {
                 </ul>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    U.S. STATE PRIVACY RIGHTS
-                </h2>
+                <h2 className="legal-header">U.S. STATE PRIVACY RIGHTS</h2>
 
                 <p className="text-justify">
                     State consumer privacy laws in the U.S. may give their
@@ -804,7 +780,7 @@ export default function PrivacyPolicy() {
                 </ol>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     CATEGORIES OF PERSONAL INFORMATION COLLECTED AND DISCLOSED
                     FOR A BUSINESS PURPOSE
                 </h2>
@@ -899,7 +875,7 @@ export default function PrivacyPolicy() {
                 </ul>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     HOW DO WE COLLECT YOUR PERSONAL INFORMATION AND FOR WHAT
                     PURPOSE
                 </h2>
@@ -1051,7 +1027,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     CALIFORNIA’S “SHINE THE LIGHT” ACT
                 </h2>
 
@@ -1070,9 +1046,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    DO NOT TRACK SIGNALS
-                </h2>
+                <h2 className="legal-header">DO NOT TRACK SIGNALS</h2>
 
                 <p className="text-justify">
                     This privacy notice for California residents supplements the
@@ -1093,9 +1067,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    DATA RETENTION
-                </h2>
+                <h2 className="legal-header">DATA RETENTION</h2>
 
                 <p className="text-justify">
                     We will retain your information as long as necessary to
@@ -1108,9 +1080,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    SECURITY
-                </h2>
+                <h2 className="legal-header">SECURITY</h2>
 
                 <p className="text-justify">
                     The security of your personal information is important to
@@ -1136,9 +1106,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    PRIVACY POLICY UPDATES
-                </h2>
+                <h2 className="legal-header">PRIVACY POLICY UPDATES</h2>
 
                 <p className="text-justify">
                     This privacy policy is effective as of February 10 2025 and
@@ -1152,9 +1120,7 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    CONTACT
-                </h2>
+                <h2 className="legal-header">CONTACT</h2>
 
                 <p className="text-justify">
                     For any questions or comments regarding the privacy policy,

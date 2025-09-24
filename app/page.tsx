@@ -7,7 +7,7 @@ import { Button } from '@/components/shared-components/button';
 export default function Home() {
     return (
         <main className="flex flex-col items-center justify-center py-5">
-            <h1 className="text-center">
+            <h1 className="text-center py-5">
                 I&apos;m Matthew
                 <br />
                 Welcome to my blog!

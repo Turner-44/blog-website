@@ -22,9 +22,7 @@ export default function BlogGrid({ blogs }: { blogs: BlogMetaData[] }) {
                                 />
                             </div>
                             <div className="flex-1 h-32 flex flex-col justify-center space-y-2">
-                                <h2 className="text-xl font-semibold">
-                                    {blog.title}
-                                </h2>
+                                <h2>{blog.title}</h2>
                                 <p>{blog.summary}</p>
                             </div>
                         </article>

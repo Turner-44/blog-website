@@ -2,9 +2,7 @@ export default function Disclaimer() {
     return (
         <main className="mx-auto max-w-3xl px-4 py-5">
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    GENERAL INFORMATION
-                </h2>
+                <h2 className="legal-header">GENERAL INFORMATION</h2>
                 <p className="text-justify">
                     Becoming Matthew (“company”, “I”, “we” or “us”) provides
                     general educational information on various topics on this
@@ -45,9 +43,7 @@ export default function Disclaimer() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    GENERAL DISCLAIMER
-                </h2>
+                <h2 className="legal-header">GENERAL DISCLAIMER</h2>
 
                 <p className="text-justify">
                     <em>
@@ -91,7 +87,7 @@ export default function Disclaimer() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     AFFILIATE / THIRD-PARTY LINKS DISCLOSURE AND DISCLAIMER
                 </h2>
 
@@ -146,7 +142,7 @@ export default function Disclaimer() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     EARNINGS DISCLAIMER, TESTIMONIALS AND OTHER DISCLAIMERS
                 </h2>
 
@@ -190,7 +186,7 @@ export default function Disclaimer() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
+                <h2 className="legal-header">
                     SPONSORED POSTS / REVIEWS DISCLAIMER
                 </h2>
 
@@ -234,9 +230,7 @@ export default function Disclaimer() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    FAIRUSE DISCLAIMER
-                </h2>
+                <h2 className="legal-header">FAIRUSE DISCLAIMER</h2>
 
                 <p className="text-justify">
                     This website summarises written content including but not
@@ -252,9 +246,7 @@ export default function Disclaimer() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    NO WARRANTIES
-                </h2>
+                <h2 className="legal-header">NO WARRANTIES</h2>
 
                 <p className="text-justify">
                     ALL CONTENT, INFORMATION, PRODUCTS AND/OR SERVICES ON THE
@@ -273,9 +265,7 @@ export default function Disclaimer() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    LIMITATION OF LIABILITY
-                </h2>
+                <h2 className="legal-header">LIMITATION OF LIABILITY</h2>
 
                 <p className="text-justify">
                     You agree that under no circumstances, we and/or our
@@ -323,9 +313,7 @@ export default function Disclaimer() {
                 </p>
             </section>
             <section className="space-y-3">
-                <h2 className="tracking-tight text-center underline">
-                    INDEMNIFICATION
-                </h2>
+                <h2 className="legal-header">INDEMNIFICATION</h2>
 
                 <p className="text-justify">
                     You agree to indemnify and hold the Company and/or its
