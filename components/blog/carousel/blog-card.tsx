@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { formattedDate } from '@/lib/utils';
+import { formattedDate } from '@/utils/dates';
 import { BlogMetaData } from '@/app/blog/[slug]/page';
 
 export default function BlogCard({ blog }: { blog: BlogMetaData }) {

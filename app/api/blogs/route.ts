@@ -4,9 +4,9 @@ import { notFound } from 'next/navigation';
 import { QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 
-import { dynamoDBClient } from '@/lib/db';
+import { dynamoDBClient } from '@/lib/api/aws/dynamo';
 import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
-import { validateUserSession } from '@/components/auth/validate-user-session';
+import { validateUserSession } from '@/lib/auth/validate-user-session';
 
 const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
 

@@ -4,7 +4,7 @@ import Form from 'next/form';
 import React from 'react';
 
 import { Button } from '@/components/shared-components/button';
-import { createBlog } from '@/components/blog/upload/store-blog-data';
+import { createBlog } from '@/lib/api/blog/create/store-blog-data';
 
 export default function CreateBlogForm() {
     const [state, formAction, pending] = React.useActionState(createBlog, {

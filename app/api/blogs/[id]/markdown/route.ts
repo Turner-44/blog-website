@@ -6,8 +6,8 @@ import {
 import { notFound } from 'next/navigation';
 
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
-import { BUCKET_NAME, s3Client } from '@/lib/s3';
-import { validateUserSession } from '@/components/auth/validate-user-session';
+import { BUCKET_NAME, s3Client } from '@/lib/api/aws/s3';
+import { validateUserSession } from '@/lib/auth/validate-user-session';
 
 export async function POST(req: Request) {
     try {

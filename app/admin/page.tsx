@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { validateUserSession } from '@/components/auth/validate-user-session';
+import { validateUserSession } from '@/lib/auth/validate-user-session';
 
 export default async function AdminPage() {
     validateUserSession('UI');
