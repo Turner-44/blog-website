@@ -6,12 +6,12 @@ import { Button } from '@/components/shared-components/button';
 
 export default function Home() {
     return (
-        <main className="flex flex-col items-center justify-center gap-8 p-8 sm:p-10">
-            <p className="text-2xl sm:text-3xl font-medium text-center">
-                I&apos;m <span className="font-bold">Matthew</span>
+        <main className="flex flex-col items-center justify-center py-5">
+            <h1 className="text-center">
+                I&apos;m Matthew
                 <br />
                 Welcome to my blog!
-            </p>
+            </h1>
             <Suspense fallback={<div>Loading...</div>}>
                 <BlogCarousel />
             </Suspense>

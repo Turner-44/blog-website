@@ -13,7 +13,7 @@ const schema = {
 
 export default function BlogContent({ markdown }: { markdown: string }) {
     return (
-        <article className="prose prose-neutral lg:prose-lg max-w-none py-5">
+        <article className="lg:prose-lg py-5 text-justify">
             <MDXRemote
                 source={markdown}
                 components={components}
