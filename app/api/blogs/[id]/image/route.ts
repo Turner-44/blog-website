@@ -1,18 +1,12 @@
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
-import { getServerSession } from 'next-auth';
 
 import { BUCKET_NAME, s3Client } from '@/lib/s3';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { validateUserSession } from '@/components/auth/validate-user-session';
 
 export async function POST(req: Request) {
     try {
-        const session = await getServerSession(authOptions);
-
-        if (!session) return new Response('Unauthorized', { status: 401 });
-        if (session.user?.email !== process.env.ADMIN_EMAIL) {
-            return new Response('Forbidden', { status: 403 });
-        }
+        validateUserSession('API');
 
         const formData = await req.formData();
         const imageFile = formData.get('featureImage') as File;
@@ -54,12 +48,7 @@ export async function DELETE(req: Request) {
     let imageKey: string | null = null;
 
     try {
-        const session = await getServerSession(authOptions);
-
-        if (!session) return new Response('Unauthorized', { status: 401 });
-        if (session.user?.email !== process.env.ADMIN_EMAIL) {
-            return new Response('Forbidden', { status: 403 });
-        }
+        validateUserSession('API');
 
         const url = new URL(req.url);
         imageKey = url.searchParams.get('imageKey');

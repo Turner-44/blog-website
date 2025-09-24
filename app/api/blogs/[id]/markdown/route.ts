@@ -3,21 +3,15 @@ import {
     GetObjectCommand,
     DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
-import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 import { BUCKET_NAME, s3Client } from '@/lib/s3';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { validateUserSession } from '@/components/auth/validate-user-session';
 
 export async function POST(req: Request) {
     try {
-        const session = await getServerSession(authOptions);
-
-        if (!session) return new Response('Unauthorized', { status: 401 });
-        if (session.user?.email !== process.env.ADMIN_EMAIL) {
-            return new Response('Forbidden', { status: 403 });
-        }
+        validateUserSession('API');
 
         const reqData = await req.json();
         const markdown = reqData.markdown;
@@ -118,12 +112,7 @@ export async function DELETE(req: Request) {
     let markdownKey: string | null = null;
 
     try {
-        const session = await getServerSession(authOptions);
-
-        if (!session) return new Response('Unauthorized', { status: 401 });
-        if (session.user?.email !== process.env.ADMIN_EMAIL) {
-            return new Response('Forbidden', { status: 403 });
-        }
+        validateUserSession('API');
 
         const url = new URL(req.url);
         markdownKey = url.searchParams.get('markdownKey');

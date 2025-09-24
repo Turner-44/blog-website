@@ -1,19 +1,8 @@
-import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { validateUserSession } from '@/components/auth/validate-user-session';
 
 export default async function AdminPage() {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-        redirect('/api/auth/signin');
-    }
-
-    if (session.user?.email !== process.env.ADMIN_EMAIL) {
-        redirect('/403');
-    }
+    validateUserSession('UI');
 
     return (
         <>
