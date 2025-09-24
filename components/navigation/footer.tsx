@@ -1,29 +1,28 @@
 import Link from 'next/link';
 
-const containerClasses =
-    'prose prose-xl mx-auto flex flex-col items-center justify-between';
+const containerClasses = 'mx-auto flex flex-col items-center justify-between';
 
 const navLinks = [
     { href: '/privacy-policy', label: 'Privacy Policy' },
     { href: '/disclaimer', label: 'Disclaimer' },
     { href: '/terms-conditions', label: 'Terms and Conditions' },
 ];
-export default function Navbar() {
+export default function Footer() {
     return (
-        <nav>
-            <div className={`${containerClasses}`}>
-                <div className="flex flex-row justify-center sm:justify-evenly align-middle gap-4 p-6">
+        <footer className="mt-auto bg-black">
+            <div className="mx-auto max-w-4xl">
+                <nav className="flex flex-col sm:grid sm:grid-cols-3">
                     {navLinks.map(({ href, label }) => (
                         <Link
                             key={href}
                             href={href}
-                            className="text-5sm text-black/85 no-underline hover:text-black hover:underline"
+                            className="py-3 text-center text-sm text-white/85 font-bold no-underline nav-hover-effect"
                         >
                             {label}
                         </Link>
                     ))}
-                </div>
+                </nav>
             </div>
-        </nav>
+        </footer>
     );
 }

@@ -16,3 +16,26 @@
 .form-error-text {
     @apply text-red-400 text-sm;
 }
+
+:root {
+    --font-roboto: 'Roboto', sans-serif;
+    --font-nunito: 'Nunito', sans-serif;
+}
+
+body {
+    @apply font-sans;
+    font-family: var(--font-roboto);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-nunito);
+}
+
+.nav-hover-effect:hover {
+    @apply hover:text-white hover:-translate-y-0.5 transition-colors duration-200;
+}
