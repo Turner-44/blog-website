@@ -566,7 +566,7 @@ export default function PrivacyPolicy() {
                     legal basis:
                 </p>
 
-                <ul>
+                <ul className="ul-basic-text">
                     <li>
                         <strong>Consent:</strong> when you give us clear consent
                         to process your personal data for one or more specific
@@ -622,7 +622,7 @@ export default function PrivacyPolicy() {
                     following rights:
                 </p>
 
-                <ul>
+                <ul className="ul-basic-text">
                     <li>
                         The right to obtain confirmation of processing and
                         access to your data.
@@ -675,7 +675,7 @@ export default function PrivacyPolicy() {
                     </strong>
                 </p>
 
-                <ul>
+                <ul className="ul-basic-text">
                     <li>
                         Confirm whether we process their personal information.
                     </li>
@@ -699,7 +699,7 @@ export default function PrivacyPolicy() {
                     </strong>
                 </p>
 
-                <ul>
+                <ul className="ul-basic-text">
                     <li>
                         Correct inaccuracies in their personal information,
                         taking into account the information’s nature processing
@@ -817,7 +817,7 @@ export default function PrivacyPolicy() {
                     previous 12 months:
                 </p>
 
-                <ul>
+                <ul className="ul-basic-text">
                     <li>
                         <strong>Identifiers </strong>such as your name, address,
                         phone number, email address, and other similar
@@ -917,7 +917,7 @@ export default function PrivacyPolicy() {
                     include:
                 </p>
 
-                <ul>
+                <ul className="ul-basic-text">
                     <li>
                         To provide our services or products to you including
                         invoices and statements
@@ -1051,11 +1051,9 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
             <section className="space-y-3">
-                <p className="text-justify">
-                    <h2 className="tracking-tight text-center underline">
-                        CALIFORNIA’S “SHINE THE LIGHT” ACT
-                    </h2>
-                </p>
+                <h2 className="tracking-tight text-center underline">
+                    CALIFORNIA’S “SHINE THE LIGHT” ACT
+                </h2>
 
                 <p className="text-justify">
                     Pursuant to California’s “Shine the Light Act,” you are

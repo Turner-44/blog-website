@@ -21,6 +21,10 @@
     @apply hover:text-white hover:-translate-y-0.5 transition-colors duration-200;
 }
 
+.ul-basic-text {
+    @apply list-disc list-inside space-y-2 mb-4 pl-4;
+}
+
 :root {
     --font-roboto: 'Roboto', sans-serif;
     --font-nunito: 'Nunito', sans-serif;
@@ -55,7 +59,7 @@ li {
 }
 
 ul {
-    @apply list-disc list-inside space-y-2 mb-4 pl-4;
+    @apply list-inside;
 }
 
 ol {
