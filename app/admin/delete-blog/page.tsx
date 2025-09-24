@@ -2,20 +2,9 @@
 
 import { cookies } from 'next/headers';
 
-import { BlogMetaData } from '@/app/blog/[slug]/page';
+import { BlogMetaData } from '@/types/blog';
 import DeleteGrid from './delete-grid';
-
-export const getBlogs = async () => {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=30`
-    );
-
-    if (!res.ok) throw new Error('Failed to fetch blogs');
-
-    const { items }: { items: BlogMetaData[] } = await res.json();
-
-    return items;
-};
+import getBlogs from '@/lib/api/blog/get/get-blogs';
 
 export const deleteBlogPost = async (blog: BlogMetaData) => {
     const cookieStore = await cookies();
@@ -69,11 +58,9 @@ export const deleteBlogPost = async (blog: BlogMetaData) => {
 };
 
 export default async function DeleteBlogPage() {
-    const blogs: BlogMetaData[] = await getBlogs();
-
     return (
         <div>
-            <DeleteGrid blogs={blogs} />
+            <DeleteGrid blogs={await getBlogs(30)} />
         </div>
     );
 }

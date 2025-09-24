@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import { BlogMetaData } from '@/app/blog/[slug]/page';
+import { BlogMetaData } from '@/types/blog';
 import { Button } from '@/components/shared-components/button';
 
 import { deleteBlogPost } from './page';

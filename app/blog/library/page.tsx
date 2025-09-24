@@ -1,18 +1,13 @@
 import BlogGrid from '@/components/blog/library/blog-grid';
-import { BlogMetaData } from '../[slug]/page';
+import getBlogs from '@/lib/api/blog/get/get-blogs';
+import { BlogMetaData } from '@/types/blog';
 
 export default async function BlogLibrary() {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=30`
-    );
-
-    if (!res.ok) throw new Error('Failed to fetch blogs');
-
-    const { items }: { items: BlogMetaData[] } = await res.json();
+    const blogs = await getBlogs(30);
 
     return (
         <div className="p-10">
-            <BlogGrid blogs={items} />
+            <BlogGrid blogs={blogs} />
         </div>
     );
 }

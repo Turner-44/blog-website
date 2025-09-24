@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { BlogMetaData } from '@/app/blog/[slug]/page';
+import { BlogMetaData } from '@/types/blog';
 
 export default function BlogGrid({ blogs }: { blogs: BlogMetaData[] }) {
     return (

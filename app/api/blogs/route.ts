@@ -19,8 +19,8 @@ type CreateBlogItem = {
     summary: string;
     imageKey: string;
     markdownKey?: string;
-    publishedAt: string; // from <input type="datetime-local">
-    tags: string[]; // array of strings
+    publishedAt: string;
+    tags: string[];
 };
 
 const attributes = {
@@ -176,7 +176,6 @@ export async function DELETE(req: Request) {
             return NextResponse.json({ error: 'No SK' }, { status: 404 });
         }
 
-        // Now delete using the primary key
         const deleteCommand = new DeleteItemCommand({
             TableName: TABLE_NAME,
             Key: {

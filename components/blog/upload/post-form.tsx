@@ -17,7 +17,6 @@ export default function CreateBlogForm() {
         payload: new FormData(),
     });
 
-    console.log('Form state:', state);
     return (
         <Form
             action={formAction}

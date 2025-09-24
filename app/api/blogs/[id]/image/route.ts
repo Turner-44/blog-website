@@ -69,8 +69,6 @@ export async function DELETE(req: Request) {
 
         const s3Res = await s3Client.send(deleteCommand);
 
-        console.log(s3Res);
-
         return NextResponse.json(
             {
                 message: 'Image file deleted successfully',
