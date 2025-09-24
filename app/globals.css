@@ -17,25 +17,47 @@
     @apply text-red-400 text-sm;
 }
 
+.nav-hover-effect:hover {
+    @apply hover:text-white hover:-translate-y-0.5 transition-colors duration-200;
+}
+
 :root {
     --font-roboto: 'Roboto', sans-serif;
     --font-nunito: 'Nunito', sans-serif;
 }
 
 body {
-    @apply font-sans;
-    font-family: var(--font-roboto);
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
     font-family: var(--font-nunito);
 }
 
-.nav-hover-effect:hover {
-    @apply hover:text-white hover:-translate-y-0.5 transition-colors duration-200;
+h1 {
+    font-family: var(--font-roboto);
+    @apply text-3xl font-bold py-5;
+}
+
+h2 {
+    font-family: var(--font-roboto);
+    @apply text-2xl font-bold py-5;
+}
+
+h3 {
+    font-family: var(--font-roboto);
+    @apply text-xl font-bold py-5;
+}
+
+h4 {
+    font-family: var(--font-roboto);
+    @apply text-lg font-bold py-5;
+}
+
+li {
+    @apply mb-2 leading-relaxed;
+}
+
+ul {
+    @apply list-disc list-inside space-y-2 mb-4 pl-4;
+}
+
+ol {
+    @apply list-decimal list-inside space-y-2 mb-4 pl-4;
 }
