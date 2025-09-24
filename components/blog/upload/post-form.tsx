@@ -10,7 +10,14 @@ export default function CreateBlogForm() {
     const [state, formAction, pending] = React.useActionState(createBlog, {
         success: false,
         message: '',
+        fieldErrors: {
+            errors: [],
+            properties: {},
+        },
+        payload: new FormData(),
     });
+
+    console.log('Form state:', state);
     return (
         <Form
             action={formAction}
@@ -20,45 +27,67 @@ export default function CreateBlogForm() {
                 name="title"
                 placeholder="Blog Title"
                 className="form-input"
-                required
+                defaultValue={state.payload?.get('title') as string}
             />
+            <span className="text-xs text-red-400">
+                {state.fieldErrors?.properties?.title?.errors[0]}
+            </span>
             <input
                 name="slug"
                 placeholder="Blog Slug"
                 className="form-input"
-                required
+                defaultValue={state.payload?.get('slug') as string}
             />
+            <span className="text-xs text-red-400">
+                {state.fieldErrors?.properties?.slug?.errors[0]}
+            </span>
             <input
                 name="summary"
                 placeholder="Short Blurb"
                 className="form-input"
-                required
+                defaultValue={state.payload?.get('summary') as string}
             />
+            <span className="text-xs text-red-400">
+                {state.fieldErrors?.properties?.summary?.errors[0]}
+            </span>
             <textarea
                 name="markdown"
                 placeholder="Write your blog markdown..."
                 className="form-input"
                 rows={2}
-                required
+                defaultValue={state.payload?.get('markdown') as string}
             />
+            <span className="text-xs text-red-400">
+                {state.fieldErrors?.properties?.markdown?.errors[0]}
+            </span>
             <input
                 type="file"
                 name="featureImage"
                 accept="image/*"
                 className="form-input"
-                required
+                defaultValue={state.payload?.get('featureImage') as string}
             />
+            <span className="text-xs text-red-400">
+                {state.fieldErrors?.properties?.featureImage?.errors[0]}
+            </span>
             <input
                 name="tags"
                 placeholder="Tag Relevant Topics"
                 className="form-input"
-                required
+                defaultValue={state.payload?.get('tags') as string}
             />
+            <span className="text-xs text-red-400">
+                {state.fieldErrors?.properties?.tags?.errors[0]}
+            </span>
             <input
                 type="datetime-local"
                 name="publishedAt"
                 className="form-input"
+                defaultValue={state.payload?.get('publishedAt') as string}
             />
+            <span className="text-xs text-red-400">
+                {state.fieldErrors?.properties?.publishedAt?.errors[0]}
+            </span>
             <Button
                 type="submit"
                 className="mt-6 w-32 mx-auto"
