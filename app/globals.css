@@ -8,3 +8,11 @@
 .Button-primary {
     @apply cursor-pointer duration-200 ease-in-out hover:scale-105 active:scale-95;
 }
+
+.Button-destructive {
+    @apply cursor-pointer duration-200 ease-in-out hover:scale-105 active:scale-95 bg-red-700 text-white;
+}
+
+.form-error-text {
+    @apply text-red-400 text-sm;
+}

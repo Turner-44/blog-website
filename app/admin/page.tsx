@@ -8,12 +8,14 @@ export default async function AdminPage() {
     return (
         <div className="flex flex-col items-center min-h-screen py-10">
             <h1>Write those blogs boy!</h1>
-            <div className="flex space-x-4 p-5">
-                <Link href="/admin/create-blog" className="hover:underline">
-                    <Button className="Button-primary">Create Blog</Button>
+            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-xs">
+                <Link href="/admin/create-blog" className="flex-1">
+                    <Button className="Button-primary w-full">
+                        Create Blog
+                    </Button>
                 </Link>
-                <Link href="/admin/delete-blog" className="hover:underline">
-                    <Button className="Button-primary bg-red-700">
+                <Link href="/admin/delete-blog" className="flex-1">
+                    <Button className="Button-destructive w-full">
                         Delete Blog
                     </Button>
                 </Link>

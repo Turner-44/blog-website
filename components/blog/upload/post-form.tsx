@@ -28,7 +28,7 @@ export default function CreateBlogForm() {
                 className="form-input"
                 defaultValue={state.payload?.get('title') as string}
             />
-            <span className="text-xs text-red-400">
+            <span className="form-error-text">
                 {state.fieldErrors?.properties?.title?.errors[0]}
             </span>
             <input
@@ -37,7 +37,7 @@ export default function CreateBlogForm() {
                 className="form-input"
                 defaultValue={state.payload?.get('slug') as string}
             />
-            <span className="text-xs text-red-400">
+            <span className="form-error-text">
                 {state.fieldErrors?.properties?.slug?.errors[0]}
             </span>
             <input
@@ -46,7 +46,7 @@ export default function CreateBlogForm() {
                 className="form-input"
                 defaultValue={state.payload?.get('summary') as string}
             />
-            <span className="text-xs text-red-400">
+            <span className="form-error-text">
                 {state.fieldErrors?.properties?.summary?.errors[0]}
             </span>
             <textarea
@@ -56,7 +56,7 @@ export default function CreateBlogForm() {
                 rows={2}
                 defaultValue={state.payload?.get('markdown') as string}
             />
-            <span className="text-xs text-red-400">
+            <span className="form-error-text">
                 {state.fieldErrors?.properties?.markdown?.errors[0]}
             </span>
             <input
@@ -66,7 +66,7 @@ export default function CreateBlogForm() {
                 className="form-input"
                 defaultValue={state.payload?.get('featureImage') as string}
             />
-            <span className="text-xs text-red-400">
+            <span className="form-error-text">
                 {state.fieldErrors?.properties?.featureImage?.errors[0]}
             </span>
             <input
@@ -75,7 +75,7 @@ export default function CreateBlogForm() {
                 className="form-input"
                 defaultValue={state.payload?.get('tags') as string}
             />
-            <span className="text-xs text-red-400">
+            <span className="form-error-text">
                 {state.fieldErrors?.properties?.tags?.errors[0]}
             </span>
             <input
@@ -84,7 +84,7 @@ export default function CreateBlogForm() {
                 className="form-input"
                 defaultValue={state.payload?.get('publishedAt') as string}
             />
-            <span className="text-xs text-red-400">
+            <span className="form-error-text">
                 {state.fieldErrors?.properties?.publishedAt?.errors[0]}
             </span>
             <Button type="submit" className="Button-primary" disabled={pending}>
