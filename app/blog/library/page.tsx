@@ -6,8 +6,8 @@ export default async function BlogLibrary() {
     const blogs = await getBlogs(30);
 
     return (
-        <div className="p-10">
+        <main className="narrow-page-format">
             <BlogGrid blogs={blogs} />
-        </div>
+        </main>
     );
 }

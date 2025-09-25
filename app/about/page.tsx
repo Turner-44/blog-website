@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function About() {
     return (
-        <main className="mx-auto max-w-3xl px-4 py-5">
+        <main className="narrow-page-format">
             <header>
                 <h1 className="tracking-tight text-center p-5">About Me</h1>
                 <div className="relative h-100 aspect-w-1 aspect-h-1">

@@ -9,10 +9,10 @@ export default async function Page({
     const { slug } = await params;
 
     return (
-        <div>
+        <main className="narrow-page-format">
             <Suspense fallback={<div>Loading...</div>}>
                 <Blog slug={slug} />
             </Suspense>
-        </div>
+        </main>
     );
 }

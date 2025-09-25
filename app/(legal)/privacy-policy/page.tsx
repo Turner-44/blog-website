@@ -1,9 +1,11 @@
+import classes from '../legal.module.css';
+
 export default function PrivacyPolicy() {
     return (
-        <main className="mx-auto max-w-3xl px-4 py-5">
-            <section className="space-y-3">
-                <h2 className="legal-header">PRIVACY POLICY</h2>
-                <p className="text-justify">
+        <main className="standard-page-format">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>PRIVACY POLICY</h2>
+                <p className={classes.legalParagraph}>
                     Becoming Matthew (“company”, “I”, “we” or “us”) is dedicated
                     to respecting the privacy of your personal information. This
                     Privacy Policy describes what information is collected from
@@ -14,7 +16,7 @@ export default function PrivacyPolicy() {
                     views the website.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     <strong>
                         By visiting and using the website, you accept and agree
                         to be bound by this privacy policy. Your continued use
@@ -26,7 +28,7 @@ export default function PrivacyPolicy() {
                     </strong>
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We comply with Canada’s Personal Information Protection and
                     Electronic Documents Act (PIPEDA), which regulates the
                     collection, use, and disclosure of the personal information
@@ -40,10 +42,10 @@ export default function PrivacyPolicy() {
                     personal information provided to us.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">CHILDREN’S PRIVACY</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>CHILDREN’S PRIVACY</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We respect the privacy of children and “child” means an
                     individual under the age of 13. This policy is in accordance
                     with the Children’s Online Privacy Protection Act (“COPPA”).
@@ -58,12 +60,12 @@ export default function PrivacyPolicy() {
                     deleted.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     WHAT INFORMATION WE COLLECT AND HOW IT IS USED
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     When you access the website, you may provide certain
                     personally identifiable information including but not
                     limited to your name, email address, phone number, address,
@@ -71,7 +73,7 @@ export default function PrivacyPolicy() {
                     purchase on the website (“personal information”).
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This information is collected when you register on the site,
                     place an order, subscribe to a newsletter, contact us, use
                     the search feature on the website, provide comments or any
@@ -82,7 +84,7 @@ export default function PrivacyPolicy() {
                     may post on our website.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Your personal information is used to personalize your
                     experience, improve the website to better serve you, provide
                     customer service support, efficiently process your requests
@@ -95,10 +97,10 @@ export default function PrivacyPolicy() {
                     commission without additional cost to you.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">GOOGLE ANALYTICS</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>GOOGLE ANALYTICS</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Just like other websites, this website automatically
                     collects certain information about you through Log Data and
                     Google Analytics. Log Data is information about your
@@ -112,7 +114,7 @@ export default function PrivacyPolicy() {
                     the website.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This information is used to analyze website statistics
                     related to user behavior and interests, improve our
                     performance and your use of the website, and to further
@@ -121,10 +123,10 @@ export default function PrivacyPolicy() {
                     practices.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">COMMENTS</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>COMMENTS</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If you leave a comment, the comment and its metadata are
                     retained indefinitely. This is so we can recognize and
                     approve any follow-up comments automatically instead of
@@ -139,7 +141,7 @@ export default function PrivacyPolicy() {
                     detection.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     An anonymised string created from your email address (also
                     called a hash) may be provided to the Gravatar service to
                     see if you are using it. The Gravatar service Privacy Policy
@@ -149,20 +151,20 @@ export default function PrivacyPolicy() {
                     the public in the context of your comment.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">MEDIA</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>MEDIA</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If you upload images to the website, you should avoid
                     uploading images with embedded location data (EXIF GPS)
                     included. Visitors to the website can download and extract
                     any location data from images on the website.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">SOCIAL MEDIA</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>SOCIAL MEDIA</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Social media accounts and sharing options are available on
                     this website. Social media sites (Facebook, Twitter,
                     YouTube, Pinterest, and others) can track your personal
@@ -175,16 +177,16 @@ export default function PrivacyPolicy() {
                     such publicly disclosed personal information by you.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Any such interactions via comments and social media with us
                     do not subject us to any kind of liability related to the
                     misuse of your information by others.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">USE OF COOKIES</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>USE OF COOKIES</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     The website may use cookies to facilitate your use of the
                     website. Cookies are files with small amounts of data
                     including an anonymous unique identifier that a website
@@ -195,7 +197,7 @@ export default function PrivacyPolicy() {
                     language preference, date, and time of visitors.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Some features of our website may use Flash cookies, which
                     are small files stored on your computer by websites that use
                     Adobe Flash Player. They can store data such as preferences,
@@ -205,7 +207,7 @@ export default function PrivacyPolicy() {
                     locally on your computer.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If you leave a comment on our site you may opt in to saving
                     your name, email address and website in cookies. These are
                     for your convenience so that you do not have to fill in your
@@ -213,14 +215,14 @@ export default function PrivacyPolicy() {
                     will last for one year.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If you visit our login page, we will set a temporary cookie
                     to determine if your browser accepts cookies. This cookie
                     contains no personal data and is discarded when you close
                     your browser.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     When you log in, we will also set up several cookies to save
                     your login information and your screen display choices.
                     Login cookies last for two days, and screen options cookies
@@ -229,14 +231,14 @@ export default function PrivacyPolicy() {
                     the login cookies will be removed.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If you edit or publish an article, an additional cookie will
                     be saved in your browser. This cookie includes no personal
                     data and simply indicates the post ID of the article you
                     just edited. It expires after 1 day.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may use cookies for various reasons such as optimizing
                     and personalizing your browsing experience, checking our
                     website analytics, saving your preferences and settings for
@@ -244,7 +246,7 @@ export default function PrivacyPolicy() {
                     affiliate marketing, and posting comments on our website.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This information is only collected to better serve and
                     understand your user experience on the website. You have the
                     option of turning off cookies on your computer should you
@@ -252,10 +254,12 @@ export default function PrivacyPolicy() {
                     to view all the features and content of this website.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">USE OF WEB BEACONS AND PIXELS</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
+                    USE OF WEB BEACONS AND PIXELS
+                </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     In conjunction with the use of cookies, third parties may
                     also use web beacons, which are also known as clear GIFs,
                     web bugs, or pixel tags to collect general information about
@@ -266,7 +270,7 @@ export default function PrivacyPolicy() {
                     and interests.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may use social media pixels to track and collect general
                     information about your use in compliance with different
                     social media sites (Facebook, Twitter, Pinterest, and
@@ -274,7 +278,7 @@ export default function PrivacyPolicy() {
                     run target advertisements, and so forth.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Third parties like Facebook may use their own cookies, web
                     beacons, and other technologies to collect and receive
                     information from our website to provide target
@@ -282,17 +286,19 @@ export default function PrivacyPolicy() {
                     after you have visited our website.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">THIRD-PARTY LINKS AND USE</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
+                    THIRD-PARTY LINKS AND USE
+                </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may include, offer, or advertise third-party links,
                     products, or services on the website. Once you click on a
                     third-party link and leave this website, you are no longer
                     bound by our Privacy Policy and Terms and Conditions.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Articles on this website may include embedded content (e.g.
                     videos, images, advertisements, etc.). Embedded content from
                     other websites behaves in the exact same way as if the
@@ -304,7 +310,7 @@ export default function PrivacyPolicy() {
                     in to that website.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may use Google AdSense advertising along with any other
                     third-party advertising on the website. Google is a third
                     party that also uses cookies to serve ads on the website to
@@ -314,7 +320,7 @@ export default function PrivacyPolicy() {
                     their privacy policy and ad settings.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We have no control over these third parties and they have
                     their own privacy policies. Neither are we responsible for
                     the activities and practices of these third parties. You
@@ -323,10 +329,12 @@ export default function PrivacyPolicy() {
                     third-party websites is solely at your risk.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">DISCLOSURE OF YOUR INFORMATION</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
+                    DISCLOSURE OF YOUR INFORMATION
+                </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     As a general rule, we do not disclose your personal
                     information to third parties without your consent except in
                     the following circumstances:
@@ -381,10 +389,10 @@ export default function PrivacyPolicy() {
                     </li>
                 </ol>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">EMAIL MARKETING</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>EMAIL MARKETING</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You have the option of opting in or unsubscribing from our
                     email list. By subscribing and opting in, you agree to
                     receive newsletters, updates, messages, promotional
@@ -397,7 +405,7 @@ export default function PrivacyPolicy() {
                     policy.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If you are in the European Union and opt-in to receive any
                     of our free products or services and/or purchase any
                     products or services through our website then you will be
@@ -407,7 +415,7 @@ export default function PrivacyPolicy() {
                     “unsubscribe” and not receive any emails from us.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     But if you are NOT in the European Union then you will be
                     automatically subscribed to receive our free email
                     newsletter once you opt-in to receive any of our free
@@ -417,10 +425,10 @@ export default function PrivacyPolicy() {
                     “unsubscribe” and not receive any emails from us.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">OPT-OUT</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>OPT-OUT</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We comply with the CAN-SPAM Act of 2003 and do not spam or
                     send misleading information. Should you wish to no longer
                     receive communication from us, you have the option of
@@ -428,29 +436,29 @@ export default function PrivacyPolicy() {
                     email we send to you or by contacting us.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     As for third-party websites, please contact them directly to
                     unsubscribe and/or opt out of their communications.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We comply with the GDPR along with the email marketing
                     service we use to collect your data.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     GDPR VISITOR RIGHTS (FOR EU AND UK CUSTOMERS AND VISITORS)
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If you are located in the European Union (“EU”) or the
                     United Kingdom (“UK”), you are entitled to certain rights
                     and information listed below under the General Data
                     Protection Regulation (“GDPR).
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We will retain any information you choose to provide to us
                     until the earlier of:
                 </p>
@@ -480,24 +488,24 @@ export default function PrivacyPolicy() {
                     </li>
                 </ol>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You have the right to request access your data that we store
                     and have the ability to access your personal data.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You have the right to either rectify or erase your personal
                     data. You have the right to verify the accuracy of your
                     personal data and have it corrected or removed completely
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You have the right to seek restrictions on the processing of
                     your data. When you restrict the processing of your data, we
                     can store your data but cannot process it further.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You have the right to object to the processing of your data
                     in certain circumstances including but not limited to direct
                     marketing, profiling, scientific or historical research
@@ -506,13 +514,13 @@ export default function PrivacyPolicy() {
                     the public interest/exercise of official authority.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You have the right to the portability of your data. You have
                     the right to request your personal data from us, receive it,
                     and transfer it to another controller.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You have the right to withdraw consent at any time. If you
                     have provided consent to the Company’s processing of your
                     personal data, you have the right to withdraw that consent
@@ -521,25 +529,25 @@ export default function PrivacyPolicy() {
                     consent.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You have the right to lodge a complaint with a supervisory
                     authority that has jurisdiction over issues related to the
                     GDPR.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We require only the information that is reasonably necessary
                     to enter into a contract with you. We will not require you
                     to provide consent for any unnecessary processing as a
                     condition of entering into a contract with us.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     LEGAL BASIS FOR PROCESSING DATA UNDER THE GDPR
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Under the GDPR, we may process your data under the following
                     legal basis:
                 </p>
@@ -583,10 +591,12 @@ export default function PrivacyPolicy() {
                     </li>
                 </ul>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">U.S. STATE PRIVACY RIGHTS</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
+                    U.S. STATE PRIVACY RIGHTS
+                </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     State consumer privacy laws in the U.S. may give their
                     residents additional rights regarding how we use their
                     personal information. These privacy rights vary depending on
@@ -642,7 +652,7 @@ export default function PrivacyPolicy() {
                     </li>
                 </ul>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     <strong>
                         California, Colorado, Connecticut, Virginia, Iowa,
                         Delaware, Nebraska, New Hampshire, New Jersey,
@@ -666,7 +676,7 @@ export default function PrivacyPolicy() {
                     </li>
                 </ul>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     <strong>
                         Several states including but not limited to California,
                         Colorado, Connecticut, Nebraska, Delaware, Texas, New
@@ -688,7 +698,7 @@ export default function PrivacyPolicy() {
                     </li>
                 </ul>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     <strong>Nevada</strong> provides its residents with a
                     limited right to opt out of certain types of personal
                     information being sold by a business. The opt-out option
@@ -698,20 +708,20 @@ export default function PrivacyPolicy() {
                     the opt-out requirements of that statute.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     <strong>Maryland</strong> prohibits the sale of personal
                     information requiring that sensitive data can only be
                     processed to provide a requested service or product.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     To exercise any of these rights above under different
                     states, please contact us with your request at
                     becomingmatthew.com and please include your name, email
                     address, and mailing address.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     <strong>
                         CALIFORNIA CONSUMER PRIVACY ACT (CCPA) AND CALIFORNIA
                         PRIVACY RIGHTS ACT (CPRA) COMPLIANCE AND YOUR LEGAL
@@ -719,7 +729,7 @@ export default function PrivacyPolicy() {
                     </strong>
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If you live in California, you have additional rights under
                     California law, and we comply with the CCPA and CPRA because
                     we may have visitors from California on our website. Here
@@ -779,13 +789,13 @@ export default function PrivacyPolicy() {
                     </li>
                 </ol>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     CATEGORIES OF PERSONAL INFORMATION COLLECTED AND DISCLOSED
                     FOR A BUSINESS PURPOSE
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     The types of personal information we collect and how we use
                     it have already been listed above, but under the CCPA/CPRA,
                     the following categories of personal information may have
@@ -874,20 +884,20 @@ export default function PrivacyPolicy() {
                     </li>
                 </ul>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     HOW DO WE COLLECT YOUR PERSONAL INFORMATION AND FOR WHAT
                     PURPOSE
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We collect this personal information directly from you, from
                     your browser or device, use of cookies, service providers,
                     our business partners, affiliates, or third parties. We do
                     not sell your personal information to third parties.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We use the information we collect for various purposes
                     depending on how you interact with us. These purposes
                     include:
@@ -971,21 +981,21 @@ export default function PrivacyPolicy() {
                     </li>
                 </ul>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may also use your information in other ways for which we
                     provide specific notice at the time of collection. We may
                     combine different types of information that we collect about
                     you for any of the purposes described above.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Please be advised we DO NOT SELL YOUR PERSONAL INFORMATION
                     to third parties and have never sold your personal
                     information. We do not intend to sell your personal
                     information in the future either.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Under the CCPA and CPRA, you still have the right to opt out
                     of sharing your personal information and send us a “do not
                     sell or share my personal information” request. If you would
@@ -994,14 +1004,14 @@ export default function PrivacyPolicy() {
                     us an email at support@becomingmatthew.com.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Only you, as the person registered with the California
                     Secretary of State, or someone you authorize to act on your
                     behalf, can make such verifiable consumer requests related
                     to your personal information.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Your verifiable consumer request must provide sufficient
                     information that allows us to verify that you are the person
                     you are claiming to be or that you are the authorized
@@ -1017,7 +1027,7 @@ export default function PrivacyPolicy() {
                     within 30 days of receipt.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     The above-mentioned California privacy rights are not
                     absolutely guaranteed because some exceptions allow us to
                     refuse your request. We are only required to respect these
@@ -1026,12 +1036,12 @@ export default function PrivacyPolicy() {
                     you under the CCPA/CPRA.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     CALIFORNIA’S “SHINE THE LIGHT” ACT
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Pursuant to California’s “Shine the Light Act,” you are
                     permitted to request information about how we share certain
                     categories of information with third parties for their
@@ -1045,10 +1055,10 @@ export default function PrivacyPolicy() {
                     other purpose that’s not permitted under the laws.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">DO NOT TRACK SIGNALS</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>DO NOT TRACK SIGNALS</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This privacy notice for California residents supplements the
                     information included in the previous sections of this
                     privacy policy. California and Delaware law also require us
@@ -1057,7 +1067,7 @@ export default function PrivacyPolicy() {
                     do not monitor or respond to Do Not Track browser requests.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You can also enable or disable Do Not Track in your browser.
                     This is a setting that tells websites not to track your
                     online activities. To enable or disable it, go to the
@@ -1066,10 +1076,10 @@ export default function PrivacyPolicy() {
                     option under “Do Not Track Requests” or something similar.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">DATA RETENTION</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>DATA RETENTION</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We will retain your information as long as necessary to
                     fulfill the purposes outlined in this Privacy Policy unless
                     a longer retention period is required or permitted by law.
@@ -1079,10 +1089,10 @@ export default function PrivacyPolicy() {
                     enforce our agreements.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">SECURITY</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>SECURITY</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     The security of your personal information is important to
                     us, and we strive to follow generally commercial industry
                     standards to protect your personal information submitted to
@@ -1097,7 +1107,7 @@ export default function PrivacyPolicy() {
                     completes the purchase transaction.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     By using this website, you agree to hold us harmless for any
                     security breach and any unauthorized use of your personal
                     information by third parties. You also agree that we cannot
@@ -1105,10 +1115,10 @@ export default function PrivacyPolicy() {
                     through our website without our knowledge and consent.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">PRIVACY POLICY UPDATES</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>PRIVACY POLICY UPDATES</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This privacy policy is effective as of February 10 2025 and
                     will be updated and modified as needed. You are responsible
                     for visiting this page periodically to check for future
@@ -1119,10 +1129,10 @@ export default function PrivacyPolicy() {
                     modified privacy policy.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">CONTACT</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>CONTACT</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     For any questions or comments regarding the privacy policy,
                     please contact us via the{' '}
                     <a
@@ -1136,7 +1146,9 @@ export default function PrivacyPolicy() {
                 </p>
             </section>
 
-            <p className="text-justify">Last updated: February 10 2025</p>
+            <p className={classes.legalParagraph}>
+                Last updated: February 10 2025
+            </p>
         </main>
     );
 }

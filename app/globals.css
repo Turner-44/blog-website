@@ -25,8 +25,16 @@
     @apply list-disc list-inside space-y-2 mb-4 pl-4;
 }
 
-.legal-header {
+/* .legal-header {
     @apply py-5 tracking-tight text-center underline;
+} */
+
+.standard-page-format {
+    @apply mx-auto max-w-4xl px-4 py-5;
+}
+
+.narrow-page-format {
+    @apply max-w-3xl mx-auto px-4 py-5;
 }
 
 :root {

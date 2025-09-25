@@ -7,7 +7,7 @@ const navLinks = [
 ];
 export default function Footer() {
     return (
-        <footer className="pt-5">
+        <footer className="pt-5 ">
             <div className="mt-auto bg-black">
                 <div className="mx-auto max-w-4xl">
                     <nav className="flex flex-col sm:grid sm:grid-cols-3">

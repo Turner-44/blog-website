@@ -1,12 +1,12 @@
-import PostBlogForm from '@/components/blog/upload/post-form';
+import PostBlogForm from '@/components/blog/admin/post-form';
 
 export default function CreateBlogPage() {
     return (
-        <main className="flex flex-col items-center justify-center gap-8 p-8 sm:p-10">
-            <p className="text-2xl sm:text-3xl font-medium text-center">
-                Create a New Blog Post
-            </p>
-            <PostBlogForm />
+        <main className="standard-page-format">
+            <div className="flex flex-col items-center justify-center">
+                <h1 className="text-center">Create a New Blog Post</h1>
+                <PostBlogForm />
+            </div>
         </main>
     );
 }

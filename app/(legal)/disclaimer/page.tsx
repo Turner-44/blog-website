@@ -1,9 +1,12 @@
+import classes from '../legal.module.css';
+
 export default function Disclaimer() {
+    console.log(classes);
     return (
-        <main className="mx-auto max-w-3xl px-4 py-5">
-            <section className="space-y-3">
-                <h2 className="legal-header">GENERAL INFORMATION</h2>
-                <p className="text-justify">
+        <main className="standard-page-format">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>GENERAL INFORMATION</h2>
+                <p className={classes.legalParagraph}>
                     Becoming Matthew (“company”, “I”, “we” or “us”) provides
                     general educational information on various topics on this
                     website as a public service, which should not be construed
@@ -11,12 +14,12 @@ export default function Disclaimer() {
                     are my personal opinions only.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     The term “you” refers to anyone who uses, visits, and/or
                     views the website.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree to accept all parts of this Disclaimer by viewing
                     this website or anything made available on or through this
                     website, including but not limited to programs, products,
@@ -26,11 +29,11 @@ export default function Disclaimer() {
                     “Website”).
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Please read this Disclaimer carefully, and I reserve the
                     right to modify it at any time without notice.
                 </p>
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     <strong>
                         By visiting and using this website, you accept and agree
                         to be bound by this Disclaimer along with our Terms and
@@ -42,10 +45,10 @@ export default function Disclaimer() {
                     </strong>
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">GENERAL DISCLAIMER</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>GENERAL DISCLAIMER</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     <em>
                         All content and information on this website including
                         our programs, products and/or services is for
@@ -67,7 +70,7 @@ export default function Disclaimer() {
                     </em>
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     All content and information on this website including our
                     programs, products, and/or services<em> </em>is for
                     informational and educational purposes only, does not
@@ -86,12 +89,12 @@ export default function Disclaimer() {
                     financial or tax-related decisions.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     AFFILIATE / THIRD-PARTY LINKS DISCLOSURE AND DISCLAIMER
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may partner with other businesses or become part of
                     different affiliate marketing programs whose products or
                     services may be promoted or advertised on the website in
@@ -101,7 +104,7 @@ export default function Disclaimer() {
                     through our affiliate link at no extra cost to you.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may also recommend other products, services, coaches, and
                     consultants but no such reference is intended to be an
                     endorsement or statement that such information provided is
@@ -112,7 +115,7 @@ export default function Disclaimer() {
                     and consultants.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     These affiliate or third-party relationships in no way
                     compromise the integrity of the content, information,
                     services, and materials being presented to you here, and you
@@ -122,7 +125,7 @@ export default function Disclaimer() {
                     experiences and preferences.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Although we provide these affiliate links on the website for
                     your convenience, we have no control over these external
                     websites and they are solely responsible for their own
@@ -134,19 +137,19 @@ export default function Disclaimer() {
                     resulting from them.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This disclosure policy applies to all affiliate links we
                     share on our website, social media, emails, programs,
                     products such as courses, ebooks, services, and any other
                     means of communication with you.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     EARNINGS DISCLAIMER, TESTIMONIALS AND OTHER DISCLAIMERS
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may disclose our income reports and success results of
                     our current or former customers including product reviews
                     and testimonials on the website from time to time. These
@@ -154,7 +157,7 @@ export default function Disclaimer() {
                     accurate and strictly for informational purposes only.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We share this information asexamples withyou but it does not
                     serve as a guarantee or promise of any kind for your results
                     and successes if you decide to use the same information,
@@ -162,7 +165,7 @@ export default function Disclaimer() {
                     here.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     All the testimonials included on our websites, programs,
                     products and/or services are real-world examples and stories
                     of other people’s experiences with our programs, products
@@ -172,7 +175,7 @@ export default function Disclaimer() {
                     will vary accordingly.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You are encouraged to perform your own due diligence and
                     research and are solely responsible for your earnings and
                     results. Your earning potential and results are contingent
@@ -185,18 +188,18 @@ export default function Disclaimer() {
                     presented to you here.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     SPONSORED POSTS / REVIEWS DISCLAIMER
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may include sponsored blog posts on our website from time
                     to time for products or services we recommend or those that
                     have been valuable in our personal experience or use.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We may review different products, services, and other
                     resources to provide reviews of books, services, and any
                     other recommendations to you. We may receive incentives,
@@ -207,7 +210,7 @@ export default function Disclaimer() {
                     diligence before relying on them.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We share this information asexamples withyou but it does not
                     serve as a guarantee or promise of any kind for your results
                     and successes if you decide to use the same information,
@@ -215,7 +218,7 @@ export default function Disclaimer() {
                     here.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You are encouraged to perform your own due diligence and
                     research and are solely responsible for your decisions,
                     purchases from our affiliate links, sponsored content, and
@@ -229,10 +232,10 @@ export default function Disclaimer() {
                     presented to you here.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">FAIRUSE DISCLAIMER</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>FAIRUSE DISCLAIMER</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This website summarises written content including but not
                     limited to posting product images from other websites, and
                     logos of manufacturers. In doing so, no copyright is claimed
@@ -245,10 +248,10 @@ export default function Disclaimer() {
                     <em>.</em>
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">NO WARRANTIES</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>NO WARRANTIES</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     ALL CONTENT, INFORMATION, PRODUCTS AND/OR SERVICES ON THE
                     WEBSITE ARE “AS IS” AND “AS AVAILABLE” BASIS WITHOUT ANY
                     REPRESENTATIONS OR WARRANTIES OF ANY KIND INCLUDING THE
@@ -264,10 +267,10 @@ export default function Disclaimer() {
                     EXTENT PERMITTED BY LAW.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">LIMITATION OF LIABILITY</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>LIMITATION OF LIABILITY</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree that under no circumstances, we and/or our
                     officers, employees, successors, shareholders, joint venture
                     partners, or anyone else working with us shall be liable for
@@ -278,7 +281,7 @@ export default function Disclaimer() {
                     graphics presented here.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You expressly agree that your use of the website is at your
                     sole risk and that you are solely responsible for the
                     accuracy of the personal and any information you provide,
@@ -286,7 +289,7 @@ export default function Disclaimer() {
                     and for all other use in connection with the website.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You also expressly agree that we and/or our officers,
                     employees, successors, shareholders, joint venture partners,
                     or anyone else working with us shall not be liable to you
@@ -303,7 +306,7 @@ export default function Disclaimer() {
                     products and/or services offered here.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This limitation of liability shall apply whether such
                     liability arises from negligence, breach of contract, tort
                     or any other legal theory of liability. You agree that we
@@ -312,10 +315,10 @@ export default function Disclaimer() {
                     results are being promised to you here.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">INDEMNIFICATION</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>INDEMNIFICATION</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree to indemnify and hold the Company and/or its
                     officers, employees, successors, shareholders, joint venture
                     partners, or anyone else working with us harmless from all

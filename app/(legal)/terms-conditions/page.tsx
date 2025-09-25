@@ -1,9 +1,11 @@
+import classes from '../legal.module.css';
+
 export default function TermsAndConditions() {
     return (
-        <main className="mx-auto max-w-3xl px-4 py-5">
-            <section className="space-y-3">
-                <h2 className="legal-header">TERMS & CONDITIONS</h2>
-                <p className="text-justify">
+        <main className="standard-page-format">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>TERMS & CONDITIONS</h2>
+                <p className={classes.legalParagraph}>
                     By visiting and using becomingmatthew.com (hereinafter the
                     “Website”),{' '}
                     <strong>
@@ -14,7 +16,7 @@ export default function TermsAndConditions() {
                     </strong>
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     The term “you” refers to anyone who uses, visits, and/or
                     views the website. Becoming Matthew (“company”, “I”, “we” or
                     “us”) reserves the right to amend or modify these terms and
@@ -32,40 +34,40 @@ export default function TermsAndConditions() {
                     Terms and Conditions.
                 </strong>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">INTENDED AGE</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>INTENDED AGE</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     All information and content on this website are intended for
                     individuals over the age of 18. Children, as defined in our
                     Privacy Policy, are prohibited from using this website.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">PRIVACY POLICY</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>PRIVACY POLICY</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We are dedicated to respecting the privacy of your personal
                     information. Your acceptance of our Privacy Policy is
                     expressly incorporated into these Terms and Conditions.
                     Please review our Privacy Policy for more information.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">DISCLAIMER</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>DISCLAIMER</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Your acceptance of our Disclaimer is expressly incorporated
                     into these Terms and Conditions. Please review the
                     Disclaimer for more information.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     MANDATORY ARBITRATION AND GOVERNING LAW
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You expressly waive any legal claims you may have now or in
                     the future arising from or related to the website and our
                     products/services. In the event of a dispute, claim, or
@@ -74,7 +76,7 @@ export default function TermsAndConditions() {
                     the laws of the state of New Zealand.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree to first resolve any disputes or claims through
                     mandatory arbitration, and you consent to and submit to the
                     jurisdiction and courts of New Zealand, without regard to
@@ -82,7 +84,7 @@ export default function TermsAndConditions() {
                     at the time of the dispute.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree to bear the full cost of arbitration, to the
                     extent permitted by law. Participation in arbitration in
                     good faith is a condition precedent to pursuing any other
@@ -93,10 +95,10 @@ export default function TermsAndConditions() {
                     attorney’s fees and other legal costs.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">INTELLECTUAL PROPERTY</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>INTELLECTUAL PROPERTY</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     All content on this website including but not limited to
                     text, posts, logos, marks, graphics, files, materials,
                     services, products, videos, audio, applications, computer
@@ -113,7 +115,7 @@ export default function TermsAndConditions() {
                     proprietary rights.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree not to copy, duplicate, steal, modify, publish,
                     display, distribute, reproduce, store, transmit, post,
                     create derivative works, reverse engineer, sell, rent, or
@@ -124,12 +126,12 @@ export default function TermsAndConditions() {
                     terms and conditions.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     USER CONTENT AND LAWFUL USE OF THE WEBSITE
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     For any Content or information that you upload, display,
                     post, transmit, send, email, or submit to us on the website
                     or any of our social media sites, you warrant that you are
@@ -138,7 +140,7 @@ export default function TermsAndConditions() {
                     distribute that Content to us.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You grant us and/or our officers, employees, successors,
                     shareholders, joint venture partners, or anyone else working
                     with us a royalty-free, perpetual, irrevocable, worldwide,
@@ -151,42 +153,42 @@ export default function TermsAndConditions() {
                     Content or information that you provide to us.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree not to upload, display, post, transmit,
                     distribute, send, email, or submit to us on the website or
                     any of our social media sites any information or Content
                     that is:
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     (a) illegal, violates or infringes upon the rights of
                     others,
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     (b) defamatory, abusive, profane, hateful, vulgar, obscene,
                     libelous, pornographic, threatening,
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     (c) encourages or advocates conduct that would constitute a
                     criminal offense, giving rise to civil liability or
                     otherwise violate any law,
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     (d) distribute material including but not limited to
                     spyware, computer viruses, any kind of malicious computer
                     software, or any other harmful information that is
                     actionable by law,
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     (e) any attempts to gain unauthorized access to any portion
                     or feature of the website, and
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     (f) send unsolicited or unauthorized material or disrupt the
                     operation of the website. You agree to use the website for
                     lawful purposes only and shall be liable for damages
@@ -194,10 +196,10 @@ export default function TermsAndConditions() {
                     these Terms and Conditions.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">THIRD-PARTY LINKS</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>THIRD-PARTY LINKS</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     The website may contain links to third-party websites or
                     resources for your convenience. We may serve as an affiliate
                     for some of these third-party websites by offering or
@@ -208,7 +210,7 @@ export default function TermsAndConditions() {
                     conditions.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree that we are not responsible or liable for the
                     accuracy, content, or any information presented on these
                     third-party websites. You assume all risks for using these
@@ -219,12 +221,12 @@ export default function TermsAndConditions() {
                     websites or resources.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>
                     USE OF OUR PAID AND FREE PRODUCTS
                 </h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     On this website, we may provide free products for download
                     as well as sell paid courses, programs, physical or digital
                     products, and any other related materials (collectively,
@@ -240,7 +242,7 @@ export default function TermsAndConditions() {
                     is expressly prohibited without our prior written consent.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You acknowledge and agree that you have no right to share,
                     modify, sell, edit, copy, reproduce, create derivative works
                     of, reverse engineer, enhance, or exploit our products. You
@@ -251,20 +253,20 @@ export default function TermsAndConditions() {
                     violations of these terms and conditions.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">TERMINATION</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>TERMINATION</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     We reserve the right in our sole discretion to refuse,
                     remove, restrict your access, revoke, and terminate your use
                     of our website including any or all Content published by you
                     or us at any time for any reason, without notice.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">NO WARRANTIES</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>NO WARRANTIES</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     ALL CONTENT, INFORMATION, PRODUCTS AND/OR SERVICES ON THE
                     WEBSITE ARE “AS IS” AND “AS AVAILABLE” BASIS WITHOUT ANY
                     REPRESENTATIONS OR WARRANTIES OF ANY KIND INCLUDING THE
@@ -280,10 +282,10 @@ export default function TermsAndConditions() {
                     EXTENT PERMITTED BY LAW.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">LIMITATION OF LIABILITY</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>LIMITATION OF LIABILITY</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree that under no circumstances, we and/or our
                     officers, employees, successors, shareholders, joint venture
                     partners, or anyone else working with us shall be liable for
@@ -294,7 +296,7 @@ export default function TermsAndConditions() {
                     graphics presented here.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You expressly agree that your use of the website is at your
                     sole risk and that you are solely responsible for the
                     accuracy of the personal and any information you provide,
@@ -302,7 +304,7 @@ export default function TermsAndConditions() {
                     and for all other use in connection with the website.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You also expressly agree that we and/or our officers,
                     employees, successors, shareholders, joint venture partners
                     or anyone else working with us shall not be liable to you
@@ -319,7 +321,7 @@ export default function TermsAndConditions() {
                     products and/or services offered here.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     This limitation of liability shall apply whether such
                     liability arises from negligence, breach of contract, tort,
                     or any other legal theory of liability. You agree that we
@@ -328,10 +330,10 @@ export default function TermsAndConditions() {
                     results are being promised to you here.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">INDEMNIFICATION</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>INDEMNIFICATION</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree to indemnify and hold the Company and/or its
                     officers, employees, successors, shareholders, joint venture
                     partners, or anyone else working with us harmless from all
@@ -354,10 +356,10 @@ export default function TermsAndConditions() {
                     requested, without any cost, to defend any such claims.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">WAIVER OF CLASS ACTIONS</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>WAIVER OF CLASS ACTIONS</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     You agree that any dispute arising from or related to this
                     Agreement will be resolved solely between you and the
                     Company. You waive your right to bring a class action
@@ -365,10 +367,10 @@ export default function TermsAndConditions() {
                     member of a class or as a representative.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">ENTIRE AGREEMENT</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>ENTIRE AGREEMENT</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     These Terms and Conditions along with our Privacy Policy and
                     Disclaimer constitute the entire agreement between you and
                     us for this website. It supersedes all prior or
@@ -377,7 +379,7 @@ export default function TermsAndConditions() {
                     oral, or written.
                 </p>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     A printed version of this entire agreement including the
                     Privacy Policy and Disclaimer and any notice given in
                     electronic form shall be admissible in judicial or
@@ -386,10 +388,10 @@ export default function TermsAndConditions() {
                     contracts and documents kept and maintained in printed form.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">SEVERABILITY</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>SEVERABILITY</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     If any provision in these Terms and Conditions is deemed by
                     a court, regulatory authority, or other public or private
                     tribunal of competent jurisdiction to be invalid or
@@ -400,10 +402,10 @@ export default function TermsAndConditions() {
                     provisions, but only to such extent.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">MODIFICATIONS</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>MODIFICATIONS</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     Company reserves the right, in its sole discretion and
                     without notice, to (a) revise these Terms and Conditions;
                     (b) modify the website and/or any services or products it
@@ -416,17 +418,17 @@ export default function TermsAndConditions() {
                     the website after these modifications.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">ACKNOWLEDGEMENT</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>ACKNOWLEDGEMENT</h2>
 
-                <p className="text-justify">
+                <p className={classes.legalParagraph}>
                     By using any of our products, or services or accessing the
                     site, you acknowledge that you have read and agree to be
                     bound by these terms and conditions.
                 </p>
             </section>
-            <section className="space-y-3">
-                <h2 className="legal-header">CONTACT</h2>
+            <section className={classes.legalSection}>
+                <h2 className={classes.legalHeader}>CONTACT</h2>
                 <br />
                 For any questions, please contact us via the
                 <a href="https://becomingmatthew.com/contact/">PENDING</a>.

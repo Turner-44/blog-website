@@ -1,0 +1,76 @@
+'use client';
+
+import { BlogMetaData } from '@/types/blog';
+import Image from 'next/image';
+import { useState } from 'react';
+
+import { Button } from '@/components/shared-components/button';
+import { deleteBlogPost } from '@/app/admin/delete-blog/page';
+
+export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
+    const [blogList, setBlogList] = useState<BlogMetaData[]>(blogs);
+    const [isDeleting, setIsDeleting] = useState<string | null>(null);
+
+    const handleDeleteClick = async (
+        blog: BlogMetaData,
+        e: React.MouseEvent
+    ) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const confirmDelete = window.confirm(
+            `Are you sure you want to delete "${blog.title}"? \nThis action CANNOT be undone.`
+        );
+
+        if (!confirmDelete) return;
+
+        setIsDeleting(blog.id);
+
+        try {
+            await deleteBlogPost(blog);
+
+            setBlogList((prevBlogs) =>
+                prevBlogs.filter((b) => b.id !== blog.id)
+            );
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert(`Failed to delete "${blog.title}". Please try again.`);
+        } finally {
+            setIsDeleting(null);
+        }
+    };
+
+    return (
+        <ul className="space-y-4 ">
+            {blogs.map((blog) => (
+                <li key={blog.id} className="py-1">
+                    <article className="flex items-center space-x-4 gap-2">
+                        <div className="w-48 h-32 flex-shrink-0 relative">
+                            <Image
+                                src={`https://cdn.becomingmatthew.com/${blog.imageKey}`}
+                                alt={blog.title || 'Blog image'}
+                                className=" object-cover object-center rounded-2xl"
+                                fill
+                            />
+                        </div>
+                        <div className="flex-1 h-32 flex flex-col justify-center space-y-2">
+                            <h2>{blog.title}</h2>
+                            <p className="text-justify">{blog.summary}</p>
+                        </div>
+                        <div>
+                            <Button
+                                className="Button-destructive"
+                                onClick={(e) => handleDeleteClick(blog, e)}
+                                disabled={isDeleting === blog.id}
+                            >
+                                {isDeleting === blog.id
+                                    ? 'Deleting...'
+                                    : 'Delete'}
+                            </Button>
+                        </div>
+                    </article>
+                </li>
+            ))}
+        </ul>
+    );
+}

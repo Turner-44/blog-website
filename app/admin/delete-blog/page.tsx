@@ -3,8 +3,8 @@
 import { cookies } from 'next/headers';
 
 import { BlogMetaData } from '@/types/blog';
-import DeleteGrid from './delete-grid';
 import getBlogs from '@/lib/api/blog/get/get-blogs';
+import DeletionGrid from '@/components/blog/admin/deletion-grid';
 
 export const deleteBlogPost = async (blog: BlogMetaData) => {
     const cookieStore = await cookies();
@@ -59,8 +59,8 @@ export const deleteBlogPost = async (blog: BlogMetaData) => {
 
 export default async function DeleteBlogPage() {
     return (
-        <div>
-            <DeleteGrid blogs={await getBlogs(30)} />
-        </div>
+        <main className="standard-page-format">
+            <DeletionGrid blogs={await getBlogs(30)} />
+        </main>
     );
 }
