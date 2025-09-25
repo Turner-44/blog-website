@@ -75,7 +75,7 @@ export default defineConfig({
     /* Run your local dev server before starting the tests */
     webServer: {
         command: 'npm run dev',
-        url: baseURL + 'api/blogs/heath',
+        url: baseURL + '/api/blogs/heath',
         reuseExistingServer: !process.env.CI,
     },
 });
