@@ -4,6 +4,8 @@ import { Suspense } from 'react';
 import BlogCarousel from '@/components/blog/carousel/blog-carousel';
 import { Button } from '@/components/shared-components/button';
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
     return (
         <main className="flex flex-col items-center justify-center py-5">

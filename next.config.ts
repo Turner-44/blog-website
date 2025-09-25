@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'cdn.becomingmatthew.com',
+                hostname: process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME as string,
                 port: '',
                 pathname: '/**',
             },

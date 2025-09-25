@@ -11,10 +11,10 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     session: { strategy: 'jwt' },
     callbacks: {
-        session: ({ session, token }) => {
+        session: ({ session }) => {
             return session;
         },
-        jwt: ({ token, user }) => {
+        jwt: ({ token }) => {
             return token;
         },
     },

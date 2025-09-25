@@ -5,9 +5,10 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { Button } from '@/components/shared-components/button';
-import { deleteBlogPost } from '@/app/admin/delete-blog/page';
+import DeleteBlogPage from '@/app/admin/delete-blog/page';
 
 export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
+    // eslint-disable-next-line
     const [blogList, setBlogList] = useState<BlogMetaData[]>(blogs);
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
@@ -27,7 +28,7 @@ export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
         setIsDeleting(blog.id);
 
         try {
-            await deleteBlogPost(blog);
+            await DeleteBlogPage();
 
             setBlogList((prevBlogs) =>
                 prevBlogs.filter((b) => b.id !== blog.id)
@@ -47,7 +48,7 @@ export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
                     <article className="flex items-center space-x-4 gap-2">
                         <div className="w-48 h-32 flex-shrink-0 relative">
                             <Image
-                                src={`https://cdn.becomingmatthew.com/${blog.imageKey}`}
+                                src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.imageKey}`}
                                 alt={blog.title || 'Blog image'}
                                 className=" object-cover object-center rounded-2xl"
                                 fill

@@ -67,7 +67,7 @@ export async function DELETE(req: Request) {
             Key: imageKey,
         });
 
-        const s3Res = await s3Client.send(deleteCommand);
+        await s3Client.send(deleteCommand); //TODO Add error handling
 
         return NextResponse.json(
             {

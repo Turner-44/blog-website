@@ -62,6 +62,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
+    // eslint-disable-next-line
     let markdownKey: string | null = null;
 
     try {
@@ -131,7 +132,7 @@ export async function DELETE(req: Request) {
             Key: markdownKey,
         });
 
-        const s3Res = await s3Client.send(deleteCommand);
+        await s3Client.send(deleteCommand); //TODO Add error handling
 
         return NextResponse.json(
             {
