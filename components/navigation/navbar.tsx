@@ -18,6 +18,11 @@ export default function Navbar() {
                 className={`mx-auto p-4`}
                 priority={true}
             />
+            {process.env.NODE_ENV !== 'production' && (
+                <h2 className="text-center">
+                    This is ${process.env.NODE_ENV}.
+                </h2>
+            )}
             <div className="mt-auto bg-black">
                 <div className="mx-auto max-w-4xl">
                     <nav className="flex flex-col sm:grid sm:grid-cols-3">
