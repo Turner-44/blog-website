@@ -6,8 +6,10 @@ import { defineConfig, devices } from '@playwright/test';
  */
 import dotenv from 'dotenv';
 import path from 'path';
-dotenv.config({ path: path.resolve(__dirname, '.env') });
-dotenv.config({ path: path.resolve(__dirname, '.env.development') });
+
+process.env.CI
+  ? dotenv.config({ path: path.resolve(__dirname, '.env') })
+  : dotenv.config({ path: path.resolve(__dirname, '.env.development') });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error('BaseUrl not set by variables');
