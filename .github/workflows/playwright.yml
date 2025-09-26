@@ -28,7 +28,8 @@ jobs:
         run: npm ci
     
       - name: Run Playwright tests
-        env: 
+        env:
+          HOME: /root 
           AWS_REGION: ${{ vars.AWS_REGION }}
           POSTS_TABLE: ${{ vars.POSTS_TABLE }}
           DYNAMO_DB_AWS_ACCESS_KEY_ID: ${{ secrets.DYNAMO_DB_AWS_ACCESS_KEY_ID }}
