@@ -16,10 +16,6 @@ jobs:
     environment:
       name: test
 
-    env:
-      NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
-      NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}    
-
     steps:
       - uses: actions/checkout@v4
 
@@ -31,26 +27,29 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Create environment file
+        run: |
+          touch .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
+          echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .env
+          echo "POSTS_TABLE=${{ vars.POSTS_TABLE }}" >> .env
+          echo "S3_BUCKET_NAME=${{ vars.S3_BUCKET_NAME }}" >> .env
+          echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
+          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
+          echo "DYNAMO_DB_AWS_ACCESS_KEY_ID=${{ secrets.DYNAMO_DB_AWS_ACCESS_KEY_ID }}" >> .env
+          echo "DYNAMO_DB_AWS_SECRET_ACCESS_KEY=${{ secrets.DYNAMO_DB_AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "S3_AWS_ACCESS_KEY_ID=${{ secrets.S3_AWS_ACCESS_KEY_ID }}" >> .env
+          echo "S3_AWS_SECRET_ACCESS_KEY=${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+
       - name: Build app
         run: npm run build
     
       - name: Run Playwright tests
-        env:
-          HOME: /root 
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          POSTS_TABLE: ${{ vars.POSTS_TABLE }}
-          DYNAMO_DB_AWS_ACCESS_KEY_ID: ${{ secrets.DYNAMO_DB_AWS_ACCESS_KEY_ID }}
-          DYNAMO_DB_AWS_SECRET_ACCESS_KEY: ${{ secrets.DYNAMO_DB_AWS_SECRET_ACCESS_KEY }}
-          NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}
-          S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
-          S3_AWS_ACCESS_KEY_ID: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
-          S3_AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
-          NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
         run: npx playwright test
+        
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
