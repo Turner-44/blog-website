@@ -33,6 +33,7 @@ jobs:
       - name: Create environment file
         run: |
           touch .env
+          echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
           echo "NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
           echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
           echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .env
