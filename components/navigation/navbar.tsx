@@ -9,6 +9,14 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  // Debug logging
+  console.log(
+    '🔍 NEXT_PUBLIC_POINTED_AT_TEST:',
+    process.env.NEXT_PUBLIC_POINTED_AT_TEST
+  );
+  console.log('🔍 Type:', typeof process.env.NEXT_PUBLIC_POINTED_AT_TEST);
+  console.log('🔍 Truthy?', !!process.env.NEXT_PUBLIC_POINTED_AT_TEST);
+
   return (
     <header>
       <Image
@@ -19,9 +27,7 @@ export default function Navbar() {
         className={`mx-auto p-4`}
         priority={true}
       />
-      {process.env.NEXT_PUBLIC_POINTED_AT_TEST !== 'PRODUCTION' && (
-        <TestBanner />
-      )}
+      {process.env.NEXT_PUBLIC_POINTED_AT_TEST && <TestBanner />}
       <div className="mt-auto bg-black">
         <div className="mx-auto max-w-4xl">
           <nav className="flex flex-col sm:grid sm:grid-cols-3">
