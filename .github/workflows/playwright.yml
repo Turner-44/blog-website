@@ -49,7 +49,7 @@ jobs:
     
       - name: Run Playwright tests
         env:
-        HOME: /root 
+          HOME: /root 
         run: npx playwright test
         
         
