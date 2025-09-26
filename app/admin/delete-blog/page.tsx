@@ -1,16 +1,16 @@
-import getBlogs from '@/lib/api/blog/get/get-blogs';
+import { getBlogList } from '@/lib/api/blog/get-blogs';
 import DeletionGrid from '@/components/blog/admin/deletion-grid';
 
 // Make the page dynamic to avoid static generation issues
 export const dynamic = 'force-dynamic';
 
 export default async function DeleteBlogPage() {
-    const blogs = await getBlogs(30);
+  const blogs = await getBlogList(30);
 
-    return (
-        <main className="standard-page-format">
-            <h1 className="text-2xl font-bold mb-6">Delete Blog Posts</h1>
-            <DeletionGrid blogs={blogs} />
-        </main>
-    );
+  return (
+    <main className="standard-page-format">
+      <h1 className="text-2xl font-bold mb-6">Delete Blog Posts</h1>
+      <DeletionGrid blogs={blogs} />
+    </main>
+  );
 }
