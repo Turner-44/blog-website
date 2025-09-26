@@ -9,14 +9,6 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  // Debug logging
-  console.log(
-    '🔍 NEXT_PUBLIC_POINTED_AT_TEST:',
-    process.env.NEXT_PUBLIC_POINTED_AT_TEST
-  );
-  console.log('🔍 Type:', typeof process.env.NEXT_PUBLIC_POINTED_AT_TEST);
-  console.log('🔍 Truthy?', !!process.env.NEXT_PUBLIC_POINTED_AT_TEST);
-
   return (
     <header>
       <Image
