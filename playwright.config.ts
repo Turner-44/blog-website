@@ -8,8 +8,9 @@ import dotenv from 'dotenv';
 import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-const baseUrl =
-  process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000/farts';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!baseUrl) throw new Error('ENV File not setting variables');
 
 /**
  * See https://playwright.dev/docs/test-configuration.
