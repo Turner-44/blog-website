@@ -9,6 +9,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+if (!baseUrl) throw new Error('BaseUrl not set by variables');
 
 /**
  * See https://playwright.dev/docs/test-configuration.
