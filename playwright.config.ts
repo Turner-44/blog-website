@@ -8,7 +8,7 @@ import { defineConfig, devices } from '@playwright/test';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-const baseURL = 'http://localhost:3000';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -28,7 +28,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL,
+    baseURL: baseUrl,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -71,11 +71,20 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm run build:test && npm run start:test',
-    url: baseURL + '/api/health',
-    reuseExistingServer: !process.env.CI,
-  },
+  ...(process.env.CI
+    ? {
+        webServer: {
+          command: 'npm run start',
+          url: baseUrl + '/api/health',
+          reuseExistingServer: !process.env.CI,
+        },
+      }
+    : {
+        /* Run your local dev server before starting the tests */
+        webServer: {
+          command: 'npm run start:test',
+          url: baseUrl + '/api/health',
+          reuseExistingServer: false,
+        },
+      }),
 });
