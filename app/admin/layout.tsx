@@ -1,9 +1,9 @@
 import SessionProvider from '@/components/auth/session-provider';
 
 export default function AdminLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return <SessionProvider>{children}</SessionProvider>;
+  return <SessionProvider>{children}</SessionProvider>;
 }

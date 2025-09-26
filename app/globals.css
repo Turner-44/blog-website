@@ -2,27 +2,27 @@
 @plugin "@tailwindcss/typography";
 
 .form-input {
-    @apply border border-gray-700 rounded px-2 py-1;
+  @apply border border-gray-700 rounded px-2 py-1;
 }
 
 .Button-primary {
-    @apply cursor-pointer duration-200 ease-in-out hover:scale-105 active:scale-95;
+  @apply cursor-pointer duration-200 ease-in-out hover:scale-105 active:scale-95;
 }
 
 .Button-destructive {
-    @apply cursor-pointer duration-200 ease-in-out hover:scale-105 active:scale-95 bg-red-700 text-white;
+  @apply cursor-pointer duration-200 ease-in-out hover:scale-105 active:scale-95 bg-red-700 text-white;
 }
 
 .form-error-text {
-    @apply text-red-400 text-sm;
+  @apply text-red-400 text-sm;
 }
 
 .nav-hover-effect:hover {
-    @apply hover:text-white hover:-translate-y-0.5 transition-colors duration-200;
+  @apply hover:text-white hover:-translate-y-0.5 transition-colors duration-200;
 }
 
 .ul-basic-text {
-    @apply list-disc list-inside space-y-2 mb-4 pl-4;
+  @apply list-disc list-inside space-y-2 mb-4 pl-4;
 }
 
 /* .legal-header {
@@ -30,50 +30,50 @@
 } */
 
 .standard-page-format {
-    @apply mx-auto max-w-4xl px-4 py-5;
+  @apply mx-auto max-w-4xl px-4 py-5;
 }
 
 .narrow-page-format {
-    @apply max-w-3xl mx-auto px-4 py-5;
+  @apply max-w-3xl mx-auto px-4 py-5;
 }
 
 :root {
-    --font-roboto: 'Roboto', sans-serif;
-    --font-nunito: 'Nunito', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+  --font-nunito: 'Nunito', sans-serif;
 }
 
 body {
-    font-family: var(--font-nunito);
+  font-family: var(--font-nunito);
 }
 
 h1 {
-    font-family: var(--font-roboto);
-    @apply text-3xl font-bold;
+  font-family: var(--font-roboto);
+  @apply text-3xl font-bold;
 }
 
 h2 {
-    font-family: var(--font-roboto);
-    @apply text-2xl font-bold;
+  font-family: var(--font-roboto);
+  @apply text-2xl font-bold;
 }
 
 h3 {
-    font-family: var(--font-roboto);
-    @apply text-xl font-bold;
+  font-family: var(--font-roboto);
+  @apply text-xl font-bold;
 }
 
 h4 {
-    font-family: var(--font-roboto);
-    @apply text-lg font-bold;
+  font-family: var(--font-roboto);
+  @apply text-lg font-bold;
 }
 
 li {
-    @apply mb-2 leading-relaxed;
+  @apply mb-2 leading-relaxed;
 }
 
 ul {
-    @apply list-inside;
+  @apply list-inside;
 }
 
 ol {
-    @apply list-decimal list-inside space-y-2 mb-4 pl-4;
+  @apply list-decimal list-inside space-y-2 mb-4 pl-4;
 }

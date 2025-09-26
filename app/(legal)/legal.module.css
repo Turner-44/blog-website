@@ -1,12 +1,12 @@
 @reference 'tailwindcss';
 
 .legalHeader {
-    @apply py-5 tracking-tight text-center underline;
+  @apply py-5 tracking-tight text-center underline;
 }
 .legalSection {
-    @apply space-y-3;
+  @apply space-y-3;
 }
 
 .legalParagraph {
-    @apply text-justify;
+  @apply text-justify;
 }

@@ -5,22 +5,22 @@ import { getToken } from 'next-auth/jwt';
 const protectedRoutes = ['/admin'];
 
 export async function middleware(req: NextRequest) {
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-    const { pathname } = req.nextUrl;
+  const { pathname } = req.nextUrl;
 
-    const isProtected = protectedRoutes.some((route) =>
-        pathname.startsWith(route)
-    );
+  const isProtected = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
 
-    if (isProtected && !token) {
-        const signInUrl = new URL('/api/auth/signin', req.url);
-        return NextResponse.redirect(signInUrl);
-    }
+  if (isProtected && !token) {
+    const signInUrl = new URL('/api/auth/signin', req.url);
+    return NextResponse.redirect(signInUrl);
+  }
 
-    return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*'],
 };
