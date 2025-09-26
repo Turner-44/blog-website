@@ -7,9 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write .",
-    "build:test": "cross-env NODE_ENV=development next build",
-    "start:test": "cross-env NODE_ENV=development next start"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.886.0",
