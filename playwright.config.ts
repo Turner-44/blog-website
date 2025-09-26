@@ -83,7 +83,7 @@ export default defineConfig({
     : {
         /* Run your local dev server before starting the tests */
         webServer: {
-          command: 'npm run start:test',
+          command: 'npm run start:test && npm run start:start',
           url: baseUrl + '/api/health',
           reuseExistingServer: false,
         },

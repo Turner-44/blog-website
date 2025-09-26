@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import TestBanner from '../shared-components/test-banner';
 
 const navLinks = [
   { href: '/', label: 'Blog' },
@@ -18,10 +19,8 @@ export default function Navbar() {
         className={`mx-auto p-4`}
         priority={true}
       />
-      {process.env.NEXT_PUBLIC_ENVIRONMENT !== 'PRODUCTION' && (
-        <h2 className="text-center">
-          This is {process.env.NEXT_PUBLIC_ENVIRONMENT}.
-        </h2>
+      {process.env.NEXT_PUBLIC_POINTED_AT_TEST !== 'PRODUCTION' && (
+        <TestBanner />
       )}
       <div className="mt-auto bg-black">
         <div className="mx-auto max-w-4xl">
