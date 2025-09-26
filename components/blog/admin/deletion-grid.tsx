@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { Button } from '@/components/shared-components/button';
-import DeleteBlogPage from '@/app/admin/delete-blog/page';
+import { deleteBlogPost } from '@/lib/api/blog/delete-blogs';
 
 export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
   // eslint-disable-next-line
@@ -25,8 +25,7 @@ export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
     setIsDeleting(blog.id);
 
     try {
-      await DeleteBlogPage();
-
+      await deleteBlogPost(blog);
       setBlogList((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
     } catch (error) {
       console.error('Delete error:', error);
@@ -38,7 +37,7 @@ export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
 
   return (
     <ul className="space-y-4 ">
-      {blogs.map((blog) => (
+      {blogList.map((blog) => (
         <li
           key={blog.id}
           className="py-1"
