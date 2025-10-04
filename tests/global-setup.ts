@@ -1,4 +1,4 @@
-import { request, chromium, FullConfig } from '@playwright/test';
+import { request, chromium } from '@playwright/test';
 import fs from 'fs/promises';
 import path from 'path';
 import { storeBlogMetaData } from './support/api/blog';

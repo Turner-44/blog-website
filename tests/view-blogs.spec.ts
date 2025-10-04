@@ -1,6 +1,4 @@
-import test, { expect, request } from '@playwright/test';
-import { deleteBlogPost } from './support/api/blog';
-import fs from 'fs';
+import test, { expect } from '@playwright/test';
 import testData from './data/.temp/test-blog-data.json';
 import {
   BlogsPostResponse,
@@ -11,21 +9,6 @@ import {
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
 test('View Blogs', async ({ page, context }) => {
-  const cookieJson = JSON.parse(
-    fs.readFileSync('tests/.auth/cookies.json', 'utf-8')
-  );
-
-  const cookieHeader = cookieJson.cookies
-    .map((c: { name: string; value: string }) => `${c.name}=${c.value}`)
-    .join('; ');
-
-  const apiContext = await request.newContext({
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-    extraHTTPHeaders: {
-      Cookie: cookieHeader,
-    },
-  });
-
   const createdData = testData as {
     blogMetaData: BlogsPostResponse;
     imageJson: ImagePostResponse;
@@ -56,8 +39,6 @@ test('View Blogs', async ({ page, context }) => {
     await expect(page.getByTestId('header-blog-title')).toHaveText(
       blog.blogMetaData.item.title
     );
-
-    await deleteBlogPost(apiContext, blog.blogMetaData);
   }
 
   await context.close();

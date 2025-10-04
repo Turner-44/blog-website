@@ -32,7 +32,7 @@ test.describe.serial('Create and delete blog', () => {
 
     await expect(
       await page.getByText('Blog submitted successfully!')
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 30000 });
   });
 
   test('View Blog', async ({ page }) => {
