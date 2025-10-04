@@ -1,7 +1,7 @@
 import test, { expect, request } from '@playwright/test';
 import { deleteBlogPost } from './support/api/blog';
 import fs from 'fs';
-import testData from './data/.temp/seedBlogData.json';
+import testData from './data/.temp/test-blog-data.json';
 import {
   BlogsPostResponse,
   ImagePostResponse,

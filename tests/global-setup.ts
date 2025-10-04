@@ -53,7 +53,7 @@ export default async function globalSetup() {
 
   // Save test data for later use
   await fs.writeFile(
-    `${testRootDir}/data/.temp/seedBlogData.json`,
+    `${testRootDir}/data/.temp/test-blog-data.json`,
     JSON.stringify(createdData, null, 2)
   );
 
