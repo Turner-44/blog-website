@@ -153,6 +153,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       {
+        item: item,
         meta: dynamodbRes.ConsumedCapacity,
       },
       { status: 201 }

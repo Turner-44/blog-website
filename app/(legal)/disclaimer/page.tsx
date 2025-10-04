@@ -1,7 +1,6 @@
 import classes from '../legal.module.css';
 
 export default function Disclaimer() {
-  console.log(classes);
   return (
     <main className="standard-page-format">
       <section className={classes.legalSection}>

@@ -1,9 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { createBlogData } from './data/create-blog';
-import path from 'path';
+import { createBlogDataUI, resolveFromRoot } from './data/create-blog';
 
 test.describe.serial('Create and delete blog', () => {
-  const blogData = createBlogData;
+  const blogData = createBlogDataUI();
 
   test('Create Blog', async ({ page, browser }) => {
     await page.goto('/admin');
@@ -26,7 +25,9 @@ test.describe.serial('Create and delete blog', () => {
 
     await page
       .getByTestId('input-blog-feature-image')
-      .setInputFiles(path.join(__dirname, blogData.featureImagePath));
+      .setInputFiles(
+        resolveFromRoot('tests/data/' + blogData.featureImagePath)
+      );
 
     await page.getByTestId('input-blog-tags').fill(blogData.tags.join(','));
 
