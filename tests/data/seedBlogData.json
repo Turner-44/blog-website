@@ -1,0 +1,28 @@
+[
+  {
+    "_comment": "Test Data is generated at run time, this is placeholder data",
+    "blogMetaData": {
+      "item": {
+        "PK": "BLOG",
+        "SK": "",
+        "id": "",
+        "title": "",
+        "slug": "",
+        "summary": "",
+        "imageKey": "",
+        "markdownKey": "",
+        "publishedAt": "",
+        "tags": [""]
+      }
+    },
+    "imageJson": {
+      "blogId": "",
+      "slug": "",
+      "imageKey": ""
+    },
+    "markdownJson": {
+      "blogId": "",
+      "markdownKey": ""
+    }
+  }
+]

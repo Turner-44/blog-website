@@ -1,31 +1,23 @@
 import test, { expect, request } from '@playwright/test';
-import { storeMarkdown } from './support/api/markdown';
-import { storeImage } from './support/api/image';
-import { storeBlogMetaData, deleteBlogPost } from './support/api/blog';
-import { CreateBlogDataAPI, createBlogDataAPI } from './data/create-blog';
+import { deleteBlogPost } from './support/api/blog';
+import fs from 'fs';
+import testData from './data/seedBlogData.json';
+import {
+  BlogsPostResponse,
+  ImagePostResponse,
+  MarkdownPostResponse,
+} from '@/types/api';
 
-test('View Blogs', async ({ browser }) => {
-  const context = await browser.newContext();
-  const page = await context.newPage();
+test.use({ storageState: 'tests/.auth/cookies.json' });
 
-  await page.goto('/admin');
+test('View Blogs', async ({ page, context }) => {
+  const cookieJson = JSON.parse(
+    fs.readFileSync('tests/.auth/cookies.json', 'utf-8')
+  );
 
-  await page.getByLabel('Username').fill('test');
-  await page.getByRole('button', { name: 'Sign in with Test User' }).click();
-
-  await expect(
-    await page.getByTestId('banner-environment-notification')
-  ).toContainText('YOU ARE USING TEST VARIABLES.');
-
-  // await context.clearCookies();
-
-  // console.log(await context.cookies());
-
-  //TODO Why does it still create even after clearing cookies.
-
-  const cookies = await context.cookies();
-
-  const cookieHeader = cookies.map((c) => `${c.name}=${c.value}`).join('; ');
+  const cookieHeader = cookieJson.cookies
+    .map((c: { name: string; value: string }) => `${c.name}=${c.value}`)
+    .join('; ');
 
   const apiContext = await request.newContext({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -34,38 +26,29 @@ test('View Blogs', async ({ browser }) => {
     },
   });
 
-  const testData = [
-    createBlogDataAPI(),
-    createBlogDataAPI(),
-    createBlogDataAPI(),
-  ];
+  const createdData = testData as {
+    blogMetaData: BlogsPostResponse;
+    imageJson: ImagePostResponse;
+    markdownJson: MarkdownPostResponse;
+  }[];
 
-  const createdData = await Promise.all(
-    testData.map(async (blog: CreateBlogDataAPI) => {
-      const markdownJson = await storeMarkdown(apiContext, blog);
-      const imageJson = await storeImage(apiContext, blog);
-      const blogMetaData = await storeBlogMetaData(
-        apiContext,
-        blog,
-        imageJson,
-        markdownJson
-      );
+  await expect(async () => {
+    await page.goto('/');
 
-      return { blogMetaData, imageJson, markdownJson };
-    })
-  );
-
-  await page.goto('/');
-
-  for (let i = 0; i < createdData.length; i++) {
-    const blog = createdData[i];
-    await expect(
-      page.getByTestId(`header-blog-card-title-${blog.blogMetaData.item.slug}`)
-    ).toContainText(blog.blogMetaData.item.title);
-    await expect(
-      page.getByTestId(`text-blog-card-summary-${blog.blogMetaData.item.slug}`)
-    ).toContainText(blog.blogMetaData.item.summary);
-  }
+    for (let i = 0; i < createdData.length; i++) {
+      const blog = createdData[i];
+      await expect(
+        page.getByTestId(
+          `header-blog-card-title-${blog.blogMetaData.item.slug}`
+        )
+      ).toContainText(blog.blogMetaData.item.title);
+      await expect(
+        page.getByTestId(
+          `text-blog-card-summary-${blog.blogMetaData.item.slug}`
+        )
+      ).toContainText(blog.blogMetaData.item.summary);
+    }
+  }).toPass();
 
   for (let i = 0; i < createdData.length; i++) {
     const blog = createdData[i];
