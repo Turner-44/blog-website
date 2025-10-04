@@ -1,10 +1,11 @@
 import { CreateBlogDataAPI, getImageFile } from '@/tests/data/create-blog';
+import { ImagePostResponse } from '@/types/api';
 import { APIRequestContext } from '@playwright/test';
 
 export const storeImage = async (
   apiContext: APIRequestContext,
   blogData: CreateBlogDataAPI
-) => {
+): Promise<ImagePostResponse> => {
   const imageFile = getImageFile(blogData.featureImagePath);
 
   const imageResponse = await apiContext.post(

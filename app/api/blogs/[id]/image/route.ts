@@ -3,6 +3,11 @@ import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 
 import { BUCKET_NAME, s3Client } from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
+import {
+  ApiErrorResponse,
+  ImageDeleteResponse,
+  ImagePostResponse,
+} from '@/types/api';
 
 export async function POST(req: Request) {
   try {
@@ -12,7 +17,7 @@ export async function POST(req: Request) {
     const imageFile = formData.get('featureImage') as File;
 
     if (!imageFile) {
-      return NextResponse.json(
+      return NextResponse.json<ApiErrorResponse>(
         { error: 'Feature image is required' },
         { status: 400 }
       );
@@ -30,17 +35,20 @@ export async function POST(req: Request) {
       })
     );
 
-    return NextResponse.json(
+    return NextResponse.json<ImagePostResponse>(
       {
-        blogId: formData.get('blogId'),
-        slug: formData.get('slug'),
+        blogId: formData.get('blogId') as string,
+        slug: formData.get('slug') as string,
         imageKey,
       },
       { status: 201 }
     );
   } catch (err: unknown) {
     console.error('API Error: ', err);
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    return NextResponse.json<ApiErrorResponse>(
+      { error: String(err) },
+      { status: 500 }
+    );
   }
 }
 
@@ -54,7 +62,7 @@ export async function DELETE(req: Request) {
     imageKey = url.searchParams.get('imageKey');
 
     if (!imageKey) {
-      return NextResponse.json(
+      return NextResponse.json<ApiErrorResponse>(
         {
           error: `Missing imageKey parameter`,
         },
@@ -67,9 +75,16 @@ export async function DELETE(req: Request) {
       Key: imageKey,
     });
 
-    await s3Client.send(deleteCommand); //TODO Add error handling
+    const s3Res = await s3Client.send(deleteCommand);
 
-    return NextResponse.json(
+    if (s3Res.$metadata.httpStatusCode !== 204) {
+      return NextResponse.json<ApiErrorResponse>(
+        { error: 'Failed to delete image', filePath: imageKey },
+        { status: s3Res.$metadata.httpStatusCode }
+      );
+    }
+
+    return NextResponse.json<ImageDeleteResponse>(
       {
         message: 'Image file deleted successfully',
         imageKey,
@@ -78,7 +93,7 @@ export async function DELETE(req: Request) {
     );
   } catch (err: unknown) {
     console.error('API Error: ', err);
-    return NextResponse.json(
+    return NextResponse.json<ApiErrorResponse>(
       { error: String(err), filePath: imageKey },
       { status: 500 }
     );

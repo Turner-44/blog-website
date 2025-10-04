@@ -1,7 +1,7 @@
 import test, { expect, request } from '@playwright/test';
 import { storeMarkdown } from './support/api/markdown';
 import { storeImage } from './support/api/image';
-import { storeBlogMetaData } from './support/api/blog';
+import { storeBlogMetaData, deleteBlogPost } from './support/api/blog';
 import { CreateBlogDataAPI, createBlogDataAPI } from './data/create-blog';
 
 test('View Blogs', async ({ browser }) => {
@@ -57,19 +57,24 @@ test('View Blogs', async ({ browser }) => {
 
   await page.goto('/');
 
-  for (let i = 0; i > createdData.length; i++) {
-    let blog = createdData[i];
+  for (let i = 0; i < createdData.length; i++) {
+    const blog = createdData[i];
     await expect(
       page.getByTestId(`header-blog-card-title-${blog.blogMetaData.item.slug}`)
     ).toContainText(blog.blogMetaData.item.title);
     await expect(
       page.getByTestId(`text-blog-card-summary-${blog.blogMetaData.item.slug}`)
     ).toContainText(blog.blogMetaData.item.summary);
+  }
 
+  for (let i = 0; i < createdData.length; i++) {
+    const blog = createdData[i];
     await page.goto(`/blog/${blog.blogMetaData.item.slug}`);
     await expect(page.getByTestId('header-blog-title')).toHaveText(
       blog.blogMetaData.item.title
     );
+
+    await deleteBlogPost(apiContext, blog.blogMetaData);
   }
 
   await context.close();

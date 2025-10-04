@@ -4,7 +4,7 @@ import { createBlogDataUI, resolveFromRoot } from './data/create-blog';
 test.describe.serial('Create and delete blog', () => {
   const blogData = createBlogDataUI();
 
-  test('Create Blog', async ({ page, browser }) => {
+  test('Create Blog', async ({ page }) => {
     await page.goto('/admin');
 
     await page.getByLabel('Username').fill('test');
@@ -38,7 +38,7 @@ test.describe.serial('Create and delete blog', () => {
     ).toBeVisible();
   });
 
-  test('View Blog', async ({ page, browser }) => {
+  test('View Blog', async ({ page }) => {
     await page.goto(`/blog/${blogData.slug}`);
 
     await expect(await page.getByTestId('header-blog-title')).toContainText(
@@ -51,7 +51,7 @@ test.describe.serial('Create and delete blog', () => {
     );
   });
 
-  test('Delete Blog', async ({ page, browser }) => {
+  test('Delete Blog', async ({ page }) => {
     page.on('dialog', (dialog) => dialog.accept());
 
     await page.goto('/admin');

@@ -8,6 +8,12 @@ import { notFound } from 'next/navigation';
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 import { BUCKET_NAME, s3Client } from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
+import {
+  ApiErrorResponse,
+  MarkdownDeleteResponse,
+  MarkdownPostResponse,
+  MarkdownGetResponse,
+} from '@/types/api';
 
 export async function POST(req: Request) {
   try {
@@ -17,21 +23,21 @@ export async function POST(req: Request) {
     const markdown = reqData.markdown;
 
     if (!markdown) {
-      return NextResponse.json(
+      return NextResponse.json<ApiErrorResponse>(
         { error: 'Markdown content is required' },
         { status: 400 }
       );
     }
 
     if (typeof markdown !== 'string') {
-      return NextResponse.json(
+      return NextResponse.json<ApiErrorResponse>(
         { error: 'Markdown content must be in string format' },
         { status: 400 }
       );
     }
 
     if (typeof reqData.blogId !== 'string') {
-      return NextResponse.json(
+      return NextResponse.json<ApiErrorResponse>(
         { error: 'Blog ID must be in string format' },
         { status: 400 }
       );
@@ -48,7 +54,7 @@ export async function POST(req: Request) {
       })
     );
 
-    return NextResponse.json(
+    return NextResponse.json<MarkdownPostResponse>(
       {
         blogId: reqData.blogId,
         markdownKey,
@@ -57,7 +63,10 @@ export async function POST(req: Request) {
     );
   } catch (err: unknown) {
     console.error('API Error: ', err);
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    return NextResponse.json<ApiErrorResponse>(
+      { error: String(err) },
+      { status: 500 }
+    );
   }
 }
 
@@ -70,7 +79,7 @@ export async function GET(req: Request) {
     const markdownKey = url.searchParams.get('markdownKey');
 
     if (!markdownKey) {
-      return NextResponse.json(
+      return NextResponse.json<ApiErrorResponse>(
         {
           error: `Missing markdownKey parameter`,
         },
@@ -90,7 +99,7 @@ export async function GET(req: Request) {
       notFound();
     }
 
-    return NextResponse.json(
+    return NextResponse.json<MarkdownGetResponse>(
       { markdown },
       {
         status: 200,
@@ -101,8 +110,8 @@ export async function GET(req: Request) {
     );
   } catch (err: unknown) {
     console.error('API Error: ', err);
-    return NextResponse.json(
-      { error: String(err), id: markdownKey },
+    return NextResponse.json<ApiErrorResponse>(
+      { error: String(err), filePath: markdownKey },
       { status: 500 }
     );
   }
@@ -131,9 +140,16 @@ export async function DELETE(req: Request) {
       Key: markdownKey,
     });
 
-    await s3Client.send(deleteCommand); //TODO Add error handling
+    const s3Res = await s3Client.send(deleteCommand);
 
-    return NextResponse.json(
+    if (s3Res.$metadata.httpStatusCode !== 204) {
+      return NextResponse.json<ApiErrorResponse>(
+        { error: 'Failed to delete markdown', filePath: markdownKey },
+        { status: s3Res.$metadata.httpStatusCode }
+      );
+    }
+
+    return NextResponse.json<MarkdownDeleteResponse>(
       {
         message: 'Markdown file deleted successfully',
         markdownKey,
@@ -142,7 +158,7 @@ export async function DELETE(req: Request) {
     );
   } catch (err: unknown) {
     console.error('API Error: ', err);
-    return NextResponse.json(
+    return NextResponse.json<ApiErrorResponse>(
       { error: String(err), filePath: markdownKey },
       { status: 500 }
     );

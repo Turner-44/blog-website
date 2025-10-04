@@ -7,6 +7,13 @@ import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 import { dynamoDBClient } from '@/lib/api/aws/dynamo';
 import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
+import {
+  ApiErrorResponse,
+  BlogsDeleteResponse,
+  BlogsGetResponse,
+  BlogsPostResponse,
+  BlogsResponseItem,
+} from '@/types/api';
 
 const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
 
@@ -65,14 +72,14 @@ export async function GET(req: Request) {
       const slug = url.searchParams.get('slug');
 
       if (typeof slug !== 'string') {
-        return NextResponse.json(
+        return NextResponse.json<ApiErrorResponse>(
           { error: 'Blog slug must be a string' },
           { status: 400 }
         );
       }
 
       if (slug.includes(' ')) {
-        return NextResponse.json(
+        return NextResponse.json<ApiErrorResponse>(
           { error: 'Blog slug must not contain spaces' },
           { status: 400 }
         );
@@ -91,9 +98,9 @@ export async function GET(req: Request) {
       notFound();
     }
 
-    return NextResponse.json(
+    return NextResponse.json<BlogsGetResponse>(
       {
-        items: dynamodbRes.Items,
+        items: dynamodbRes.Items as BlogsResponseItem[],
       },
       {
         status: 200,
@@ -104,7 +111,10 @@ export async function GET(req: Request) {
     );
   } catch (err) {
     console.error('API Error: ', err);
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    return NextResponse.json<ApiErrorResponse>(
+      { error: String(err) },
+      { status: 500 }
+    );
   }
 }
 
@@ -145,22 +155,24 @@ export async function POST(req: Request) {
 
     const dynamodbRes = await dynamoDBClient.send(command);
     if (!dynamodbRes) {
-      return NextResponse.json(
+      return NextResponse.json<ApiErrorResponse>(
         { error: 'Failed to create blog post' },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(
+    return NextResponse.json<BlogsPostResponse>(
       {
-        item: item,
-        meta: dynamodbRes.ConsumedCapacity,
+        item: item as BlogsResponseItem,
       },
       { status: 201 }
     );
   } catch (err) {
     console.error('API Error: ', err);
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    return NextResponse.json<ApiErrorResponse>(
+      { error: String(err) },
+      { status: 500 }
+    );
   }
 }
 
@@ -173,7 +185,10 @@ export async function DELETE(req: Request) {
     const sk = url.searchParams.get('sk') as string;
 
     if (sk === '') {
-      return NextResponse.json({ error: 'No SK' }, { status: 404 });
+      return NextResponse.json<ApiErrorResponse>(
+        { error: 'No SK' },
+        { status: 404 }
+      );
     }
 
     const deleteCommand = new DeleteItemCommand({
@@ -186,14 +201,26 @@ export async function DELETE(req: Request) {
 
     const dynamodbRes = await dynamoDBClient.send(deleteCommand);
 
-    return NextResponse.json(
+    if (dynamodbRes.$metadata.httpStatusCode !== 204) {
+      return NextResponse.json<ApiErrorResponse>(
+        { error: 'Failed to delete blog post' },
+        { status: dynamodbRes.$metadata.httpStatusCode }
+      );
+    }
+
+    return NextResponse.json<BlogsDeleteResponse>(
       {
-        meta: dynamodbRes.ConsumedCapacity,
+        message: 'Blog was deleted',
+        PK: 'BLOG',
+        SK: sk,
       },
       { status: 200 }
     );
   } catch (err) {
     console.error('API Error: ', err);
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    return NextResponse.json<ApiErrorResponse>(
+      { error: String(err) },
+      { status: 500 }
+    );
   }
 }

@@ -1,14 +1,17 @@
 import { CreateBlogDataAPI } from '@/tests/data/create-blog';
+import {
+  BlogsPostResponse,
+  ImagePostResponse,
+  MarkdownPostResponse,
+} from '@/types/api';
 import { APIRequestContext } from '@playwright/test';
-
-//TODO Need to add response types to api
 
 export const storeBlogMetaData = async (
   apiContext: APIRequestContext,
   blogData: CreateBlogDataAPI,
-  imageJson: any,
-  markdownJson: any
-) => {
+  imageJson: ImagePostResponse,
+  markdownJson: MarkdownPostResponse
+): Promise<BlogsPostResponse> => {
   const metaDataBody = JSON.stringify({
     id: blogData.id,
     title: blogData.title,
@@ -24,5 +27,15 @@ export const storeBlogMetaData = async (
     data: metaDataBody,
   });
 
+  return await blogMetaRes.json();
+};
+
+export const deleteBlogPost = async (
+  apiContext: APIRequestContext,
+  blog: BlogsPostResponse
+) => {
+  const blogMetaRes = await apiContext.delete(
+    `/api/blogs?sk=${encodeURIComponent(blog.item.SK)}`
+  );
   return await blogMetaRes.json();
 };
