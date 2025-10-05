@@ -22,7 +22,10 @@ export default function Navbar() {
       {process.env.NEXT_PUBLIC_POINTED_AT_TEST && <TestBanner />}
       <div className="mt-auto bg-black">
         <div className="mx-auto max-w-4xl">
-          <nav className="flex flex-col sm:grid sm:grid-cols-3">
+          <nav
+            className="flex flex-col sm:grid sm:grid-cols-3"
+            data-testid="navigation-bar"
+          >
             {navLinks.map(({ href, label }) => (
               <Link
                 key={href}

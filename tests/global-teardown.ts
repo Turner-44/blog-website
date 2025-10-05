@@ -8,8 +8,9 @@ import { request } from '@playwright/test';
 import testData from './data/.temp/test-blog-data.json';
 import { deleteBlogPost } from './support/api/blog';
 import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
+import { test as teardown } from '@playwright/test';
 
-export default async function globalTeardown() {
+teardown('Delete blogs', async ({}) => {
   console.log('🧹 Running global teardown...');
 
   const cookieJson = JSON.parse(
@@ -41,8 +42,8 @@ export default async function globalTeardown() {
 
     await deleteBlogPost(apiContext, blog.blogMetaData);
 
-    console.log('Blog deleted' + blog.blogMetaData.item.title);
+    console.log('Blog deleted ' + blog.blogMetaData.item.title);
   }
 
   await apiContext.dispose();
-}
+});

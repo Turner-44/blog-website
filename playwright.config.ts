@@ -33,8 +33,6 @@ export default defineConfig({
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  globalSetup: './tests/global-setup.ts',
-  globalTeardown: './tests/global-teardown.ts',
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseUrl,
@@ -46,25 +44,49 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'setup',
-      testMatch: /global\.setup\.ts/, // dummy setup project
+      name: 'smoke-test',
+      testDir: './tests',
+      grep: /@smoke/,
+      use: { ...devices['Desktop Chrome'] },
+    },
+
+    // --- Shared setup project (only for E2E) ---
+    {
+      name: 'e2e-all-browsers',
+      testDir: './tests',
+      grepInvert: /@smoke/,
+      dependencies: ['chromium', 'firefox', 'webkit'],
+    },
+    // This prevents setup running for each browser.
+    {
+      name: 'setup-blogs',
+      testMatch: /global-setup\.ts/,
+      teardown: 'teardown-blogs',
+    },
+    {
+      name: 'teardown-blogs',
+      testMatch: /global-teardown\.ts/,
     },
     {
       name: 'chromium',
+      testDir: './tests',
+      grepInvert: /@smoke/,
       use: { ...devices['Desktop Chrome'] },
-      dependencies: ['setup'],
+      dependencies: ['setup-blogs'],
     },
-
     {
       name: 'firefox',
+      testDir: './tests',
+      grepInvert: /@smoke/,
       use: { ...devices['Desktop Firefox'] },
-      dependencies: ['setup'],
+      dependencies: ['setup-blogs'],
     },
-
     {
       name: 'webkit',
+      testDir: './tests',
+      grepInvert: /@smoke/,
       use: { ...devices['Desktop Safari'] },
-      dependencies: ['setup'],
+      dependencies: ['setup-blogs'],
     },
 
     /* Test against mobile viewports. */

@@ -1,13 +1,13 @@
 import { request, chromium } from '@playwright/test';
 import fs from 'fs/promises';
-import path from 'path';
 import { storeBlogMetaData } from './support/api/blog';
 import { createBlogDataAPI } from './data/create-blog';
 import { storeMarkdown } from './support/api/markdown';
 import { storeImage } from './support/api/image';
 import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
+import { test as setup } from '@playwright/test';
 
-export default async function globalSetup() {
+setup('Create blogs', async ({}) => {
   const baseURL = process.env.NEXT_PUBLIC_BASE_URL!;
 
   const browser = await chromium.launch();
@@ -56,4 +56,4 @@ export default async function globalSetup() {
   );
 
   await apiContext.dispose();
-}
+});

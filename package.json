@@ -7,7 +7,9 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test:smoke": "npx playwright test --project=smoke-test",
+    "test:e2e": "npx playwright test --project=e2e-all-browsers"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.886.0",
