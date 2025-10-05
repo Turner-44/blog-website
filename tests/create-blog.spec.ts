@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { createBlogDataUI } from './data/create-blog';
 import { TEST_PATHS, resolveFromRoot } from '@/utils/paths';
+import path from 'path';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
@@ -25,7 +26,7 @@ test.describe.serial('Create and delete blog', () => {
       .getByTestId('input-blog-feature-image')
       .setInputFiles(
         resolveFromRoot(
-          TEST_PATHS.testsDataImages + '/' + blogData.featureImageFileName
+          path.join(TEST_PATHS.testsDataImages, blogData.featureImageFileName)
         )
       );
 

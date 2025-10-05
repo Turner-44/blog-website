@@ -20,7 +20,7 @@ export const getMarkdownString = (
   directory: string = TEST_PATHS.testsDataMarkdown
 ) => {
   return fs.readFileSync(
-    resolveFromRoot(directory + '/' + markdownFileName),
+    resolveFromRoot(path.join(directory, markdownFileName)),
     'utf-8'
   );
 };
@@ -29,7 +29,9 @@ export const getImageFile = (
   imageFileName: string,
   directory: string = TEST_PATHS.testsDataImages
 ) => {
-  return fs.createReadStream(resolveFromRoot(directory + '/' + imageFileName));
+  return fs.createReadStream(
+    resolveFromRoot(path.join(directory, imageFileName))
+  );
 };
 
 export const createBlogDataUI = (
