@@ -2,7 +2,7 @@ import test, { expect } from '@playwright/test';
 
 test.describe('Smoke Test', { tag: '@smoke' }, () => {
   test('Check site is running', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await expect(page.getByTestId('navigation-bar')).toContainText('Blog');
     await expect(page.getByTestId('navigation-bar')).toContainText('About');
     await expect(page.getByTestId('navigation-bar')).toContainText('Contact');
@@ -12,7 +12,7 @@ test.describe('Smoke Test', { tag: '@smoke' }, () => {
     ).toHaveCount(0);
   });
   test('Check user cannot access admin', async ({ page }) => {
-    await page.goto('/admin');
+    await page.goto('/admin', { waitUntil: 'domcontentloaded' });
     await expect(page.getByText('Sign in with Google')).toBeVisible();
   });
 });

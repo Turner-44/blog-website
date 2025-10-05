@@ -12,7 +12,7 @@ test.describe.serial(
     const blogData = createBlogDataUI();
 
     test('Create Blog', async ({ page }) => {
-      await page.goto('/admin');
+      await page.goto('/admin', { waitUntil: 'domcontentloaded' });
 
       await expect(
         page.getByTestId('banner-environment-notification')
@@ -44,7 +44,9 @@ test.describe.serial(
 
     test('View Blog', async ({ page }) => {
       await expect(async () => {
-        await page.goto(`/blog/${blogData.slug}`);
+        await page.goto(`/blog/${blogData.slug}`, {
+          waitUntil: 'domcontentloaded',
+        });
 
         await expect(page.getByTestId('header-blog-title')).toContainText(
           blogData.title
@@ -60,7 +62,7 @@ test.describe.serial(
     test('Delete Blog', async ({ page }) => {
       page.on('dialog', (dialog) => dialog.accept());
 
-      await page.goto('/admin');
+      await page.goto('/admin', { waitUntil: 'domcontentloaded' });
 
       await expect(
         page.getByTestId('banner-environment-notification')

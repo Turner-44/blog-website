@@ -17,7 +17,7 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
     }[];
 
     await expect(async () => {
-      await page.goto('/');
+      await page.goto('/', { waitUntil: 'domcontentloaded' });
 
       for (let i = 0; i < createdData.length; i++) {
         const blog = createdData[i];
@@ -32,12 +32,13 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
           )
         ).toContainText(blog.blogMetaData.item.summary);
       }
-      await page.reload();
     }).toPass();
 
     for (let i = 0; i < createdData.length; i++) {
       const blog = createdData[i];
-      await page.goto(`/blog/${blog.blogMetaData.item.slug}`);
+      await page.goto(`/blog/${blog.blogMetaData.item.slug}`, {
+        waitUntil: 'domcontentloaded',
+      });
       await expect(page.getByTestId('header-blog-title')).toHaveText(
         blog.blogMetaData.item.title
       );
