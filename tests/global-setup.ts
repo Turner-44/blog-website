@@ -5,11 +5,10 @@ import { storeBlogMetaData } from './support/api/blog';
 import { createBlogDataAPI } from './data/create-blog';
 import { storeMarkdown } from './support/api/markdown';
 import { storeImage } from './support/api/image';
+import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
 
 export default async function globalSetup() {
   const baseURL = process.env.NEXT_PUBLIC_BASE_URL!;
-  const testRootDir = path.resolve('tests');
-  await fs.mkdir(testRootDir, { recursive: true });
 
   const browser = await chromium.launch();
   const context = await browser.newContext();
@@ -22,13 +21,13 @@ export default async function globalSetup() {
 
   // Save cookies and local storage for reuse in tests
   await context.storageState({
-    path: `${testRootDir}/.auth/cookies.json`,
+    path: resolveFromRoot(TEST_PATHS.testAuth + '/cookies.json'),
   });
   await browser.close();
 
   const apiContext = await request.newContext({
     baseURL,
-    storageState: `${testRootDir}/.auth/cookies.json`,
+    storageState: resolveFromRoot(TEST_PATHS.testAuth + '/cookies.json'),
   });
 
   const testData = [
@@ -51,9 +50,8 @@ export default async function globalSetup() {
     })
   );
 
-  // Save test data for later use
   await fs.writeFile(
-    `${testRootDir}/data/.temp/test-blog-data.json`,
+    resolveFromRoot(TEST_PATHS.testsDataTemp + '/test-blog-data.json'),
     JSON.stringify(createdData, null, 2)
   );
 

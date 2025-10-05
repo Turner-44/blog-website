@@ -7,12 +7,16 @@ import {
 import { request } from '@playwright/test';
 import testData from './data/.temp/test-blog-data.json';
 import { deleteBlogPost } from './support/api/blog';
+import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
 
 export default async function globalTeardown() {
   console.log('🧹 Running global teardown...');
 
   const cookieJson = JSON.parse(
-    fs.readFileSync('tests/.auth/cookies.json', 'utf-8')
+    fs.readFileSync(
+      resolveFromRoot(TEST_PATHS.testAuth + '/cookies.json'),
+      'utf-8'
+    )
   );
 
   const cookieHeader = cookieJson.cookies

@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { createBlogDataUI, resolveFromRoot } from './data/create-blog';
+import { createBlogDataUI } from './data/create-blog';
+import { TEST_PATHS, resolveFromRoot } from '@/utils/paths';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
@@ -10,7 +11,7 @@ test.describe.serial('Create and delete blog', () => {
     await page.goto('/admin');
 
     await expect(
-      await page.getByTestId('banner-environment-notification')
+      page.getByTestId('banner-environment-notification')
     ).toContainText('YOU ARE USING TEST VARIABLES.');
 
     await page.getByTestId('btn-admin-create-blog').click();
@@ -23,16 +24,18 @@ test.describe.serial('Create and delete blog', () => {
     await page
       .getByTestId('input-blog-feature-image')
       .setInputFiles(
-        resolveFromRoot('tests/data/' + blogData.featureImagePath)
+        resolveFromRoot(
+          TEST_PATHS.testsDataImages + '/' + blogData.featureImageFileName
+        )
       );
 
     await page.getByTestId('input-blog-tags').fill(blogData.tags.join(','));
 
     await page.getByTestId('btn-blog-publish').click();
 
-    await expect(
-      await page.getByText('Blog submitted successfully!')
-    ).toBeVisible({ timeout: 30000 });
+    await expect(page.getByText('Blog submitted successfully!')).toBeVisible({
+      timeout: 30000,
+    });
   });
 
   test('View Blog', async ({ page }) => {
@@ -56,21 +59,21 @@ test.describe.serial('Create and delete blog', () => {
     await page.goto('/admin');
 
     await expect(
-      await page.getByTestId('banner-environment-notification')
+      page.getByTestId('banner-environment-notification')
     ).toContainText('YOU ARE USING TEST VARIABLES.');
 
     await page.getByTestId('btn-admin-delete-blog').click();
 
     await expect(
-      await page.getByTestId(`row-blog-deletion-grid-${blogData.slug}`)
+      page.getByTestId(`row-blog-deletion-grid-${blogData.slug}`)
     ).toBeVisible();
 
     await expect(
-      await page.getByTestId(`header-blog-deletion-row-title-${blogData.slug}`)
+      page.getByTestId(`header-blog-deletion-row-title-${blogData.slug}`)
     ).toContainText(blogData.title);
 
     await expect(
-      await page.getByTestId(`text-blog-deletion-row-summary-${blogData.slug}`)
+      page.getByTestId(`text-blog-deletion-row-summary-${blogData.slug}`)
     ).toContainText(blogData.summary);
 
     await page
@@ -78,7 +81,7 @@ test.describe.serial('Create and delete blog', () => {
       .click();
 
     await expect(
-      await page.getByTestId(`row-blog-deletion-grid-${blogData.slug}`)
+      page.getByTestId(`row-blog-deletion-grid-${blogData.slug}`)
     ).toHaveCount(0);
   });
 });

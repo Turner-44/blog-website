@@ -1,50 +1,41 @@
+import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
 import { faker } from '@faker-js/faker';
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
-export const imagePath = {
-  feelOld: 'images/feel-old.jpg',
-  thingsLearned: 'images/Things-I-Learned.png',
-  failInPublic: 'images/fail-in-public.png',
+export const imageFileName = {
+  feelOld: 'feel-old.jpg',
+  thingsLearned: 'Things-I-Learned.png',
+  failInPublic: 'fail-in-public.png',
 };
 
-export const markdownPath = {
-  cats: 'markdown/cats.mdx',
-  coffee: 'markdown/coffee.mdx',
-  space: 'markdown/space.mdx',
-};
-
-export const resolveFromRoot = (filePath: string): string => {
-  const absolutePath = path.resolve(process.cwd(), filePath);
-
-  if (!fs.existsSync(absolutePath)) {
-    throw new Error(`File not found at path: ${absolutePath}`);
-  }
-
-  return absolutePath;
+export const markdownFileName = {
+  cats: 'cats.mdx',
+  coffee: 'coffee.mdx',
+  space: 'space.mdx',
 };
 
 export const getMarkdownString = (
-  markdownFilePath: string,
-  directory: string = 'tests/data/'
+  markdownFileName: string,
+  directory: string = TEST_PATHS.testsDataMarkdown
 ) => {
   return fs.readFileSync(
-    resolveFromRoot(directory + markdownFilePath),
+    resolveFromRoot(directory + '/' + markdownFileName),
     'utf-8'
   );
 };
 
 export const getImageFile = (
-  imageFilePath: string,
-  directory: string = 'tests/data/'
+  imageFileName: string,
+  directory: string = TEST_PATHS.testsDataImages
 ) => {
-  return fs.createReadStream(resolveFromRoot(directory + imageFilePath));
+  return fs.createReadStream(resolveFromRoot(directory + '/' + imageFileName));
 };
 
 export const createBlogDataUI = (
   title = faker.book.title(),
-  markdown = markdownPath.cats,
-  image = imagePath.feelOld
+  markdown = markdownFileName.cats,
+  image = imageFileName.feelOld
 ) => {
   return {
     title,
@@ -52,14 +43,14 @@ export const createBlogDataUI = (
     summary: faker.lorem.sentence(),
     markdown: getMarkdownString(markdown),
     tags: ['test'],
-    featureImagePath: image,
+    featureImageFileName: image,
   };
 };
 
 export const createBlogDataAPI = (
   title = faker.book.title(),
-  markdown = markdownPath.coffee,
-  image = imagePath.thingsLearned
+  markdown = markdownFileName.coffee,
+  image = imageFileName.thingsLearned
 ) => {
   return {
     id: crypto.randomUUID(),
@@ -68,7 +59,7 @@ export const createBlogDataAPI = (
     summary: faker.lorem.sentence(),
     markdown: getMarkdownString(markdown),
     tags: ['test'],
-    featureImagePath: image,
+    featureImageFileName: image,
     publishedAt: new Date().toISOString(),
   };
 };
@@ -79,7 +70,7 @@ export type CreateBlogDataUI = {
   summary: string;
   markdown: string;
   tags: string[];
-  featureImagePath: string;
+  featureImageFileName: string;
 };
 
 export type CreateBlogDataAPI = {
@@ -89,6 +80,6 @@ export type CreateBlogDataAPI = {
   summary: string;
   markdown: string;
   tags: string[];
-  featureImagePath: string;
+  featureImageFileName: string;
   publishedAt: string;
 };

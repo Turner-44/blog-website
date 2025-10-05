@@ -6,7 +6,7 @@ export const storeImage = async (
   apiContext: APIRequestContext,
   blogData: CreateBlogDataAPI
 ): Promise<ImagePostResponse> => {
-  const imageFile = getImageFile(blogData.featureImagePath);
+  const imageFile = getImageFile(blogData.featureImageFileName);
 
   const imageResponse = await apiContext.post(
     `/api/blogs/${blogData.id}/image`,

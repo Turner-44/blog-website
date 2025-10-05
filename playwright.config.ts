@@ -5,11 +5,11 @@ import { defineConfig, devices } from '@playwright/test';
  * https://github.com/motdotla/dotenv
  */
 import dotenv from 'dotenv';
-import path from 'path';
+import { resolveFromRoot } from './utils/paths';
 
 process.env.CI
-  ? dotenv.config({ path: path.resolve(__dirname, '.env') })
-  : dotenv.config({ path: path.resolve(__dirname, '.env.development') });
+  ? dotenv.config({ path: resolveFromRoot('.env') })
+  : dotenv.config({ path: resolveFromRoot('.env.development') });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error('BaseUrl not set by variables');
