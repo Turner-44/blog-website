@@ -32,6 +32,7 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
           )
         ).toContainText(blog.blogMetaData.item.summary);
       }
+      await page.reload();
     }).toPass();
 
     for (let i = 0; i < createdData.length; i++) {
