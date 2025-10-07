@@ -33,7 +33,8 @@ teardown('Delete blogs', async ({}) => {
 
   const createdData = testData as {
     blogMetaData: BlogsPostResponse;
-    imageJson: ImagePostResponse;
+    featureImageJson: ImagePostResponse;
+    previewImageJson: ImagePostResponse;
     markdownJson: MarkdownPostResponse;
   }[];
 
