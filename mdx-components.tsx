@@ -22,16 +22,11 @@ const components = {
   p: (props: ParagraphProps) => (
     <p className="py-3 leading-relaxed text-justify" {...props} />
   ),
-  ol: (props: ListProps) => <ol className="" {...props} />,
-  ul: (props: ListProps) => <ul className="pl-2" {...props} />,
-  li: (props: ListItemProps) => (
-    <li
-      className="relative pl-5  before:absolute before:left-0 before:top-1
-               before:w-4 before:h-4
-               before:bg-[url('/images/logo.png')] before:bg-contain before:bg-no-repeat before:bg-center"
-      {...props}
-    />
+  ol: (props: ListProps) => (
+    <ol className="list-decimal list-outside marker:font-bold" {...props} />
   ),
+  ul: (props: ListProps) => <ul className="list-none pl-5 my-2" {...props} />,
+  li: (props: ListItemProps) => <li className="py-0.5" {...props} />,
   em: (props: EmProps) => <em className="" {...props} />,
   strong: (props: StrongProps) => <strong className="" {...props} />,
   hr: (props: HrProps) => <hr className="my-5" {...props} />,
