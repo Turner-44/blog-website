@@ -14,7 +14,7 @@ export default function BlogCard({ blog }: { blog: BlogMetaData }) {
       >
         <div className="aspect-w-1 aspect-h-1 h-full relative">
           <Image
-            src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.imageKey}`}
+            src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.previewImageKey}`}
             alt={blog.title || 'Blog image'}
             className="object-cover object-center rounded-2xl"
             fill

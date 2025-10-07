@@ -29,7 +29,21 @@ test.describe.serial(
         .getByTestId('input-blog-feature-image')
         .setInputFiles(
           resolveFromRoot(
-            path.join(TEST_PATHS.testsDataImages, blogData.featureImageFileName)
+            path.join(
+              TEST_PATHS.testsDataFeatureImages,
+              blogData.featureImageFileName
+            )
+          )
+        );
+
+      await page
+        .getByTestId('input-blog-preview-image')
+        .setInputFiles(
+          resolveFromRoot(
+            path.join(
+              TEST_PATHS.testsDataPreviewImages,
+              blogData.previewImageFileName
+            )
           )
         );
 

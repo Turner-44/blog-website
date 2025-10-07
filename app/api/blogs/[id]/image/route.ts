@@ -14,16 +14,25 @@ export async function POST(req: Request) {
     validateUserSession('API');
 
     const formData = await req.formData();
-    const imageFile = formData.get('featureImage') as File;
+    const imageFile = formData.get('image') as File;
+    const imageFileType = imageFile?.type?.split('/')[1];
+    const imageCategory = formData.get('category') as 'feature' | 'preview';
 
     if (!imageFile) {
       return NextResponse.json<ApiErrorResponse>(
-        { error: 'Feature image is required' },
+        { error: 'Image is required' },
         { status: 400 }
       );
     }
 
-    const imageKey = `blog-posts/${formData.get('blogId')}/images/${formData.get('slug')}.png`;
+    if (imageCategory !== 'feature' && imageCategory !== 'preview') {
+      return NextResponse.json<ApiErrorResponse>(
+        { error: `${imageCategory} is not a valid image category` },
+        { status: 400 }
+      );
+    }
+
+    const imageKey = `blog-posts/${formData.get('blogId')}/images/${formData.get('slug')}-${imageCategory}.${imageFileType}`;
 
     await s3Client.send(
       new PutObjectCommand({

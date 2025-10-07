@@ -22,5 +22,7 @@ export const TEST_PATHS = {
   testsData: resolveFromRoot('tests/data'),
   testsDataTemp: resolveFromRoot('tests/data/.temp'),
   testsDataImages: resolveFromRoot('tests/data/images'),
+  testsDataFeatureImages: resolveFromRoot('tests/data/images/feature'),
+  testsDataPreviewImages: resolveFromRoot('tests/data/images/preview'),
   testsDataMarkdown: resolveFromRoot('tests/data/markdown'),
 };

@@ -35,7 +35,8 @@ export interface BlogsResponseItem {
   title: string;
   slug: string;
   summary: string;
-  imageKey: string;
+  featureImageKey: string;
+  previewImageKey: string;
   markdownKey: string;
   publishedAt: string;
   tags: string[];

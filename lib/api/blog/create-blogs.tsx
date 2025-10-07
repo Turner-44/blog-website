@@ -29,6 +29,7 @@ export async function createBlog(
       summary: data.get('summary'),
       markdown: data.get('markdown'),
       featureImage: data.get('featureImage'),
+      previewImage: data.get('previewImage'),
       tags: (data.get('tags') as string)
         .split(',')
         .map((t) => t.trim())
@@ -47,8 +48,16 @@ export async function createBlog(
       };
     }
 
-    const { title, slug, summary, markdown, featureImage, tags, publishedAt } =
-      validatedFields.data;
+    const {
+      title,
+      slug,
+      summary,
+      markdown,
+      featureImage,
+      previewImage,
+      tags,
+      publishedAt,
+    } = validatedFields.data;
 
     const cookieStore = await cookies();
     const cookieHeader = cookieStore.toString();
@@ -81,31 +90,59 @@ export async function createBlog(
 
     const markdownJson = await markdownResponse.json();
 
-    const imageFormData = new FormData();
-    imageFormData.append('blogId', id);
-    imageFormData.append('slug', slug);
-    imageFormData.append('featureImage', featureImage);
+    const featureImageFormData = new FormData();
+    featureImageFormData.append('blogId', id);
+    featureImageFormData.append('slug', slug);
+    featureImageFormData.append('image', featureImage);
+    featureImageFormData.append('category', 'feature');
 
-    const imageResponse = await fetch(
+    const featureImageResponse = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/image`,
       {
         method: 'POST',
         headers: { Cookie: cookieHeader },
-        body: imageFormData,
+        body: featureImageFormData,
       }
     );
 
-    if (!imageResponse.ok) {
-      const errorData = await imageResponse.json().catch(() => ({}));
+    if (!featureImageResponse.ok) {
+      const errorData = await featureImageResponse.json().catch(() => ({}));
       console.error('Image upload failed:', errorData);
       return {
         success: false,
-        message: `Failed to upload image: ${errorData.error || imageResponse.statusText}`,
+        message: `Failed to upload image: ${errorData.error || featureImageResponse.statusText}`,
         payload: data,
       };
     }
 
-    const imageJson = await imageResponse.json();
+    const featureImageJson = await featureImageResponse.json();
+
+    const previewImageFormData = new FormData();
+    previewImageFormData.append('blogId', id);
+    previewImageFormData.append('slug', slug);
+    previewImageFormData.append('image', previewImage);
+    previewImageFormData.append('category', 'preview');
+
+    const previewImageResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/image`,
+      {
+        method: 'POST',
+        headers: { Cookie: cookieHeader },
+        body: previewImageFormData,
+      }
+    );
+
+    if (!previewImageResponse.ok) {
+      const errorData = await previewImageResponse.json().catch(() => ({}));
+      console.error('Image upload failed:', errorData);
+      return {
+        success: false,
+        message: `Failed to upload image: ${errorData.error || previewImageResponse.statusText}`,
+        payload: data,
+      };
+    }
+
+    const previewImageJson = await previewImageResponse.json();
 
     const publishedAtDateTime =
       publishedAt === undefined || publishedAt === ''
@@ -117,7 +154,8 @@ export async function createBlog(
       title: title,
       slug: slug,
       summary: summary,
-      imageKey: imageJson.imageKey,
+      featureImageKey: featureImageJson.imageKey,
+      previewImageKey: previewImageJson.imageKey,
       markdownKey: markdownJson.markdownKey,
       publishedAt: publishedAtDateTime,
       tags: tags,
@@ -148,7 +186,14 @@ export async function createBlog(
           }
         ),
         fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/image?imageKey=${encodeURIComponent(imageJson.imageKey)}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/image?imageKey=${encodeURIComponent(featureImageJson.imageKey)}`,
+          {
+            method: 'DELETE',
+            headers: { Cookie: cookieHeader },
+          }
+        ),
+        fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/image?imageKey=${encodeURIComponent(previewImageJson.imageKey)}`,
           {
             method: 'DELETE',
             headers: { Cookie: cookieHeader },

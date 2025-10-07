@@ -4,9 +4,15 @@ import { APIRequestContext } from '@playwright/test';
 
 export const storeImage = async (
   apiContext: APIRequestContext,
-  blogData: CreateBlogDataAPI
+  blogData: CreateBlogDataAPI,
+  category: 'feature' | 'preview'
 ): Promise<ImagePostResponse> => {
-  const imageFile = getImageFile(blogData.featureImageFileName);
+  const imageFileName =
+    category === 'feature'
+      ? blogData.featureImageFileName
+      : blogData.previewImageFileName;
+
+  const imageFile = getImageFile(imageFileName, category);
 
   const imageResponse = await apiContext.post(
     `/api/blogs/${blogData.id}/image`,
@@ -14,7 +20,8 @@ export const storeImage = async (
       multipart: {
         blogId: blogData.id,
         slug: blogData.slug,
-        featureImage: imageFile,
+        image: imageFile,
+        category,
       },
     }
   );

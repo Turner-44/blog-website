@@ -22,7 +22,7 @@ export default async function Blog({ slug }: { slug: string }) {
       </p>
       <div className="relative h-100 aspect-w-1 aspect-h-1">
         <Image
-          src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blogMetaData.imageKey}`}
+          src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blogMetaData.featureImageKey}`}
           alt={blogMetaData.title || 'Blog image'}
           className="object-cover object-center rounded-2xl"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

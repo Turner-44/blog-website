@@ -39,14 +39,16 @@ setup('Create blogs', async ({}) => {
   const createdData = await Promise.all(
     testData.map(async (blog) => {
       const markdownJson = await storeMarkdown(apiContext, blog);
-      const imageJson = await storeImage(apiContext, blog);
+      const featureImageJson = await storeImage(apiContext, blog, 'feature');
+      const previewImageJson = await storeImage(apiContext, blog, 'preview');
       const blogMetaData = await storeBlogMetaData(
         apiContext,
         blog,
-        imageJson,
+        featureImageJson,
+        previewImageJson,
         markdownJson
       );
-      return { blogMetaData, imageJson, markdownJson };
+      return { blogMetaData, featureImageJson, previewImageJson, markdownJson };
     })
   );
 

@@ -1,6 +1,7 @@
 export interface BlogMetaData {
   summary: string;
-  imageKey: string;
+  featureImageKey: string;
+  previewImageKey: string;
   publishedAt: Date;
   slug: string;
   SK: string;

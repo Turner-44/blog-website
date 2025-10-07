@@ -1,5 +1,6 @@
 import React, { ComponentPropsWithoutRef } from 'react';
 import Link from 'next/link';
+import Image, { ImageProps } from 'next/image';
 
 type HeadingProps = ComponentPropsWithoutRef<'h1'>;
 type ParagraphProps = ComponentPropsWithoutRef<'p'>;
@@ -10,7 +11,6 @@ type StrongProps = ComponentPropsWithoutRef<'strong'>;
 type HrProps = ComponentPropsWithoutRef<'hr'>;
 type BlockquoteProps = ComponentPropsWithoutRef<'blockquote'>;
 type PreProps = ComponentPropsWithoutRef<'pre'>;
-type ImageProps = ComponentPropsWithoutRef<'img'>;
 type CodeProps = ComponentPropsWithoutRef<'code'>;
 type AnchorProps = ComponentPropsWithoutRef<'a'>;
 
@@ -35,7 +35,9 @@ const components = {
   ),
   pre: (props: PreProps) => <pre className="" {...props} />,
 
-  img: (props: ImageProps) => <img className="" loading="lazy" {...props} />,
+  Image: (props: ImageProps) => (
+    <Image className="" loading="lazy" {...props} />
+  ),
 
   code: (props: CodeProps) => <code className="" {...props} />,
   a: ({ href, children, ...props }: AnchorProps) => {

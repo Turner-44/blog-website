@@ -9,7 +9,8 @@ import { APIRequestContext } from '@playwright/test';
 export const storeBlogMetaData = async (
   apiContext: APIRequestContext,
   blogData: CreateBlogDataAPI,
-  imageJson: ImagePostResponse,
+  featureImageJson: ImagePostResponse,
+  previewImageJson: ImagePostResponse,
   markdownJson: MarkdownPostResponse
 ): Promise<BlogsPostResponse> => {
   const metaDataBody = JSON.stringify({
@@ -17,7 +18,8 @@ export const storeBlogMetaData = async (
     title: blogData.title,
     slug: blogData.slug,
     summary: blogData.summary,
-    imageKey: imageJson.imageKey,
+    featureImageKey: featureImageJson.imageKey,
+    previewImageKey: previewImageJson.imageKey,
     markdownKey: markdownJson.markdownKey,
     publishedAt: blogData.publishedAt,
     tags: blogData.tags,

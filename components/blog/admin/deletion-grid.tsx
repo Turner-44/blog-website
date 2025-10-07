@@ -46,7 +46,7 @@ export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
           <article className="flex items-center space-x-4 gap-2">
             <div className="w-48 h-32 flex-shrink-0 relative">
               <Image
-                src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.imageKey}`}
+                src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.featureImageKey}`}
                 alt={blog.title || 'Blog image'}
                 className=" object-cover object-center rounded-2xl"
                 fill

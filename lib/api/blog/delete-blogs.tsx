@@ -20,7 +20,17 @@ export async function deleteBlogPost(blog: BlogMetaData) {
         }
       ),
       fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blog.id}/image?imageKey=${encodeURIComponent(blog.imageKey)}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blog.id}/image?imageKey=${encodeURIComponent(blog.featureImageKey)}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Cookie: cookieHeader,
+          },
+        }
+      ),
+      fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blog.id}/image?imageKey=${encodeURIComponent(blog.previewImageKey)}`,
         {
           method: 'DELETE',
           headers: {

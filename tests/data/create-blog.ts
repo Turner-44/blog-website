@@ -3,10 +3,16 @@ import { faker } from '@faker-js/faker';
 import fs from 'fs';
 import path from 'path';
 
-export const imageFileName = {
-  feelOld: 'feel-old.jpg',
-  thingsLearned: 'Things-I-Learned.png',
-  failInPublic: 'fail-in-public.png',
+export const featureImageFileName = {
+  differenceOfOpinion: 'a-difference-of-opinion-feature.png',
+  askWhy: 'ask-why-feature.png',
+  becomingMatthewWhy: 'becoming-matthew-why-feature.png',
+};
+
+export const previewImageFileName = {
+  differenceOfOpinion: 'a-difference-of-opinion-preview.png',
+  askWhy: 'ask-why-preview.png',
+  becomingMatthewWhy: 'becoming-matthew-why-preview.png',
 };
 
 export const markdownFileName = {
@@ -27,32 +33,38 @@ export const getMarkdownString = (
 
 export const getImageFile = (
   imageFileName: string,
+  category: 'feature' | 'preview',
   directory: string = TEST_PATHS.testsDataImages
 ) => {
+  const imageFolder = path.join(directory, category);
+
   return fs.createReadStream(
-    resolveFromRoot(path.join(directory, imageFileName))
+    resolveFromRoot(path.join(imageFolder, imageFileName))
   );
 };
 
 export const createBlogDataUI = (
   title = faker.book.title(),
   markdown = markdownFileName.cats,
-  image = imageFileName.feelOld
+  featureImage = featureImageFileName.askWhy,
+  previewImage = previewImageFileName.askWhy
 ) => {
   return {
     title,
-    slug: title.replaceAll(' ', '-').toLowerCase(),
+    slug: faker.helpers.slugify(title).toLowerCase(),
     summary: faker.lorem.sentence(),
     markdown: getMarkdownString(markdown),
     tags: ['test'],
-    featureImageFileName: image,
+    featureImageFileName: featureImage,
+    previewImageFileName: previewImage,
   };
 };
 
 export const createBlogDataAPI = (
   title = faker.book.title(),
   markdown = markdownFileName.coffee,
-  image = imageFileName.thingsLearned
+  featureImage = featureImageFileName.differenceOfOpinion,
+  previewImage = previewImageFileName.differenceOfOpinion
 ) => {
   return {
     id: crypto.randomUUID(),
@@ -61,7 +73,8 @@ export const createBlogDataAPI = (
     summary: faker.lorem.sentence(),
     markdown: getMarkdownString(markdown),
     tags: ['test'],
-    featureImageFileName: image,
+    featureImageFileName: featureImage,
+    previewImageFileName: previewImage,
     publishedAt: new Date().toISOString(),
   };
 };
@@ -73,6 +86,7 @@ export type CreateBlogDataUI = {
   markdown: string;
   tags: string[];
   featureImageFileName: string;
+  previewImageFileName: string;
 };
 
 export type CreateBlogDataAPI = {
@@ -83,5 +97,6 @@ export type CreateBlogDataAPI = {
   markdown: string;
   tags: string[];
   featureImageFileName: string;
+  previewImageFileName: string;
   publishedAt: string;
 };

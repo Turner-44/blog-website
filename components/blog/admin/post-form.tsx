@@ -75,6 +75,17 @@ export default function CreateBlogForm() {
         {state.fieldErrors?.properties?.featureImage?.errors[0]}
       </span>
       <input
+        type="file"
+        name="previewImage"
+        accept="image/*"
+        className="form-input"
+        defaultValue={state.payload?.get('previewImage') as string}
+        data-testid="input-blog-preview-image"
+      />
+      <span className="form-error-text">
+        {state.fieldErrors?.properties?.PreviewImage?.errors[0]}
+      </span>
+      <input
         name="tags"
         placeholder="Tag Relevant Topics"
         className="form-input"

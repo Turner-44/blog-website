@@ -15,6 +15,7 @@ export const blogScheme = z.object({
     .max(200, 'Summary must be at most 200 characters long'),
   markdown: z.string().min(10, 'Markdown must be at least 10 characters long'),
   featureImage: z.file().mime(['image/png', 'image/jpeg']),
+  previewImage: z.file().mime(['image/png', 'image/jpeg']),
   tags: z.array(z.string()).min(1, 'At least one tag is required'),
   publishedAt: z.string().optional(),
 });

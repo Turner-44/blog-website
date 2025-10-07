@@ -24,7 +24,8 @@ type CreateBlogItem = {
   slug: string;
   title: string;
   summary: string;
-  imageKey: string;
+  featureImageKey: string;
+  previewImageKey: string;
   markdownKey?: string;
   publishedAt: string;
   tags: string[];
@@ -35,7 +36,8 @@ const attributes = {
   slug: 'slug',
   title: 'title',
   summary: 'summary',
-  imageKey: 'imageKey',
+  featureImageKey: 'featureImageKey',
+  previewImageKey: 'previewImageKey',
   markdownKey: 'markdownKey',
   publishedAt: 'publishedAt',
   tags: 'tags',
@@ -133,7 +135,8 @@ export async function POST(req: Request) {
       title: reqData.title,
       slug: reqData.slug,
       summary: reqData.summary,
-      imageKey: reqData.imageKey,
+      featureImageKey: reqData.featureImageKey,
+      previewImageKey: reqData.previewImageKey,
       markdownKey: reqData.markdownKey,
       publishedAt: reqData.publishedAt,
       tags: reqData.tags,
