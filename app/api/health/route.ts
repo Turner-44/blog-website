@@ -1,3 +1,5 @@
+import { genericCatchError } from '@/lib/api/error-handling/common';
+import { StatusCodes } from 'http-status-codes';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -6,10 +8,9 @@ export async function GET() {
       {
         ok: true,
       },
-      { status: 200 }
+      { status: StatusCodes.OK }
     );
-  } catch (err) {
-    console.error('API Error: ', err);
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }

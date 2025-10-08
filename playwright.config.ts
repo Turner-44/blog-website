@@ -71,22 +71,29 @@ export default defineConfig({
     {
       name: 'chromium',
       testDir: './tests',
-      grepInvert: /@smoke/,
+      grepInvert: [/@smoke/, /@api/],
       use: { ...devices['Desktop Chrome'] },
       dependencies: ['setup-blogs'],
     },
     {
       name: 'firefox',
       testDir: './tests',
-      grepInvert: /@smoke/,
+      grepInvert: [/@smoke/, /@api/],
       use: { ...devices['Desktop Firefox'] },
       dependencies: ['setup-blogs'],
     },
     {
       name: 'webkit',
       testDir: './tests',
-      grepInvert: /@smoke/,
+      grepInvert: [/@smoke/, /@api/],
       use: { ...devices['Desktop Safari'] },
+      dependencies: ['setup-blogs'],
+    },
+    {
+      name: 'api',
+      testDir: './tests/api',
+      grep: /@api/,
+      use: { ...devices['Desktop Chrome'] },
       dependencies: ['setup-blogs'],
     },
 

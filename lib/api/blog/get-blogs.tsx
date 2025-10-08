@@ -1,6 +1,7 @@
 import { BlogMetaData } from '@/types/blog';
 import { notFound } from 'next/navigation';
 import getBlogMarkdown from './get-markdown';
+import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 
 export async function getBlogList(limit: number = 30) {
   const res = await fetch(
@@ -19,7 +20,7 @@ export async function getBlogBySlug(slug: string) {
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?slug=${encodeURIComponent(slug)}`
   );
 
-  if (metaDataRes.status !== 200) {
+  if (metaDataRes.status !== StatusCodes.OK) {
     console.error('Failed to fetch blog metadata:', metaDataRes.statusText);
     return notFound();
   }

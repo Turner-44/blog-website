@@ -36,7 +36,7 @@ const components = {
   pre: (props: PreProps) => <pre className="" {...props} />,
 
   Image: (props: ImageProps) => (
-    <Image className="" loading="lazy" {...props} />
+    <Image className="" loading="lazy" {...props} alt={props.alt ?? ''} />
   ),
 
   code: (props: CodeProps) => <code className="" {...props} />,

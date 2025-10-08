@@ -8,6 +8,13 @@ import {
   ImageDeleteResponse,
   ImagePostResponse,
 } from '@/types/api';
+import {
+  createErrorResponse,
+  genericCatchError,
+  validateRequestAgainstSchema,
+} from '@/lib/api/error-handling/common';
+import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
+import { createImageSchema, Validations } from '@/utils/zod-schemas';
 
 export async function POST(req: Request) {
   try {
@@ -16,21 +23,16 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     const imageFile = formData.get('image') as File;
     const imageFileType = imageFile?.type?.split('/')[1];
-    const imageCategory = formData.get('category') as 'feature' | 'preview';
+    const imageCategory = (formData.get('category') as string) ?? '';
+    const blogId = (formData.get('blogId') as string) ?? '';
+    const slug = (formData.get('slug') as string) ?? '';
 
-    if (!imageFile) {
-      return NextResponse.json<ApiErrorResponse>(
-        { error: 'Image is required' },
-        { status: 400 }
-      );
-    }
+    const validateSchemaResult = validateRequestAgainstSchema(
+      Object.fromEntries(formData.entries()),
+      createImageSchema
+    );
 
-    if (imageCategory !== 'feature' && imageCategory !== 'preview') {
-      return NextResponse.json<ApiErrorResponse>(
-        { error: `${imageCategory} is not a valid image category` },
-        { status: 400 }
-      );
-    }
+    if (validateSchemaResult) return validateSchemaResult;
 
     const imageKey = `blog-posts/${formData.get('blogId')}/images/${formData.get('slug')}-${imageCategory}.${imageFileType}`;
 
@@ -46,38 +48,30 @@ export async function POST(req: Request) {
 
     return NextResponse.json<ImagePostResponse>(
       {
-        blogId: formData.get('blogId') as string,
-        slug: formData.get('slug') as string,
+        blogId: blogId,
+        slug: slug,
         imageKey,
       },
-      { status: 201 }
+      { status: StatusCodes.CREATED }
     );
-  } catch (err: unknown) {
-    console.error('API Error: ', err);
-    return NextResponse.json<ApiErrorResponse>(
-      { error: String(err) },
-      { status: 500 }
-    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }
 
 export async function DELETE(req: Request) {
-  let imageKey: string | null = null;
-
   try {
     validateUserSession('API');
 
     const url = new URL(req.url);
-    imageKey = url.searchParams.get('imageKey');
+    const imageKey = url.searchParams.get('imageKey') ?? '';
 
-    if (!imageKey) {
-      return NextResponse.json<ApiErrorResponse>(
-        {
-          error: `Missing imageKey parameter`,
-        },
-        { status: 400 }
-      );
-    }
+    const validateSchemaResult = validateRequestAgainstSchema(
+      imageKey,
+      Validations.imageKey
+    );
+
+    if (validateSchemaResult) return validateSchemaResult;
 
     const deleteCommand = new DeleteObjectCommand({
       Bucket: BUCKET_NAME,
@@ -86,9 +80,9 @@ export async function DELETE(req: Request) {
 
     const s3Res = await s3Client.send(deleteCommand);
 
-    if (s3Res.$metadata.httpStatusCode !== 204) {
+    if (s3Res.$metadata.httpStatusCode !== StatusCodes.NO_CONTENT) {
       return NextResponse.json<ApiErrorResponse>(
-        { error: 'Failed to delete image', filePath: imageKey },
+        createErrorResponse(`Failed to delete image ${imageKey}`),
         { status: s3Res.$metadata.httpStatusCode }
       );
     }
@@ -98,13 +92,9 @@ export async function DELETE(req: Request) {
         message: 'Image file deleted successfully',
         imageKey,
       },
-      { status: 200 }
+      { status: StatusCodes.OK }
     );
-  } catch (err: unknown) {
-    console.error('API Error: ', err);
-    return NextResponse.json<ApiErrorResponse>(
-      { error: String(err), filePath: imageKey },
-      { status: 500 }
-    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }

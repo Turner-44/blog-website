@@ -12,7 +12,8 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
   test('Validate blogs display as expected', async ({ page, context }) => {
     const createdData = testData as {
       blogMetaData: BlogsPostResponse;
-      imageJson: ImagePostResponse;
+      featureImageJson: ImagePostResponse;
+      previewImageJson: ImagePostResponse;
       markdownJson: MarkdownPostResponse;
     }[];
 

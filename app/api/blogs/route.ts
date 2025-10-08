@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { notFound } from 'next/navigation';
 
 import { QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
@@ -14,22 +13,18 @@ import {
   BlogsPostResponse,
   BlogsResponseItem,
 } from '@/types/api';
+import { Validations, createBlogSchema } from '@/utils/zod-schemas';
+import { BlogMetaData } from '@/types/blog';
+import {
+  createErrorResponse,
+  dynamoDBResponseHandler,
+  genericCatchError,
+  validateRequestAgainstSchema,
+  validateResultFound,
+} from '@/lib/api/error-handling/common';
+import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 
 const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
-
-type CreateBlogItem = {
-  PK: 'BLOG';
-  SK: string;
-  id?: string;
-  slug: string;
-  title: string;
-  summary: string;
-  featureImageKey: string;
-  previewImageKey: string;
-  markdownKey?: string;
-  publishedAt: string;
-  tags: string[];
-};
 
 const attributes = {
   id: 'id',
@@ -70,22 +65,14 @@ export async function GET(req: Request) {
 
     let queryParams;
 
-    if (url.searchParams.get('slug')) {
-      const slug = url.searchParams.get('slug');
+    if (url.searchParams.has('slug')) {
+      const slug = url.searchParams.get('slug') ?? '';
+      const validateResult = validateRequestAgainstSchema(
+        slug,
+        Validations.slug
+      );
 
-      if (typeof slug !== 'string') {
-        return NextResponse.json<ApiErrorResponse>(
-          { error: 'Blog slug must be a string' },
-          { status: 400 }
-        );
-      }
-
-      if (slug.includes(' ')) {
-        return NextResponse.json<ApiErrorResponse>(
-          { error: 'Blog slug must not contain spaces' },
-          { status: 400 }
-        );
-      }
+      if (validateResult) return validateResult;
 
       queryParams = getQueryCommandAttrBySlug(url);
     } else {
@@ -96,27 +83,24 @@ export async function GET(req: Request) {
       new QueryCommand(queryParams)
     );
 
-    if (!dynamodbRes.Items) {
-      notFound();
-    }
+    const validateResult = validateResultFound(
+      (dynamodbRes.Items ?? []).length > 0
+    );
+    if (validateResult) return validateResult;
 
     return NextResponse.json<BlogsGetResponse>(
       {
         items: dynamodbRes.Items as BlogsResponseItem[],
       },
       {
-        status: 200,
+        status: StatusCodes.OK,
         headers: {
           'Cache-Control': 's-maxage=31536000, stale-while-revalidate=31536000',
         },
       }
     );
-  } catch (err) {
-    console.error('API Error: ', err);
-    return NextResponse.json<ApiErrorResponse>(
-      { error: String(err) },
-      { status: 500 }
-    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }
 
@@ -126,9 +110,16 @@ export async function POST(req: Request) {
 
     const reqData = await req.json();
 
+    const validateSchemaResult = validateRequestAgainstSchema(
+      reqData,
+      createBlogSchema
+    );
+
+    if (validateSchemaResult) return validateSchemaResult;
+
     const id = reqData.id || crypto.randomUUID();
 
-    const item: CreateBlogItem = {
+    const item: BlogMetaData = {
       PK: 'BLOG',
       SK: `${reqData.publishedAt}#${id}`,
       id: id,
@@ -142,40 +133,27 @@ export async function POST(req: Request) {
       tags: reqData.tags,
     };
 
-    //TODO: Build out validation
-
-    if (reqData.slug.includes(' ')) {
-      return NextResponse.json(
-        { error: 'Blog slug must not contain spaces' },
-        { status: 400 }
-      );
-    }
-
     const command = new PutCommand({
       TableName: TABLE_NAME,
       Item: item,
     });
 
     const dynamodbRes = await dynamoDBClient.send(command);
-    if (!dynamodbRes) {
-      return NextResponse.json<ApiErrorResponse>(
-        { error: 'Failed to create blog post' },
-        { status: 500 }
-      );
-    }
+
+    const validateResult = dynamoDBResponseHandler(dynamodbRes, {
+      expectedStatus: StatusCodes.OK,
+    });
+
+    if (validateResult) return validateResult;
 
     return NextResponse.json<BlogsPostResponse>(
       {
         item: item as BlogsResponseItem,
       },
-      { status: 201 }
+      { status: StatusCodes.CREATED }
     );
-  } catch (err) {
-    console.error('API Error: ', err);
-    return NextResponse.json<ApiErrorResponse>(
-      { error: String(err) },
-      { status: 500 }
-    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }
 
@@ -188,10 +166,9 @@ export async function DELETE(req: Request) {
     const sk = url.searchParams.get('sk') as string;
 
     if (sk === '') {
-      return NextResponse.json<ApiErrorResponse>(
-        { error: 'No SK' },
-        { status: 404 }
-      );
+      return NextResponse.json<ApiErrorResponse>(createErrorResponse('No SK'), {
+        status: 404,
+      });
     }
 
     const deleteCommand = new DeleteItemCommand({
@@ -204,9 +181,9 @@ export async function DELETE(req: Request) {
 
     const dynamodbRes = await dynamoDBClient.send(deleteCommand);
 
-    if (dynamodbRes.$metadata.httpStatusCode !== 204) {
+    if (dynamodbRes.$metadata.httpStatusCode !== StatusCodes.NO_CONTENT) {
       return NextResponse.json<ApiErrorResponse>(
-        { error: 'Failed to delete blog post' },
+        createErrorResponse('Failed to delete blog post'),
         { status: dynamodbRes.$metadata.httpStatusCode }
       );
     }
@@ -217,13 +194,9 @@ export async function DELETE(req: Request) {
         PK: 'BLOG',
         SK: sk,
       },
-      { status: 200 }
+      { status: StatusCodes.OK }
     );
-  } catch (err) {
-    console.error('API Error: ', err);
-    return NextResponse.json<ApiErrorResponse>(
-      { error: String(err) },
-      { status: 500 }
-    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }

@@ -1,6 +1,8 @@
+import { BlogMetaData } from './blog';
+
 export interface ApiErrorResponse {
-  error: string;
-  filePath?: string | null;
+  message: string;
+  success: false;
 }
 
 export interface ImagePostResponse {
@@ -28,19 +30,7 @@ export interface MarkdownDeleteResponse {
   markdownKey: string;
 }
 
-export interface BlogsResponseItem {
-  PK: 'BLOG';
-  SK: string;
-  id: string;
-  title: string;
-  slug: string;
-  summary: string;
-  featureImageKey: string;
-  previewImageKey: string;
-  markdownKey: string;
-  publishedAt: string;
-  tags: string[];
-}
+export type BlogsResponseItem = BlogMetaData;
 
 export interface BlogsPostResponse {
   item: BlogsResponseItem;

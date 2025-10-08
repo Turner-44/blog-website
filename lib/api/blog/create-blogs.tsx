@@ -4,7 +4,8 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
 import { z } from 'zod';
-import { blogScheme } from '@/utils/zod-schemas';
+import { blogSchema } from '@/utils/zod-schemas';
+import { createUIErrorResponse } from '../error-handling/common';
 
 type TreeifiedError = {
   errors: string[];
@@ -23,7 +24,7 @@ export async function createBlog(
   data: FormData
 ): Promise<FormState> {
   try {
-    const validatedFields = blogScheme.safeParse({
+    const validatedFields = blogSchema.safeParse({
       title: data.get('title'),
       slug: data.get('slug'),
       summary: data.get('summary'),
@@ -81,11 +82,10 @@ export async function createBlog(
     if (!markdownResponse.ok) {
       const errorData = await markdownResponse.json().catch(() => ({}));
       console.error('Markdown upload failed:', errorData);
-      return {
-        success: false,
-        message: `Failed to upload markdown: ${errorData.error || markdownResponse.statusText}`,
-        payload: data,
-      };
+      return createUIErrorResponse(
+        `Failed to upload markdown: ${errorData.error || markdownResponse.statusText}`,
+        data
+      );
     }
 
     const markdownJson = await markdownResponse.json();
@@ -108,11 +108,10 @@ export async function createBlog(
     if (!featureImageResponse.ok) {
       const errorData = await featureImageResponse.json().catch(() => ({}));
       console.error('Image upload failed:', errorData);
-      return {
-        success: false,
-        message: `Failed to upload image: ${errorData.error || featureImageResponse.statusText}`,
-        payload: data,
-      };
+      return createUIErrorResponse(
+        `Failed to upload image: ${errorData.error || featureImageResponse.statusText}`,
+        data
+      );
     }
 
     const featureImageJson = await featureImageResponse.json();
@@ -135,19 +134,13 @@ export async function createBlog(
     if (!previewImageResponse.ok) {
       const errorData = await previewImageResponse.json().catch(() => ({}));
       console.error('Image upload failed:', errorData);
-      return {
-        success: false,
-        message: `Failed to upload image: ${errorData.error || previewImageResponse.statusText}`,
-        payload: data,
-      };
+      return createUIErrorResponse(
+        `Failed to upload image: ${errorData.error || previewImageResponse.statusText}`,
+        data
+      );
     }
 
     const previewImageJson = await previewImageResponse.json();
-
-    const publishedAtDateTime =
-      publishedAt === undefined || publishedAt === ''
-        ? new Date().toISOString()
-        : publishedAt + ':00.000Z';
 
     const meta = {
       id: id,
@@ -157,7 +150,7 @@ export async function createBlog(
       featureImageKey: featureImageJson.imageKey,
       previewImageKey: previewImageJson.imageKey,
       markdownKey: markdownJson.markdownKey,
-      publishedAt: publishedAtDateTime,
+      publishedAt: publishedAt,
       tags: tags,
     };
 
@@ -201,11 +194,10 @@ export async function createBlog(
         ),
       ]);
 
-      return {
-        success: false,
-        message: `Failed to save blog metadata: ${errorData.error || metadataResponse.statusText}`,
-        payload: data,
-      };
+      return createUIErrorResponse(
+        `Failed to save blog metadata: ${errorData.error || metadataResponse.statusText}`,
+        data
+      );
     }
     revalidatePath('/');
     revalidatePath('/blog/library');
@@ -216,10 +208,6 @@ export async function createBlog(
     };
   } catch (error) {
     console.error('Error creating blog:', error);
-    return {
-      success: false,
-      message: 'An unexpected error occurred.',
-      payload: data,
-    };
+    return createUIErrorResponse('An unexpected error occurred.', data);
   }
 }

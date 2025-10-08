@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { formattedDate } from '@/utils/dates';
+import { formattedDate as formatDate } from '@/utils/dates';
 import { BlogMetaData } from '@/types/blog';
 
 export default function BlogCard({ blog }: { blog: BlogMetaData }) {
@@ -38,7 +38,7 @@ export default function BlogCard({ blog }: { blog: BlogMetaData }) {
                 className="font-bold text-md"
                 data-testid={`text-blog-card-publishedAt-date-${blog.slug}`}
               >
-                {formattedDate(blog.publishedAt)}
+                {formatDate(blog.publishedAt)}
               </p>
             </div>
             <p

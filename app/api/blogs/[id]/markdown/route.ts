@@ -3,7 +3,6 @@ import {
   GetObjectCommand,
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
-import { notFound } from 'next/navigation';
 
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 import { BUCKET_NAME, s3Client } from '@/lib/api/aws/s3';
@@ -14,6 +13,15 @@ import {
   MarkdownPostResponse,
   MarkdownGetResponse,
 } from '@/types/api';
+import {
+  createErrorResponse,
+  genericCatchError,
+  s3ResponseHandler,
+  validateRequestAgainstSchema,
+  validateResultFound,
+} from '@/lib/api/error-handling/common';
+import { StatusCodes } from 'http-status-codes';
+import { createMarkdownSchema, Validations } from '@/utils/zod-schemas';
 
 export async function POST(req: Request) {
   try {
@@ -22,26 +30,12 @@ export async function POST(req: Request) {
     const reqData = await req.json();
     const markdown = reqData.markdown;
 
-    if (!markdown) {
-      return NextResponse.json<ApiErrorResponse>(
-        { error: 'Markdown content is required' },
-        { status: 400 }
-      );
-    }
+    const validateSchemaResult = validateRequestAgainstSchema(
+      reqData,
+      createMarkdownSchema
+    );
 
-    if (typeof markdown !== 'string') {
-      return NextResponse.json<ApiErrorResponse>(
-        { error: 'Markdown content must be in string format' },
-        { status: 400 }
-      );
-    }
-
-    if (typeof reqData.blogId !== 'string') {
-      return NextResponse.json<ApiErrorResponse>(
-        { error: 'Blog ID must be in string format' },
-        { status: 400 }
-      );
-    }
+    if (validateSchemaResult) return validateSchemaResult;
 
     const markdownKey = `blog-posts/${reqData.blogId}/content/blog.mdx`;
 
@@ -61,59 +55,45 @@ export async function POST(req: Request) {
       },
       { status: 201 }
     );
-  } catch (err: unknown) {
-    console.error('API Error: ', err);
-    return NextResponse.json<ApiErrorResponse>(
-      { error: String(err) },
-      { status: 500 }
-    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }
 
 export async function GET(req: Request) {
-  // eslint-disable-next-line
-  let markdownKey: string | null = null;
-
   try {
     const url = new URL(req.url);
     const markdownKey = url.searchParams.get('markdownKey');
 
-    if (!markdownKey) {
-      return NextResponse.json<ApiErrorResponse>(
-        {
-          error: `Missing markdownKey parameter`,
-        },
-        { status: 400 }
-      );
-    }
+    const validateResult = validateRequestAgainstSchema(
+      markdownKey,
+      Validations.markdownKey
+    );
+
+    if (validateResult) return validateResult;
 
     const command = new GetObjectCommand({
       Bucket: BUCKET_NAME,
-      Key: markdownKey,
+      Key: markdownKey as string,
     });
 
     const s3Res = await s3Client.send(command);
-    const markdown = await s3Res.Body?.transformToString();
+    s3ResponseHandler(s3Res, { expectedStatus: StatusCodes.OK });
 
-    if (!markdown) {
-      notFound();
-    }
+    const markdown: string = (await s3Res.Body?.transformToString()) ?? '';
+    validateResultFound(markdown, createErrorResponse('Markdown not found'));
 
     return NextResponse.json<MarkdownGetResponse>(
       { markdown },
       {
-        status: 200,
+        status: StatusCodes.OK,
         headers: {
           'Cache-Control': 's-maxage=31536000, stale-while-revalidate=31536000',
         },
       }
     );
-  } catch (err: unknown) {
-    console.error('API Error: ', err);
-    return NextResponse.json<ApiErrorResponse>(
-      { error: String(err), filePath: markdownKey },
-      { status: 500 }
-    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }
 
@@ -124,16 +104,14 @@ export async function DELETE(req: Request) {
     validateUserSession('API');
 
     const url = new URL(req.url);
-    markdownKey = url.searchParams.get('markdownKey');
+    markdownKey = url.searchParams.get('markdownKey') ?? '';
 
-    if (!markdownKey) {
-      return NextResponse.json(
-        {
-          error: `Missing markdownKey parameter`,
-        },
-        { status: 400 }
-      );
-    }
+    const validateResult = validateRequestAgainstSchema(
+      markdownKey,
+      Validations.markdownKey
+    );
+
+    if (validateResult) return validateResult;
 
     const deleteCommand = new DeleteObjectCommand({
       Bucket: BUCKET_NAME,
@@ -142,9 +120,9 @@ export async function DELETE(req: Request) {
 
     const s3Res = await s3Client.send(deleteCommand);
 
-    if (s3Res.$metadata.httpStatusCode !== 204) {
+    if (s3Res.$metadata.httpStatusCode !== StatusCodes.NO_CONTENT) {
       return NextResponse.json<ApiErrorResponse>(
-        { error: 'Failed to delete markdown', filePath: markdownKey },
+        createErrorResponse(`Failed to delete markdown - ${markdownKey}`),
         { status: s3Res.$metadata.httpStatusCode }
       );
     }
@@ -154,13 +132,9 @@ export async function DELETE(req: Request) {
         message: 'Markdown file deleted successfully',
         markdownKey,
       },
-      { status: 200 }
+      { status: StatusCodes.OK }
     );
-  } catch (err: unknown) {
-    console.error('API Error: ', err);
-    return NextResponse.json<ApiErrorResponse>(
-      { error: String(err), filePath: markdownKey },
-      { status: 500 }
-    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
   }
 }
