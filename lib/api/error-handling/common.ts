@@ -28,7 +28,11 @@ export const validateRequestAgainstSchema = (
 ) => {
   const result = schema.safeParse(data);
   if (!result.success) {
-    console.error('API Error: ', { error: result.error.message });
+    console.error('API Error: ', {
+      name: result.error.name,
+      message: result.error.message,
+      data,
+    });
     return NextResponse.json<ApiErrorResponse>(
       createErrorResponse(result.error.message),
       { status: StatusCodes.BAD_REQUEST }

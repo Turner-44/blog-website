@@ -55,7 +55,7 @@ export default defineConfig({
     {
       name: 'e2e-all-browsers',
       testDir: './tests',
-      grepInvert: /@smoke/,
+      grepInvert: [/@smoke/, /@api/],
       dependencies: ['chromium', 'firefox', 'webkit'],
     },
     // This prevents setup running for each browser.
