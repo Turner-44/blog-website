@@ -72,7 +72,10 @@ export const createBlogDataAPI = (
   return {
     id: crypto.randomUUID(),
     title,
-    slug: title.replaceAll(' ', '-').toLowerCase(),
+    slug: faker.helpers
+      .slugify(title)
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9]/g, ''),
     summary: faker.lorem.sentence(),
     markdown: getMarkdownString(markdown),
     tags: ['test'],
