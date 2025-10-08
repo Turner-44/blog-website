@@ -1,9 +1,7 @@
 import fs from 'fs';
-import {
-  BlogsPostResponse,
-  ImagePostResponse,
-  MarkdownPostResponse,
-} from '@/types/api';
+import { ImageResponses } from '@/types/api/image';
+import { BlogsResponses } from '@/types/api/blogs';
+import { MarkdownResponses } from '@/types/api/markdown';
 import { request } from '@playwright/test';
 import testData from './data/.temp/test-blog-data.json';
 import { deleteBlogPost } from './support/api/blog';
@@ -32,10 +30,10 @@ teardown('Delete blogs', async ({}) => {
   });
 
   const createdData = testData as {
-    blogMetaData: BlogsPostResponse;
-    featureImageJson: ImagePostResponse;
-    previewImageJson: ImagePostResponse;
-    markdownJson: MarkdownPostResponse;
+    blogMetaData: BlogsResponses['Post'];
+    featureImageJson: ImageResponses['Post'];
+    previewImageJson: ImageResponses['Post'];
+    markdownJson: MarkdownResponses['Post'];
   }[];
 
   for (let i = 0; i < createdData.length; i++) {

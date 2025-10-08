@@ -7,83 +7,52 @@ import {
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 import { BUCKET_NAME, s3Client } from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
-import {
-  ApiErrorResponse,
-  MarkdownDeleteResponse,
-  MarkdownPostResponse,
-  MarkdownGetResponse,
-} from '@/types/api';
+import { MarkdownResponses } from '@/types/api/markdown';
 import {
   createErrorResponse,
   genericCatchError,
   s3ResponseHandler,
   validateRequestAgainstSchema,
   validateResultFound,
+  validateResponse,
 } from '@/lib/api/error-handling/common';
 import { StatusCodes } from 'http-status-codes';
 import { createMarkdownSchema, Validations } from '@/utils/zod-schemas';
 
-export async function POST(req: Request) {
+export async function GET(
+  req: Request
+): Promise<NextResponse | NextResponse<MarkdownResponses['Get']>> {
   try {
-    validateUserSession('API');
+    const markdownKey = new URL(req.url).searchParams.get('markdownKey') ?? '';
 
-    const reqData = await req.json();
-    const markdown = reqData.markdown;
-
-    const validateSchemaResult = validateRequestAgainstSchema(
-      reqData,
-      createMarkdownSchema
-    );
-
-    if (validateSchemaResult) return validateSchemaResult;
-
-    const markdownKey = `blog-posts/${reqData.blogId}/content/blog.mdx`;
-
-    await s3Client.send(
-      new PutObjectCommand({
-        Bucket: BUCKET_NAME,
-        Key: markdownKey,
-        Body: markdown,
-        CacheControl: 'public, max-age=31536000, immutable',
-      })
-    );
-
-    return NextResponse.json<MarkdownPostResponse>(
-      {
-        blogId: reqData.blogId,
-        markdownKey,
-      },
-      { status: 201 }
-    );
-  } catch (err: Error | unknown) {
-    return genericCatchError(err);
-  }
-}
-
-export async function GET(req: Request) {
-  try {
-    const url = new URL(req.url);
-    const markdownKey = url.searchParams.get('markdownKey');
-
-    const validateResult = validateRequestAgainstSchema(
+    const schemaError = validateRequestAgainstSchema(
       markdownKey,
       Validations.markdownKey
     );
+    if (schemaError) return schemaError;
 
-    if (validateResult) return validateResult;
+    const s3Res = await s3Client.send(
+      new GetObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: markdownKey as string,
+      })
+    );
 
-    const command = new GetObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: markdownKey as string,
+    const awsError = s3ResponseHandler(s3Res, {
+      expectedStatus: StatusCodes.OK,
+      errorMessage: `Failed to retrieve markdown - ${markdownKey}`,
     });
-
-    const s3Res = await s3Client.send(command);
-    s3ResponseHandler(s3Res, { expectedStatus: StatusCodes.OK });
+    if (awsError) return awsError;
 
     const markdown: string = (await s3Res.Body?.transformToString()) ?? '';
-    validateResultFound(markdown, createErrorResponse('Markdown not found'));
 
-    return NextResponse.json<MarkdownGetResponse>(
+    const notFoundError = validateResultFound(
+      markdown,
+      createErrorResponse('Markdown not found')
+    );
+    if (notFoundError) return notFoundError;
+
+    return NextResponse.json<MarkdownResponses['Get']>(
       { markdown },
       {
         status: StatusCodes.OK,
@@ -97,39 +66,80 @@ export async function GET(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
-  let markdownKey: string | null = null;
-
+export async function POST(
+  req: Request
+): Promise<NextResponse | NextResponse<MarkdownResponses['Post']>> {
   try {
     validateUserSession('API');
 
-    const url = new URL(req.url);
-    markdownKey = url.searchParams.get('markdownKey') ?? '';
+    const reqData = await req.json();
 
-    const validateResult = validateRequestAgainstSchema(
+    const schemaError = validateRequestAgainstSchema(
+      reqData,
+      createMarkdownSchema
+    );
+    if (schemaError) return schemaError;
+
+    const markdownKey = `blog-posts/${reqData.blogId}/content/blog.mdx`;
+
+    const s3Res = await s3Client.send(
+      new PutObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: markdownKey,
+        Body: reqData.markdown,
+        CacheControl: 'public, max-age=31536000, immutable',
+      })
+    );
+
+    const awsError = s3ResponseHandler(s3Res, {
+      expectedStatus: StatusCodes.OK,
+      errorMessage: `Failed to upload markdown - ${reqData.markdownKey}`,
+    });
+    if (awsError) return awsError;
+
+    return NextResponse.json<MarkdownResponses['Post']>(
+      {
+        blogId: reqData.blogId,
+        markdownKey,
+      },
+      { status: StatusCodes.CREATED }
+    );
+  } catch (err: Error | unknown) {
+    return genericCatchError(err);
+  }
+}
+
+export async function DELETE(
+  req: Request
+): Promise<NextResponse | NextResponse<MarkdownResponses['Delete']>> {
+  try {
+    validateUserSession('API');
+
+    const markdownKey = new URL(req.url).searchParams.get('markdownKey') ?? '';
+
+    const schemaError = validateRequestAgainstSchema(
       markdownKey,
       Validations.markdownKey
     );
+    if (schemaError) return schemaError;
 
-    if (validateResult) return validateResult;
+    const s3Res = await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: markdownKey,
+      })
+    );
 
-    const deleteCommand = new DeleteObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: markdownKey,
-    });
+    const awsError = validateResponse(
+      s3Res.$metadata.httpStatusCode,
+      StatusCodes.NO_CONTENT,
+      `Failed to delete markdown - ${markdownKey}`
+    );
+    if (awsError) return awsError;
 
-    const s3Res = await s3Client.send(deleteCommand);
-
-    if (s3Res.$metadata.httpStatusCode !== StatusCodes.NO_CONTENT) {
-      return NextResponse.json<ApiErrorResponse>(
-        createErrorResponse(`Failed to delete markdown - ${markdownKey}`),
-        { status: s3Res.$metadata.httpStatusCode }
-      );
-    }
-
-    return NextResponse.json<MarkdownDeleteResponse>(
+    return NextResponse.json<MarkdownResponses['Delete']>(
       {
-        message: 'Markdown file deleted successfully',
+        message: 'File deleted',
         markdownKey,
       },
       { status: StatusCodes.OK }

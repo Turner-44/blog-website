@@ -4,7 +4,7 @@ import {
   BlogsPostResponse,
   ImagePostResponse,
   MarkdownPostResponse,
-} from '@/types/api';
+} from '@/types/api/api';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 

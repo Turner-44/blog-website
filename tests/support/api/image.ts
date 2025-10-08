@@ -1,12 +1,12 @@
 import { CreateBlogDataAPI, getImageFile } from '@/tests/data/create-blog';
-import { ImagePostResponse } from '@/types/api';
+import { ImageResponses } from '@/types/api/image';
 import { APIRequestContext } from '@playwright/test';
 
 export const storeImage = async (
   apiContext: APIRequestContext,
   blogData: CreateBlogDataAPI,
   category: 'feature' | 'preview'
-): Promise<ImagePostResponse> => {
+): Promise<ImageResponses['Post']> => {
   const imageFileName =
     category === 'feature'
       ? blogData.featureImageFileName

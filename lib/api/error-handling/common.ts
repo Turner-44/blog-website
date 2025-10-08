@@ -1,4 +1,4 @@
-import { ApiErrorResponse } from '@/types/api';
+import { ApiErrorResponse } from '@/types/api/common';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
@@ -101,6 +101,24 @@ export const s3ResponseHandler = <
     return NextResponse.json<ApiErrorResponse>(createErrorResponse(message), {
       status: sanitizedClientStatusCodes(actualStatus),
     });
+  }
+  return null;
+};
+
+export const validateResponse = (
+  actualStatus: StatusCodes | undefined,
+  expectedStatus: StatusCodes,
+  errorMessage: string
+) => {
+  if (actualStatus !== expectedStatus) {
+    console.error('API Error: ', {
+      expectedStatus,
+      actualStatus,
+    });
+    return NextResponse.json<ApiErrorResponse>(
+      createErrorResponse(errorMessage),
+      { status: actualStatus }
+    );
   }
   return null;
 };

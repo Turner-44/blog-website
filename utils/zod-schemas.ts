@@ -54,6 +54,11 @@ const s3MarkdownKey = z
 
 const id = z.uuid();
 
+const sk = z
+  .string()
+  .min(5, 'SK must be at least 5 characters long')
+  .max(100, 'SK must be at most 100 characters long');
+
 export const Validations = {
   id,
   slug,
@@ -66,6 +71,7 @@ export const Validations = {
   publishedAt: date,
   imageKey: s3ImageKey,
   markdownKey: s3MarkdownKey,
+  sk,
 };
 
 export const blogSchema = z.object({

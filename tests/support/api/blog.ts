@@ -1,18 +1,16 @@
 import { CreateBlogDataAPI } from '@/tests/data/create-blog';
-import {
-  BlogsPostResponse,
-  ImagePostResponse,
-  MarkdownPostResponse,
-} from '@/types/api';
+import { ImageResponses } from '@/types/api/image';
+import { BlogsResponses } from '@/types/api/blogs';
+import { MarkdownResponses } from '@/types/api/markdown';
 import { APIRequestContext } from '@playwright/test';
 
 export const storeBlogMetaData = async (
   apiContext: APIRequestContext,
   blogData: CreateBlogDataAPI,
-  featureImageJson: ImagePostResponse,
-  previewImageJson: ImagePostResponse,
-  markdownJson: MarkdownPostResponse
-): Promise<BlogsPostResponse> => {
+  featureImageJson: ImageResponses['Post'],
+  previewImageJson: ImageResponses['Post'],
+  markdownJson: MarkdownResponses['Post']
+): Promise<BlogsResponses['Post']> => {
   const metaDataBody = JSON.stringify({
     id: blogData.id,
     title: blogData.title,
@@ -34,7 +32,7 @@ export const storeBlogMetaData = async (
 
 export const deleteBlogPost = async (
   apiContext: APIRequestContext,
-  blog: BlogsPostResponse
+  blog: BlogsResponses['Post']
 ) => {
   const blogMetaRes = await apiContext.delete(
     `/api/blogs?sk=${encodeURIComponent(blog.item.SK)}`

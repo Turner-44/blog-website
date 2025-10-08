@@ -3,40 +3,38 @@ import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 
 import { BUCKET_NAME, s3Client } from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
+import { ImageResponses } from '@/types/api/image';
 import {
-  ApiErrorResponse,
-  ImageDeleteResponse,
-  ImagePostResponse,
-} from '@/types/api';
-import {
-  createErrorResponse,
   genericCatchError,
+  s3ResponseHandler,
   validateRequestAgainstSchema,
 } from '@/lib/api/error-handling/common';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { createImageSchema, Validations } from '@/utils/zod-schemas';
 
-export async function POST(req: Request) {
+export async function POST(
+  req: Request
+): Promise<NextResponse | NextResponse<ImageResponses['Post']>> {
   try {
     validateUserSession('API');
 
     const formData = await req.formData();
-    const imageFile = formData.get('image') as File;
-    const imageFileType = imageFile?.type?.split('/')[1];
-    const imageCategory = (formData.get('category') as string) ?? '';
-    const blogId = (formData.get('blogId') as string) ?? '';
-    const slug = (formData.get('slug') as string) ?? '';
+    const entries = Object.fromEntries(formData.entries());
 
-    const validateSchemaResult = validateRequestAgainstSchema(
-      Object.fromEntries(formData.entries()),
+    const schemaError = validateRequestAgainstSchema(
+      entries,
       createImageSchema
     );
+    if (schemaError) return schemaError;
 
-    if (validateSchemaResult) return validateSchemaResult;
+    const imageFile = formData.get('image') as File;
+    const fileType = imageFile?.type?.split('/')[1];
 
-    const imageKey = `blog-posts/${formData.get('blogId')}/images/${formData.get('slug')}-${imageCategory}.${imageFileType}`;
+    const { blogId, slug, category } = entries as Record<string, string>;
 
-    await s3Client.send(
+    const imageKey = `blog-posts/${blogId}/images/${slug}-${category}.${fileType}`;
+
+    const s3Res = await s3Client.send(
       new PutObjectCommand({
         Bucket: BUCKET_NAME,
         Key: imageKey,
@@ -46,10 +44,16 @@ export async function POST(req: Request) {
       })
     );
 
-    return NextResponse.json<ImagePostResponse>(
+    const awsError = s3ResponseHandler(s3Res, {
+      expectedStatus: StatusCodes.OK,
+      errorMessage: `Failed to upload image - ${imageKey}`,
+    });
+    if (awsError) return awsError;
+
+    return NextResponse.json<ImageResponses['Post']>(
       {
-        blogId: blogId,
-        slug: slug,
+        blogId,
+        slug,
         imageKey,
       },
       { status: StatusCodes.CREATED }
@@ -59,37 +63,36 @@ export async function POST(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(
+  req: Request
+): Promise<NextResponse | NextResponse<ImageResponses['Delete']>> {
   try {
     validateUserSession('API');
 
-    const url = new URL(req.url);
-    const imageKey = url.searchParams.get('imageKey') ?? '';
+    const imageKey = new URL(req.url).searchParams.get('imageKey') ?? '';
 
-    const validateSchemaResult = validateRequestAgainstSchema(
+    const schemaError = validateRequestAgainstSchema(
       imageKey,
       Validations.imageKey
     );
+    if (schemaError) return schemaError;
 
-    if (validateSchemaResult) return validateSchemaResult;
+    const s3Res = await s3Client.send(
+      new DeleteObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: imageKey,
+      })
+    );
 
-    const deleteCommand = new DeleteObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: imageKey,
+    const awsError = s3ResponseHandler(s3Res, {
+      expectedStatus: StatusCodes.NO_CONTENT,
+      errorMessage: `Failed to delete image - ${imageKey}`,
     });
+    if (awsError) return awsError;
 
-    const s3Res = await s3Client.send(deleteCommand);
-
-    if (s3Res.$metadata.httpStatusCode !== StatusCodes.NO_CONTENT) {
-      return NextResponse.json<ApiErrorResponse>(
-        createErrorResponse(`Failed to delete image ${imageKey}`),
-        { status: s3Res.$metadata.httpStatusCode }
-      );
-    }
-
-    return NextResponse.json<ImageDeleteResponse>(
+    return NextResponse.json<ImageResponses['Delete']>(
       {
-        message: 'Image file deleted successfully',
+        message: 'File deleted',
         imageKey,
       },
       { status: StatusCodes.OK }

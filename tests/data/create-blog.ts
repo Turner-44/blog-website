@@ -54,7 +54,8 @@ export const createBlogDataUI = (
     slug: faker.helpers
       .slugify(title)
       .toLowerCase()
-      .replace(/[^a-zA-Z0-9]/g, ''),
+      .replace(' ', '-')
+      .replace(/[^a-zA-Z0-9-]/g, ''),
     summary: faker.lorem.sentence(),
     markdown: getMarkdownString(markdown),
     tags: ['test'],
@@ -75,7 +76,8 @@ export const createBlogDataAPI = (
     slug: faker.helpers
       .slugify(title)
       .toLowerCase()
-      .replace(/[^a-zA-Z0-9]/g, ''),
+      .replace(' ', '-')
+      .replace(/[^a-zA-Z0-9-]/g, ''),
     summary: faker.lorem.sentence(),
     markdown: getMarkdownString(markdown),
     tags: ['test'],

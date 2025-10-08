@@ -1,5 +1,8 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  QueryCommandInput,
+} from '@aws-sdk/lib-dynamodb';
 
 const dbClient = new DynamoDBClient({
   credentials: {
@@ -9,3 +12,40 @@ const dbClient = new DynamoDBClient({
 });
 
 export const dynamoDBClient = DynamoDBDocumentClient.from(dbClient);
+
+export const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
+
+export const BLOG_PK = 'BLOG';
+
+const BASE_ATTRIBUTES = [
+  'id',
+  'slug',
+  'title',
+  'summary',
+  'featureImageKey',
+  'previewImageKey',
+  'markdownKey',
+  'publishedAt',
+  'tags',
+  'SK',
+];
+
+const projectionExpression = BASE_ATTRIBUTES.join(', ');
+
+export const buildAllBlogsQuery = (url: URL): QueryCommandInput => ({
+  TableName: TABLE_NAME,
+  KeyConditionExpression: '#pk = :pk',
+  ExpressionAttributeNames: { '#pk': 'PK' },
+  ExpressionAttributeValues: { ':pk': BLOG_PK },
+  ScanIndexForward: false,
+  Limit: Number(url.searchParams.get('limit') ?? 50),
+  ProjectionExpression: projectionExpression,
+});
+
+export const buildBlogBySlugQuery = (slug: string): QueryCommandInput => ({
+  TableName: TABLE_NAME,
+  IndexName: 'slug-index',
+  KeyConditionExpression: 'slug = :slug',
+  ExpressionAttributeValues: { ':slug': slug },
+  ProjectionExpression: projectionExpression,
+});

@@ -1,22 +1,19 @@
 import { NextResponse } from 'next/server';
 
 import { QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
-import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 
-import { dynamoDBClient } from '@/lib/api/aws/dynamo';
+import {
+  dynamoDBClient,
+  TABLE_NAME,
+  buildAllBlogsQuery,
+  buildBlogBySlugQuery,
+} from '@/lib/api/aws/dynamo';
 import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
-import {
-  ApiErrorResponse,
-  BlogsDeleteResponse,
-  BlogsGetResponse,
-  BlogsPostResponse,
-  BlogsResponseItem,
-} from '@/types/api';
+import { BlogsResponses } from '@/types/api/blogs';
 import { Validations, createBlogSchema } from '@/utils/zod-schemas';
 import { BlogMetaData } from '@/types/blog';
 import {
-  createErrorResponse,
   dynamoDBResponseHandler,
   genericCatchError,
   validateRequestAgainstSchema,
@@ -24,42 +21,9 @@ import {
 } from '@/lib/api/error-handling/common';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 
-const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
-
-const attributes = {
-  id: 'id',
-  slug: 'slug',
-  title: 'title',
-  summary: 'summary',
-  featureImageKey: 'featureImageKey',
-  previewImageKey: 'previewImageKey',
-  markdownKey: 'markdownKey',
-  publishedAt: 'publishedAt',
-  tags: 'tags',
-  SK: 'SK',
-};
-
-const getQueryCommandAttr = (url: URL): QueryCommandInput => ({
-  TableName: TABLE_NAME,
-  KeyConditionExpression: '#pk = :blog',
-  ExpressionAttributeNames: { '#pk': 'PK' },
-  ExpressionAttributeValues: { ':blog': 'BLOG' },
-  ScanIndexForward: false,
-  Limit: Number(url.searchParams.get('limit')) ?? 50,
-  ProjectionExpression: Object.values(attributes).join(', '),
-});
-
-const getQueryCommandAttrBySlug = (url: URL): QueryCommandInput => ({
-  TableName: TABLE_NAME,
-  IndexName: 'slug-index',
-  KeyConditionExpression: 'slug = :slug',
-  ExpressionAttributeValues: {
-    ':slug': `${url.searchParams.get('slug')}`,
-  },
-  ProjectionExpression: Object.values(attributes).join(', '),
-});
-
-export async function GET(req: Request) {
+export async function GET(
+  req: Request
+): Promise<NextResponse | NextResponse<BlogsResponses['Get']>> {
   try {
     const url = new URL(req.url);
 
@@ -67,30 +31,33 @@ export async function GET(req: Request) {
 
     if (url.searchParams.has('slug')) {
       const slug = url.searchParams.get('slug') ?? '';
-      const validateResult = validateRequestAgainstSchema(
-        slug,
-        Validations.slug
-      );
 
-      if (validateResult) return validateResult;
+      const schemaError = validateRequestAgainstSchema(slug, Validations.slug);
+      if (schemaError) return schemaError;
 
-      queryParams = getQueryCommandAttrBySlug(url);
+      queryParams = buildBlogBySlugQuery(slug);
     } else {
-      queryParams = getQueryCommandAttr(url);
+      queryParams = buildAllBlogsQuery(url);
     }
 
     const dynamodbRes = await dynamoDBClient.send(
       new QueryCommand(queryParams)
     );
 
-    const validateResult = validateResultFound(
+    const awsError = dynamoDBResponseHandler(dynamodbRes, {
+      expectedStatus: StatusCodes.OK,
+      errorMessage: `Failed to retrieve blog posts`,
+    });
+    if (awsError) return awsError;
+
+    const notFoundError = validateResultFound(
       (dynamodbRes.Items ?? []).length > 0
     );
-    if (validateResult) return validateResult;
+    if (notFoundError) return notFoundError;
 
-    return NextResponse.json<BlogsGetResponse>(
+    return NextResponse.json<BlogsResponses['Get']>(
       {
-        items: dynamodbRes.Items as BlogsResponseItem[],
+        items: dynamodbRes.Items as BlogMetaData[],
       },
       {
         status: StatusCodes.OK,
@@ -104,18 +71,16 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(
+  req: Request
+): Promise<NextResponse | NextResponse<BlogsResponses['Post']>> {
   try {
     validateUserSession('API');
 
     const reqData = await req.json();
 
-    const validateSchemaResult = validateRequestAgainstSchema(
-      reqData,
-      createBlogSchema
-    );
-
-    if (validateSchemaResult) return validateSchemaResult;
+    const schemaError = validateRequestAgainstSchema(reqData, createBlogSchema);
+    if (schemaError) return schemaError;
 
     const id = reqData.id || crypto.randomUUID();
 
@@ -123,33 +88,24 @@ export async function POST(req: Request) {
       PK: 'BLOG',
       SK: `${reqData.publishedAt}#${id}`,
       id: id,
-      title: reqData.title,
-      slug: reqData.slug,
-      summary: reqData.summary,
-      featureImageKey: reqData.featureImageKey,
-      previewImageKey: reqData.previewImageKey,
-      markdownKey: reqData.markdownKey,
-      publishedAt: reqData.publishedAt,
-      tags: reqData.tags,
+      ...reqData,
     };
 
-    const command = new PutCommand({
-      TableName: TABLE_NAME,
-      Item: item,
-    });
+    const dynamodbRes = await dynamoDBClient.send(
+      new PutCommand({
+        TableName: TABLE_NAME,
+        Item: item,
+      })
+    );
 
-    const dynamodbRes = await dynamoDBClient.send(command);
-
-    const validateResult = dynamoDBResponseHandler(dynamodbRes, {
+    const awsError = dynamoDBResponseHandler(dynamodbRes, {
       expectedStatus: StatusCodes.OK,
+      errorMessage: `Failed to create blog post - ${reqData.title}`,
     });
+    if (awsError) return awsError;
 
-    if (validateResult) return validateResult;
-
-    return NextResponse.json<BlogsPostResponse>(
-      {
-        item: item as BlogsResponseItem,
-      },
+    return NextResponse.json<BlogsResponses['Post']>(
+      { item },
       { status: StatusCodes.CREATED }
     );
   } catch (err: Error | unknown) {
@@ -157,38 +113,34 @@ export async function POST(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(
+  req: Request
+): Promise<NextResponse | NextResponse<BlogsResponses['Delete']>> {
   try {
     validateUserSession('API');
 
-    const url = new URL(req.url);
+    const sk = new URL(req.url).searchParams.get('sk') as string;
 
-    const sk = url.searchParams.get('sk') as string;
+    const schemaError = validateRequestAgainstSchema(sk, Validations.sk);
+    if (schemaError) return schemaError;
 
-    if (sk === '') {
-      return NextResponse.json<ApiErrorResponse>(createErrorResponse('No SK'), {
-        status: 404,
-      });
-    }
+    const dynamodbRes = await dynamoDBClient.send(
+      new DeleteItemCommand({
+        TableName: TABLE_NAME,
+        Key: {
+          PK: { S: 'BLOG' },
+          SK: { S: sk },
+        },
+      })
+    );
 
-    const deleteCommand = new DeleteItemCommand({
-      TableName: TABLE_NAME,
-      Key: {
-        PK: { S: 'BLOG' },
-        SK: { S: sk },
-      },
+    const awsError = dynamoDBResponseHandler(dynamodbRes, {
+      expectedStatus: StatusCodes.OK,
+      errorMessage: `Failed to delete blog post - ${sk}`,
     });
+    if (awsError) return awsError;
 
-    const dynamodbRes = await dynamoDBClient.send(deleteCommand);
-
-    if (dynamodbRes.$metadata.httpStatusCode !== StatusCodes.NO_CONTENT) {
-      return NextResponse.json<ApiErrorResponse>(
-        createErrorResponse('Failed to delete blog post'),
-        { status: dynamodbRes.$metadata.httpStatusCode }
-      );
-    }
-
-    return NextResponse.json<BlogsDeleteResponse>(
+    return NextResponse.json<BlogsResponses['Delete']>(
       {
         message: 'Blog was deleted',
         PK: 'BLOG',

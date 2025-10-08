@@ -100,6 +100,11 @@ test.describe.serial(
         .getByTestId(`btn-blog-deletion-row-delete-${blogData.slug}`)
         .click();
 
+      await page.waitForSelector(
+        `[data-testid="row-blog-deletion-grid-${blogData.slug}"]`,
+        { state: 'detached', timeout: 10000 }
+      );
+
       await expect(
         page.getByTestId(`row-blog-deletion-grid-${blogData.slug}`)
       ).toHaveCount(0);

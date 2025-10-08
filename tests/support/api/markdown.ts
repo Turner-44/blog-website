@@ -1,11 +1,11 @@
 import { CreateBlogDataAPI } from '@/tests/data/create-blog';
-import { MarkdownPostResponse } from '@/types/api';
+import { MarkdownResponses } from '@/types/api/markdown';
 import type { APIRequestContext } from '@playwright/test';
 
 export const storeMarkdown = async (
   apiContext: APIRequestContext,
   blogData: CreateBlogDataAPI
-): Promise<MarkdownPostResponse> => {
+): Promise<MarkdownResponses['Post']> => {
   const markdownBody = JSON.stringify({
     blogId: blogData.id,
     markdown: blogData.markdown,
