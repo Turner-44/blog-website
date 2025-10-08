@@ -3,81 +3,31 @@
     "blogMetaData": {
       "item": {
         "PK": "BLOG",
-        "SK": "2025-10-04T18:52:24.752Z#7374ca05-54c0-46f4-9e0c-84bff85a838d",
-        "id": "7374ca05-54c0-46f4-9e0c-84bff85a838d",
-        "title": "The Moviegoer",
-        "slug": "the-moviegoer",
-        "summary": "Tempore suppellex audeo valde officiis universe aptus appello.",
-        "imageKey": "blog-posts/7374ca05-54c0-46f4-9e0c-84bff85a838d/images/the-moviegoer.png",
-        "markdownKey": "blog-posts/7374ca05-54c0-46f4-9e0c-84bff85a838d/content/blog.mdx",
-        "publishedAt": "2025-10-04T18:52:24.752Z",
-        "tags": [
-          "test"
-        ]
+        "SK": "",
+        "id": "",
+        "title": "",
+        "slug": "",
+        "summary": "",
+        "featureImageKey": "",
+        "previewImageKey": "",
+        "markdownKey": "",
+        "publishedAt": "",
+        "tags": []
       }
     },
-    "imageJson": {
-      "blogId": "7374ca05-54c0-46f4-9e0c-84bff85a838d",
-      "slug": "the-moviegoer",
-      "imageKey": "blog-posts/7374ca05-54c0-46f4-9e0c-84bff85a838d/images/the-moviegoer.png"
+    "featureImageJson": {
+      "blogId": "",
+      "slug": "",
+      "imageKey": ""
+    },
+    "previewImageJson": {
+      "blogId": "",
+      "slug": "",
+      "imageKey": ""
     },
     "markdownJson": {
-      "blogId": "7374ca05-54c0-46f4-9e0c-84bff85a838d",
-      "markdownKey": "blog-posts/7374ca05-54c0-46f4-9e0c-84bff85a838d/content/blog.mdx"
-    }
-  },
-  {
-    "blogMetaData": {
-      "item": {
-        "PK": "BLOG",
-        "SK": "2025-10-04T18:52:24.753Z#ffcd4e31-d361-4e9e-81f5-28fdb28bba91",
-        "id": "ffcd4e31-d361-4e9e-81f5-28fdb28bba91",
-        "title": "The Heart of the Matter",
-        "slug": "the-heart-of-the-matter",
-        "summary": "Vilitas ancilla basium alias utpote beneficium tonsor demonstro voluptas conservo.",
-        "imageKey": "blog-posts/ffcd4e31-d361-4e9e-81f5-28fdb28bba91/images/the-heart-of-the-matter.png",
-        "markdownKey": "blog-posts/ffcd4e31-d361-4e9e-81f5-28fdb28bba91/content/blog.mdx",
-        "publishedAt": "2025-10-04T18:52:24.753Z",
-        "tags": [
-          "test"
-        ]
-      }
-    },
-    "imageJson": {
-      "blogId": "ffcd4e31-d361-4e9e-81f5-28fdb28bba91",
-      "slug": "the-heart-of-the-matter",
-      "imageKey": "blog-posts/ffcd4e31-d361-4e9e-81f5-28fdb28bba91/images/the-heart-of-the-matter.png"
-    },
-    "markdownJson": {
-      "blogId": "ffcd4e31-d361-4e9e-81f5-28fdb28bba91",
-      "markdownKey": "blog-posts/ffcd4e31-d361-4e9e-81f5-28fdb28bba91/content/blog.mdx"
-    }
-  },
-  {
-    "blogMetaData": {
-      "item": {
-        "PK": "BLOG",
-        "SK": "2025-10-04T18:52:24.753Z#fe3bfd21-275d-4eda-b813-254afe68d0c4",
-        "id": "fe3bfd21-275d-4eda-b813-254afe68d0c4",
-        "title": "Great Expectations",
-        "slug": "great-expectations",
-        "summary": "Varietas adfectus sed desidero supellex tres aufero adfectus.",
-        "imageKey": "blog-posts/fe3bfd21-275d-4eda-b813-254afe68d0c4/images/great-expectations.png",
-        "markdownKey": "blog-posts/fe3bfd21-275d-4eda-b813-254afe68d0c4/content/blog.mdx",
-        "publishedAt": "2025-10-04T18:52:24.753Z",
-        "tags": [
-          "test"
-        ]
-      }
-    },
-    "imageJson": {
-      "blogId": "fe3bfd21-275d-4eda-b813-254afe68d0c4",
-      "slug": "great-expectations",
-      "imageKey": "blog-posts/fe3bfd21-275d-4eda-b813-254afe68d0c4/images/great-expectations.png"
-    },
-    "markdownJson": {
-      "blogId": "fe3bfd21-275d-4eda-b813-254afe68d0c4",
-      "markdownKey": "blog-posts/fe3bfd21-275d-4eda-b813-254afe68d0c4/content/blog.mdx"
+      "blogId": "",
+      "markdownKey": ""
     }
   }
 ]
