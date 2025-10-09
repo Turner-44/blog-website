@@ -1,4 +1,4 @@
-import { genericCatchError } from '@/lib/api/error-handling/common';
+import { genericCatchError } from '@/lib/api/error-handling/api';
 import { StatusCodes } from 'http-status-codes';
 import { NextResponse } from 'next/server';
 

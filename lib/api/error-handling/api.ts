@@ -16,12 +16,6 @@ export const createErrorResponse = (message: string): ApiErrorResponse => ({
   success: false,
 });
 
-export const createUIErrorResponse = (message: string, payload: FormData) => ({
-  message,
-  payload: payload,
-  success: false,
-});
-
 export const validateRequestAgainstSchema = (
   data: unknown,
   schema: z.ZodSchema

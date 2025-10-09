@@ -1,4 +1,4 @@
-import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
+import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
 import { faker } from '@faker-js/faker';
 import fs from 'fs';
 import path from 'path';

@@ -5,7 +5,7 @@ import { MarkdownResponses } from '@/types/api/markdown';
 import { request } from '@playwright/test';
 import testData from './data/.temp/test-blog-data.json';
 import { deleteBlogPost } from './support/api/blog';
-import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
+import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
 import { test as teardown } from '@playwright/test';
 
 teardown('Delete blogs', async ({}) => {

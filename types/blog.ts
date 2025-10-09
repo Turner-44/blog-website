@@ -1,5 +1,5 @@
-import { blogMetaDataSchema, blogSchema } from '@/utils/zod-schemas';
+import { blogSchema, blogUiFormSchema } from '@/lib/zod';
 import z from 'zod';
 
-export type BlogFormData = z.infer<typeof blogSchema>;
-export type BlogMetaData = z.infer<typeof blogMetaDataSchema>;
+export type BlogFormData = z.infer<typeof blogUiFormSchema>;
+export type BlogMetaData = z.infer<typeof blogSchema>;

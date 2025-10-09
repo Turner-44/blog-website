@@ -59,7 +59,7 @@ const sk = z
   .min(5, 'SK must be at least 5 characters long')
   .max(100, 'SK must be at most 100 characters long');
 
-export const Validations = {
+export const FieldSchemas = {
   id,
   slug,
   title,
@@ -73,52 +73,3 @@ export const Validations = {
   markdownKey: s3MarkdownKey,
   sk,
 };
-
-export const blogSchema = z.object({
-  title: Validations.title,
-  slug: Validations.slug,
-  summary: Validations.summary,
-  markdown: Validations.markdown,
-  featureImage: Validations.image,
-  previewImage: Validations.image,
-  tags: Validations.tags,
-  publishedAt: Validations.publishedAt,
-});
-
-export const createBlogSchema = z.object({
-  id: Validations.id,
-  title: Validations.title,
-  slug: Validations.slug,
-  summary: Validations.summary,
-  markdownKey: Validations.markdownKey,
-  featureImageKey: Validations.imageKey,
-  previewImageKey: Validations.imageKey,
-  tags: Validations.tags,
-  publishedAt: Validations.publishedAt,
-});
-
-export const blogMetaDataSchema = z.object({
-  PK: z.literal('BLOG'),
-  SK: z.string(),
-  id: Validations.id,
-  title: Validations.title,
-  slug: Validations.slug,
-  summary: Validations.summary,
-  markdownKey: Validations.markdownKey,
-  featureImageKey: Validations.imageKey,
-  previewImageKey: Validations.imageKey,
-  tags: Validations.tags,
-  publishedAt: Validations.publishedAt,
-});
-
-export const createMarkdownSchema = z.object({
-  blogId: Validations.id,
-  markdown: Validations.markdown,
-});
-
-export const createImageSchema = z.object({
-  blogId: Validations.id,
-  slug: Validations.slug,
-  image: Validations.image,
-  category: Validations.imageCategory,
-});

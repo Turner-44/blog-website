@@ -8,9 +8,9 @@ import {
   genericCatchError,
   s3ResponseHandler,
   validateRequestAgainstSchema,
-} from '@/lib/api/error-handling/common';
+} from '@/lib/api/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
-import { createImageSchema, Validations } from '@/utils/zod-schemas';
+import { FieldSchemas, createImageSchema } from '@/lib/zod';
 
 export async function POST(
   req: Request
@@ -73,7 +73,7 @@ export async function DELETE(
 
     const schemaError = validateRequestAgainstSchema(
       imageKey,
-      Validations.imageKey
+      FieldSchemas.imageKey
     );
     if (schemaError) return schemaError;
 

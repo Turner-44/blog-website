@@ -4,8 +4,8 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
 import { z } from 'zod';
-import { blogSchema } from '@/utils/zod-schemas';
-import { createUIErrorResponse } from '../error-handling/common';
+import { blogUiFormSchema } from '@/lib/zod';
+import { createUIErrorResponse } from '../error-handling/ui';
 
 type TreeifiedError = {
   errors: string[];
@@ -24,7 +24,7 @@ export async function createBlog(
   data: FormData
 ): Promise<FormState> {
   try {
-    const validatedFields = blogSchema.safeParse({
+    const validatedFields = blogUiFormSchema.safeParse({
       title: data.get('title'),
       slug: data.get('slug'),
       summary: data.get('summary'),

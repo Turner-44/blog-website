@@ -11,14 +11,14 @@ import {
 import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { BlogsResponses } from '@/types/api/blogs';
-import { Validations, createBlogSchema } from '@/utils/zod-schemas';
+import { FieldSchemas, createBlogSchema } from '@/lib/zod';
 import { BlogMetaData } from '@/types/blog';
 import {
   dynamoDBResponseHandler,
   genericCatchError,
   validateRequestAgainstSchema,
   validateResultFound,
-} from '@/lib/api/error-handling/common';
+} from '@/lib/api/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 
 export async function GET(
@@ -32,7 +32,7 @@ export async function GET(
     if (url.searchParams.has('slug')) {
       const slug = url.searchParams.get('slug') ?? '';
 
-      const schemaError = validateRequestAgainstSchema(slug, Validations.slug);
+      const schemaError = validateRequestAgainstSchema(slug, FieldSchemas.slug);
       if (schemaError) return schemaError;
 
       queryParams = buildBlogBySlugQuery(slug);
@@ -121,7 +121,7 @@ export async function DELETE(
 
     const sk = new URL(req.url).searchParams.get('sk') as string;
 
-    const schemaError = validateRequestAgainstSchema(sk, Validations.sk);
+    const schemaError = validateRequestAgainstSchema(sk, FieldSchemas.sk);
     if (schemaError) return schemaError;
 
     const dynamodbRes = await dynamoDBClient.send(

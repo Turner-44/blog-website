@@ -15,9 +15,9 @@ import {
   validateRequestAgainstSchema,
   validateResultFound,
   validateResponse,
-} from '@/lib/api/error-handling/common';
+} from '@/lib/api/error-handling/api';
 import { StatusCodes } from 'http-status-codes';
-import { createMarkdownSchema, Validations } from '@/utils/zod-schemas';
+import { createMarkdownSchema, FieldSchemas } from '@/lib/zod';
 
 export async function GET(
   req: Request
@@ -27,7 +27,7 @@ export async function GET(
 
     const schemaError = validateRequestAgainstSchema(
       markdownKey,
-      Validations.markdownKey
+      FieldSchemas.markdownKey
     );
     if (schemaError) return schemaError;
 
@@ -119,7 +119,7 @@ export async function DELETE(
 
     const schemaError = validateRequestAgainstSchema(
       markdownKey,
-      Validations.markdownKey
+      FieldSchemas.markdownKey
     );
     if (schemaError) return schemaError;
 

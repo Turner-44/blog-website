@@ -20,11 +20,11 @@ export default function CreateBlogForm() {
   return (
     <Form
       action={formAction}
-      className="flex flex-col gap-2 p-4 rounded min-w-md"
+      className="flex flex-col gap-1 p-4 rounded min-w-md"
     >
+      <label htmlFor="title">Blog Title:</label>
       <input
         name="title"
-        placeholder="Blog Title"
         className="form-input"
         defaultValue={state.payload?.get('title') as string}
         data-testid="input-blog-title"
@@ -32,9 +32,9 @@ export default function CreateBlogForm() {
       <span className="form-error-text">
         {state.fieldErrors?.properties?.title?.errors[0]}
       </span>
+      <label htmlFor="slug">Blog Slug:</label>
       <input
         name="slug"
-        placeholder="Blog Slug"
         className="form-input"
         defaultValue={state.payload?.get('slug') as string}
         data-testid="input-blog-slug"
@@ -42,9 +42,10 @@ export default function CreateBlogForm() {
       <span className="form-error-text">
         {state.fieldErrors?.properties?.slug?.errors[0]}
       </span>
+      <label htmlFor="summary">Blog Summary:</label>
       <input
         name="summary"
-        placeholder="Short Summary For Blog Card"
+        placeholder="A short summary of the blog"
         className="form-input"
         defaultValue={state.payload?.get('summary') as string}
         data-testid="input-blog-summary"
@@ -52,6 +53,7 @@ export default function CreateBlogForm() {
       <span className="form-error-text">
         {state.fieldErrors?.properties?.summary?.errors[0]}
       </span>
+      <label htmlFor="markdown">Blog Content:</label>
       <textarea
         name="markdown"
         placeholder="Blog Written In Markdown (MDX) Format"
@@ -63,6 +65,7 @@ export default function CreateBlogForm() {
       <span className="form-error-text">
         {state.fieldErrors?.properties?.markdown?.errors[0]}
       </span>
+      <label htmlFor="featureImage">Feature Image:</label>
       <input
         type="file"
         name="featureImage"
@@ -74,7 +77,9 @@ export default function CreateBlogForm() {
       <span className="form-error-text">
         {state.fieldErrors?.properties?.featureImage?.errors[0]}
       </span>
+      <label htmlFor="previewImage">Preview Image:</label>
       <input
+        placeholder="Select A Preview Image"
         type="file"
         name="previewImage"
         accept="image/*"
@@ -83,8 +88,9 @@ export default function CreateBlogForm() {
         data-testid="input-blog-preview-image"
       />
       <span className="form-error-text">
-        {state.fieldErrors?.properties?.PreviewImage?.errors[0]}
+        {state.fieldErrors?.properties?.previewImage?.errors[0]}
       </span>
+      <label htmlFor="tags">Blog Tags:</label>
       <input
         name="tags"
         placeholder="Tag Relevant Topics"
@@ -95,6 +101,7 @@ export default function CreateBlogForm() {
       <span className="form-error-text">
         {state.fieldErrors?.properties?.tags?.errors[0]}
       </span>
+      <label htmlFor="publishedAt">Publish Date:</label>
       <input
         type="datetime-local"
         name="publishedAt"
@@ -117,6 +124,9 @@ export default function CreateBlogForm() {
         <p className="text-green-600 text-center mt-4">
           Blog submitted successfully!
         </p>
+      )}
+      {!state.success && (
+        <p className="text-red-600 text-center mt-4">{state.message}</p>
       )}
     </Form>
   );

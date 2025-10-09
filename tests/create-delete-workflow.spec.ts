@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { createBlogDataUI } from './data/create-blog';
-import { TEST_PATHS, resolveFromRoot } from '@/utils/paths';
+import { TEST_PATHS, resolveFromRoot } from '@/lib/utils/paths';
 import path from 'path';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });

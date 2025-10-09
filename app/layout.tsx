@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { nunito, roboto } from '@/utils/fonts';
+import { nunito, roboto } from '@/lib/utils/fonts';
 import Navbar from '@/components/navigation/navbar';
 import Footer from '@/components/navigation/footer';
 
