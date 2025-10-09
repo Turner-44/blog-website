@@ -2,56 +2,74 @@
 
 import { cookies } from 'next/headers';
 import { BlogMetaData } from '@/types/blog';
+import { BlogsRequestBody } from '@/types/api/blogs';
+import { MarkdownResponses } from '@/types/api/markdown';
+import { deleteRequest } from '../common/delete';
+import z from 'zod';
+import { FieldSchemas } from '@/lib/zod/field-schema';
+
+const deleteMarkdown = async (
+  blogId: z.infer<typeof FieldSchemas.id>,
+  markdownKey: z.infer<typeof FieldSchemas.markdownKey>,
+  cookieHeader: string
+) => {
+  return deleteRequest<MarkdownResponses['Delete']>(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blogId}/markdown?markdownKey=${encodeURIComponent(markdownKey)}`,
+    cookieHeader
+  );
+};
+
+const deleteImage = async (
+  blogId: z.infer<typeof FieldSchemas.id>,
+  imageKey: z.infer<typeof FieldSchemas.imageKey>,
+  cookieHeader: string
+) => {
+  return deleteRequest<MarkdownResponses['Delete']>(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blogId}/image?imageKey=${encodeURIComponent(imageKey)}`,
+    cookieHeader
+  );
+};
+
+const deleteBlogMetaData = async (
+  sk: z.infer<typeof FieldSchemas.sk>,
+  cookieHeader: string
+) => {
+  return deleteRequest<MarkdownResponses['Delete']>(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?sk=${encodeURIComponent(sk)}`,
+    cookieHeader
+  );
+};
+
+export const cleanupOnFailure = async (
+  blog: BlogsRequestBody['Post'],
+  cookieHeader: string
+) => {
+  await Promise.allSettled([
+    deleteMarkdown(blog.id, blog.markdownKey, cookieHeader),
+    deleteImage(blog.id, blog.featureImageKey, cookieHeader),
+    deleteImage(blog.id, blog.previewImageKey, cookieHeader),
+  ]);
+};
 
 export async function deleteBlogPost(blog: BlogMetaData) {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
   try {
-    const [markdownRes, imageKeyRes, blogDataRes] = await Promise.all([
-      fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blog.id}/markdown?markdownKey=${encodeURIComponent(blog.markdownKey)}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: cookieHeader,
-          },
-        }
-      ),
-      fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blog.id}/image?imageKey=${encodeURIComponent(blog.featureImageKey)}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: cookieHeader,
-          },
-        }
-      ),
-      fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blog.id}/image?imageKey=${encodeURIComponent(blog.previewImageKey)}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: cookieHeader,
-          },
-        }
-      ),
-      fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?sk=${encodeURIComponent(blog.SK)}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Cookie: cookieHeader,
-          },
-        }
-      ),
-    ]);
+    const [markdownRes, imageFeatureRes, imagePreviewRes, blogDataRes] =
+      await Promise.all([
+        deleteMarkdown(blog.id, blog.markdownKey, cookieHeader),
+        deleteImage(blog.id, blog.featureImageKey, cookieHeader),
+        deleteImage(blog.id, blog.previewImageKey, cookieHeader),
+        deleteBlogMetaData(blog.SK, cookieHeader),
+      ]);
 
-    if (!markdownRes.ok || !imageKeyRes.ok || !blogDataRes.ok) {
+    if (
+      !markdownRes.success ||
+      !imageFeatureRes.success ||
+      !imagePreviewRes.success ||
+      !blogDataRes.success
+    ) {
       throw new Error('Failed to delete one or more blog components');
     }
 

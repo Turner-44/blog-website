@@ -4,7 +4,7 @@ import Form from 'next/form';
 import React from 'react';
 
 import { Button } from '@/components/shared-components/button';
-import { createBlog } from '@/lib/api/blog/create-blogs';
+import { createBlog } from '@/lib/api/blog/create-blog.tsx/create-blogs';
 import { FormField } from './input-field';
 import { FileFormField } from './file-input-field';
 

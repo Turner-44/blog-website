@@ -1,4 +1,6 @@
+import { createBlogSchema } from '@/lib/zod';
 import { BlogMetaData } from '../blog';
+import z from 'zod';
 
 export type BlogsResponses = {
   Post: BlogsPostResponse;
@@ -19,3 +21,7 @@ interface BlogsDeleteResponse {
   PK: string;
   SK: string;
 }
+
+export type BlogsRequestBody = { Post: BlogsPostRequestBody };
+
+export type BlogsPostRequestBody = z.infer<typeof createBlogSchema>;

@@ -21,97 +21,106 @@ export default function About() {
         </div>
       </header>
 
-      <section aria-labelledby="intro" className="space-y-3">
-        <p className="text-center py-5">
+      <section
+        aria-labelledby="intro"
+        className="space-y-3 mx-auto text-center"
+      >
+        <p className="py-5">
           Hey, I’m Matthew and welcome to Becoming Matthew.
         </p>
 
-        <p className="text-justify">
+        <p>
           After years in IT, I walked away from the comfort of the career I knew
           in pursuit of something more meaningful.
         </p>
 
-        <p className="text-justify">
+        <p>
           Over the past year, I’ve lived in multiple countries, eventually
           settling in Quebec with barely any French — and ran full speed toward
           a future full of uncertainty.
         </p>
 
-        <p className="text-justify">
+        <p>
           Not because I had it all figured out… but because I believe there’s
           more of me to discover.
         </p>
 
-        <p className="text-justify">
+        <p>
           Becoming Matthew is where I document the messy, honest, and often
           humorous reality of my personal growth journey.
         </p>
 
-        <p className="text-justify">
+        <p>
           It’s a space to explore, unlearn, rebuild, and redefine what a good
           life looks like, on our own terms.
         </p>
       </section>
 
-      <section aria-labelledby="purpose" className="space-y-3">
+      <section
+        aria-labelledby="purpose"
+        className="space-y-3 mx-auto text-center"
+      >
         <h2 id="purpose" className="py-5">
-          What Becoming Matthew Is Really About
+          What Becoming Matthew is Really About
         </h2>
 
         <p>This isn’t a “how-to” guide.</p>
 
-        <p className="text-justify">
+        <p>
           It’s more of a “here’s what I’ve learned while trying to figure it
           out” kind of blog.
         </p>
 
-        <p className="text-justify">
+        <p>
           It’s built on the belief that self-improvement doesn’t have to be
           preachy, overwhelming, or perfect — it just needs to be real.
         </p>
 
-        <p className="text-justify">
+        <p>
           If you’re tired of personal development that feels like a performance…
           this is for you.
         </p>
       </section>
 
-      <section aria-labelledby="values" className="space-y-3">
-        <h2 id="values" className="py-5 tracking-tight text-center">
-          Becoming Matthew is grounded in the values of:
+      <section
+        aria-labelledby="values"
+        className="space-y-3 mx-auto text-center"
+      >
+        <h2 id="values" className="py-5">
+          Becoming Matthew Values:
         </h2>
 
         <div className="space-y-4">
-          <div className="text-center">
+          <div className="">
             <strong>Curiosity</strong>
             <br />
             Questioning what’s known and staying open to what’s not
           </div>
 
-          <div className="text-center">
+          <div>
             <strong>Persistence </strong>
             <br />
             Failure is temporary, but our commitment to growth is not
           </div>
-          <div className="text-center">
+          <div>
             <strong>Open-mindedness</strong>
             <br />
             Challenging norms and embracing change
           </div>
 
-          <div className="text-center">
+          <div>
             <strong>Humour</strong>
             <br />
             Easing the discomfort of growth with laughter
           </div>
 
-          <div className="text-center">
+          <div>
             <strong>Humility</strong>
             <br />
             Never losing sight of our shared humanity
           </div>
 
-          <div className="text-center">
+          <div>
             <strong>Compassion</strong>
             <br />
             Showing ourselves and others the compassion we deserve
@@ -119,12 +128,15 @@ export default function About() {
         </div>
       </section>
 
-      <section aria-labelledby="contact" className="space-y-3">
+      <section
+        aria-labelledby="contact"
+        className="space-y-3 mx-auto text-center"
+      >
         <h2 id="contact" className="py-5">
           Find Me Elsewhere
         </h2>
 
-        <p className="text-justify">
+        <p>
           I post more daily reflections, mini mindset shifts, and
           behind-the-scenes experiments
           <a
@@ -137,12 +149,12 @@ export default function About() {
           .
         </p>
 
-        <p className="text-justify">
+        <p>
           It’s where I show the reel side of the journey — testing habits,
           sharing life lessons, and laughing at myself along the way.
         </p>
 
-        <p className="text-justify">
+        <p>
           Want to collaborate or just say hey?{' '}
           <a href="https://becomingmatthew.com/contact">Reach out here</a>.
         </p>

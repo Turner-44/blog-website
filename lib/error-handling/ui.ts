@@ -4,7 +4,7 @@ export const validateBlogFormSchema = (
   data: FormData,
   schema: z.ZodSchema
 ): {
-  success: boolean;
+  success: true | false;
   message: string;
   fieldErrors: z.core.$ZodErrorTree<typeof schema>;
   payload: FormData | z.infer<typeof schema>;
@@ -23,7 +23,7 @@ export const validateBlogFormSchema = (
   if (!result.success) {
     console.error('Validation errors:', result.error);
     return {
-      success: false,
+      success: false as const,
       message: 'Validation failed',
       fieldErrors: z.treeifyError(result.error),
       payload: data,
@@ -41,6 +41,6 @@ export const validateBlogFormSchema = (
 };
 
 export const createUIErrorResponse = (message: string) => ({
+  success: false as const,
   message,
-  success: false,
 });

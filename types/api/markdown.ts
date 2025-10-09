@@ -1,3 +1,5 @@
+import z from 'zod';
+
 export type MarkdownResponses = {
   Post: MarkdownPostResponse;
   Get: MarkdownGetResponse;

@@ -1,4 +1,4 @@
-import { ApiErrorResponse } from '@/types/api/common';
+import { ErrorResponse } from '@/types/api/common';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
@@ -11,7 +11,7 @@ const sanitizedClientStatusCodes = (actualStatus: number | undefined) => {
     : StatusCodes.INTERNAL_SERVER_ERROR;
 };
 
-export const createErrorResponse = (message: string): ApiErrorResponse => ({
+export const createErrorResponse = (message: string): ErrorResponse => ({
   message,
   success: false,
 });
@@ -27,7 +27,7 @@ export const validateRequestAgainstSchema = (
       message: result.error.message,
       data,
     });
-    return NextResponse.json<ApiErrorResponse>(
+    return NextResponse.json<ErrorResponse>(
       createErrorResponse(result.error.message),
       { status: StatusCodes.BAD_REQUEST }
     );
@@ -60,7 +60,7 @@ export const dynamoDBResponseHandler = <
       awsResponse: response,
     });
 
-    return NextResponse.json<ApiErrorResponse>(createErrorResponse(message), {
+    return NextResponse.json<ErrorResponse>(createErrorResponse(message), {
       status: sanitizedClientStatusCodes(actualStatus),
     });
   }
@@ -92,7 +92,7 @@ export const s3ResponseHandler = <
       awsResponse: response,
     });
 
-    return NextResponse.json<ApiErrorResponse>(createErrorResponse(message), {
+    return NextResponse.json<ErrorResponse>(createErrorResponse(message), {
       status: sanitizedClientStatusCodes(actualStatus),
     });
   }
@@ -109,21 +109,20 @@ export const validateResponse = (
       expectedStatus,
       actualStatus,
     });
-    return NextResponse.json<ApiErrorResponse>(
-      createErrorResponse(errorMessage),
-      { status: actualStatus }
-    );
+    return NextResponse.json<ErrorResponse>(createErrorResponse(errorMessage), {
+      status: actualStatus,
+    });
   }
   return null;
 };
 
 export const validateResultFound = (
   result: unknown,
-  ErrorResponse: ApiErrorResponse = createErrorResponse('No result found')
+  ErrorResponse: ErrorResponse = createErrorResponse('No result found')
 ) => {
   if (!result) {
     console.error('API Error: ', ErrorResponse);
-    return NextResponse.json<ApiErrorResponse>(ErrorResponse, { status: 404 });
+    return NextResponse.json<ErrorResponse>(ErrorResponse, { status: 404 });
   }
 };
 
@@ -131,7 +130,7 @@ export const genericCatchError = (err: Error | unknown) => {
   console.error('API Error: ', err);
   const message = err instanceof Error ? err.message : 'Unknown API error';
 
-  return NextResponse.json<ApiErrorResponse>(createErrorResponse(message), {
+  return NextResponse.json<ErrorResponse>(createErrorResponse(message), {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
   });
 };
