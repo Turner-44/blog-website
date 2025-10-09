@@ -1,6 +1,5 @@
 'use client';
 
-import Form from 'next/form';
 import React from 'react';
 
 import { Button } from '@/components/shared-components/button';
@@ -68,7 +67,13 @@ export default function CreateBlogForm() {
   }, [state.success]);
 
   return (
-    <Form action={handleSubmit} className="flex flex-col rounded min-w-md">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+      className="flex flex-col rounded min-w-md"
+    >
       <FormField
         label="Blog Title:"
         name="title"
@@ -155,6 +160,6 @@ export default function CreateBlogForm() {
       {!state.success && (
         <p className="text-red-600 text-center mt-4">{state.message}</p>
       )}
-    </Form>
+    </form>
   );
 }
