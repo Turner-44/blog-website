@@ -10,7 +10,11 @@ export default async function DeleteBlogPage() {
   return (
     <main className="standard-page-format">
       <h1 className="text-2xl font-bold mb-6">Delete Blog Posts</h1>
-      <DeletionGrid blogs={blogs} />
+      {blogs.length === 0 ? (
+        <p>No blogs available.</p>
+      ) : (
+        <DeletionGrid blogs={blogs} />
+      )}
     </main>
   );
 }

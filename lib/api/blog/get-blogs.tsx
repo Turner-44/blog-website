@@ -8,9 +8,11 @@ export async function getBlogList(limit: number = 30) {
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=${limit}`
   );
 
-  if (!res.ok) throw new Error('Failed to fetch blogs');
-
   const { items }: { items: BlogMetaData[] } = await res.json();
+
+  if (!items) {
+    return [];
+  }
 
   return items;
 }

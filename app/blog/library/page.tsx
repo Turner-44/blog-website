@@ -8,7 +8,11 @@ export default async function BlogLibrary() {
 
   return (
     <main className="narrow-page-format">
-      <BlogGrid blogs={blogs} />
+      {blogs.length === 0 ? (
+        <p>No blogs available.</p>
+      ) : (
+        <BlogGrid blogs={blogs} />
+      )}
     </main>
   );
 }
