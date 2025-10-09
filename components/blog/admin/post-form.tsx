@@ -6,6 +6,7 @@ import React from 'react';
 import { Button } from '@/components/shared-components/button';
 import { createBlog } from '@/lib/api/blog/create-blogs';
 import { FormField } from './input-field';
+import { FileFormField } from './file-input-field';
 
 export default function CreateBlogForm() {
   const [state, formAction, pending] = React.useActionState(createBlog, {
@@ -15,66 +16,128 @@ export default function CreateBlogForm() {
       errors: [],
       properties: {},
     },
-    payload: new FormData(),
   });
 
+  const [inputs, setInputs] = React.useState({
+    title: '',
+    slug: '',
+    summary: '',
+    markdown: '',
+    featureImage: null as File | null,
+    previewImage: null as File | null,
+    tags: '',
+    publishedAt: '',
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setInputs((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const file = e.target.files?.[0] || null;
+    setInputs((prev) => ({ ...prev, [name]: file }));
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    Object.entries(inputs).forEach(([key, value]) => {
+      if (value instanceof File) formData.append(key, value);
+      else formData.append(key, value ?? '');
+    });
+
+    await formAction(formData);
+  };
+
+  React.useEffect(() => {
+    if (state.success) {
+      setInputs({
+        title: '',
+        slug: '',
+        summary: '',
+        markdown: '',
+        featureImage: null,
+        previewImage: null,
+        tags: '',
+        publishedAt: '',
+      });
+    }
+  }, [state.success]);
+
   return (
-    <Form action={formAction} className="flex flex-col rounded min-w-md">
+    <Form action={handleSubmit} className="flex flex-col rounded min-w-md">
       <FormField
         label="Blog Title:"
         name="title"
-        defaultValue={state.payload?.get('title') as string}
+        value={inputs.title}
+        onChange={handleChange}
         errors={state.fieldErrors?.properties?.title?.errors[0]}
         testId="input-blog-title"
+        type="text"
       />
       <FormField
         label="Blog Slug:"
         name="slug"
-        defaultValue={state.payload?.get('slug') as string}
+        value={inputs.slug}
+        onChange={handleChange}
         errors={state.fieldErrors?.properties?.slug?.errors[0]}
         testId="input-blog-slug"
+        type="text"
       />
       <FormField
         label="Blog Summary:"
         name="summary"
-        defaultValue={state.payload?.get('summary') as string}
+        value={inputs.summary}
+        onChange={handleChange}
         errors={state.fieldErrors?.properties?.summary?.errors[0]}
         testId="input-blog-summary"
+        type="text"
       />
       <FormField
         label="Blog Content:"
         name="markdown"
-        defaultValue={state.payload?.get('markdown') as string}
+        value={inputs.markdown}
+        onChange={handleChange}
         errors={state.fieldErrors?.properties?.markdown?.errors[0]}
         testId="input-blog-markdown"
+        type="textarea"
       />
-      <FormField
+      <FileFormField
         label="Feature Image:"
         name="featureImage"
-        defaultValue={state.payload?.get('featureImage') as string}
+        value={inputs.featureImage}
+        onChange={handleFileChange}
         errors={state.fieldErrors?.properties?.featureImage?.errors[0]}
         testId="input-blog-feature-image"
       />
-      <FormField
+      <FileFormField
         label="Preview Image:"
         name="previewImage"
-        defaultValue={state.payload?.get('previewImage') as string}
+        value={inputs.previewImage}
+        onChange={handleFileChange}
         errors={state.fieldErrors?.properties?.previewImage?.errors[0]}
         testId="input-blog-preview-image"
       />
       <FormField
         label="Blog Tags:"
         name="tags"
-        defaultValue={state.payload?.get('tags') as string}
+        value={inputs.tags}
+        onChange={handleChange}
         errors={state.fieldErrors?.properties?.tags?.errors[0]}
         testId="input-blog-tags"
+        type="text"
       />
       <FormField
         label="Publish Date:"
         name="publishedAt"
-        defaultValue={state.payload?.get('publishedAt') as string}
+        value={inputs.publishedAt}
+        onChange={handleChange}
         errors={state.fieldErrors?.properties?.publishedAt?.errors[0]}
         testId="input-blog-publishedAt"
+        type="datetime-local"
       />
       <Button
         type="submit"

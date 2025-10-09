@@ -15,7 +15,7 @@ import {
   validateRequestAgainstSchema,
   validateResultFound,
   validateResponse,
-} from '@/lib/api/error-handling/api';
+} from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes';
 import { createMarkdownSchema, FieldSchemas } from '@/lib/zod';
 

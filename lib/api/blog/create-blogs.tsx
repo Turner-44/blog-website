@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 
 import { z } from 'zod';
 import { blogUiFormSchema } from '@/lib/zod';
-import { createUIErrorResponse } from '../error-handling/ui';
+import { createUIErrorResponse } from '../../error-handling/ui';
 
 type TreeifiedError = {
   errors: string[];
@@ -16,7 +16,6 @@ type FormState = {
   success: boolean;
   message: string;
   fieldErrors?: TreeifiedError;
-  payload?: FormData;
 };
 
 export async function createBlog(
@@ -45,7 +44,6 @@ export async function createBlog(
         success: false,
         message: 'There were validation errors.',
         fieldErrors: z.treeifyError(validatedFields.error),
-        payload: data,
       };
     }
 
@@ -83,8 +81,7 @@ export async function createBlog(
       const errorData = await markdownResponse.json().catch(() => ({}));
       console.error('Markdown upload failed:', errorData);
       return createUIErrorResponse(
-        `Failed to upload markdown: ${errorData.error || markdownResponse.statusText}`,
-        data
+        `Failed to upload markdown: ${errorData.error || markdownResponse.statusText}`
       );
     }
 
@@ -109,8 +106,7 @@ export async function createBlog(
       const errorData = await featureImageResponse.json().catch(() => ({}));
       console.error('Image upload failed:', errorData);
       return createUIErrorResponse(
-        `Failed to upload image: ${errorData.error || featureImageResponse.statusText}`,
-        data
+        `Failed to upload image: ${errorData.error || featureImageResponse.statusText}`
       );
     }
 
@@ -135,8 +131,7 @@ export async function createBlog(
       const errorData = await previewImageResponse.json().catch(() => ({}));
       console.error('Image upload failed:', errorData);
       return createUIErrorResponse(
-        `Failed to upload image: ${errorData.error || previewImageResponse.statusText}`,
-        data
+        `Failed to upload image: ${errorData.error || previewImageResponse.statusText}`
       );
     }
 
@@ -195,8 +190,7 @@ export async function createBlog(
       ]);
 
       return createUIErrorResponse(
-        `Failed to save blog metadata: ${errorData.error || metadataResponse.statusText}`,
-        data
+        `Failed to save blog metadata: ${errorData.error || metadataResponse.statusText}`
       );
     }
     revalidatePath('/');
@@ -208,6 +202,6 @@ export async function createBlog(
     };
   } catch (error) {
     console.error('Error creating blog:', error);
-    return createUIErrorResponse('An unexpected error occurred.', data);
+    return createUIErrorResponse('An unexpected error occurred.');
   }
 }

@@ -3,23 +3,17 @@ type FormFieldProps = {
   name: string;
   type?: string;
   placeholder?: string;
-  accept?: string;
   rows?: number;
-  defaultValue?: string;
+  value?: string;
   errors?: string;
   testId?: string;
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
 
 export function FormField(props: FormFieldProps) {
   const isTextarea = props.type === 'textarea';
-  const inputProps = {
-    name: props.name,
-    placeholder: props.placeholder,
-    accept: props.accept,
-    defaultValue: props.type !== 'file' ? props.defaultValue : undefined,
-    'data-testid': props.testId,
-    className: 'form-input',
-  };
 
   return (
     <div className="flex flex-col gap-1">
@@ -28,11 +22,28 @@ export function FormField(props: FormFieldProps) {
       </label>
 
       {isTextarea ? (
-        <textarea {...inputProps} rows={props.rows || 3} />
+        <textarea
+          id={props.name}
+          name={props.name}
+          placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
+          data-testid={props.testId}
+          rows={props.rows ?? 3}
+          className="form-input"
+        />
       ) : (
-        <input {...inputProps} type={props.type} />
+        <input
+          id={props.name}
+          name={props.name}
+          type={props.type}
+          placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
+          data-testid={props.testId}
+          className="form-input"
+        />
       )}
-
       {props.errors && <span className="form-error-text">{props.errors}</span>}
     </div>
   );

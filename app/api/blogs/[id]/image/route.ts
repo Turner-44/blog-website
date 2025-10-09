@@ -8,7 +8,7 @@ import {
   genericCatchError,
   s3ResponseHandler,
   validateRequestAgainstSchema,
-} from '@/lib/api/error-handling/api';
+} from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { FieldSchemas, createImageSchema } from '@/lib/zod';
 

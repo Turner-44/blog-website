@@ -40,8 +40,7 @@ export const validateBlogFormSchema = (
   };
 };
 
-export const createUIErrorResponse = (message: string, payload: FormData) => ({
+export const createUIErrorResponse = (message: string) => ({
   message,
-  payload: payload,
   success: false,
 });
