@@ -5,6 +5,7 @@ import React from 'react';
 
 import { Button } from '@/components/shared-components/button';
 import { createBlog } from '@/lib/api/blog/create-blogs';
+import { FormField } from './input-field';
 
 export default function CreateBlogForm() {
   const [state, formAction, pending] = React.useActionState(createBlog, {
@@ -18,103 +19,66 @@ export default function CreateBlogForm() {
   });
 
   return (
-    <Form
-      action={formAction}
-      className="flex flex-col gap-1 p-4 rounded min-w-md"
-    >
-      <label htmlFor="title">Blog Title:</label>
-      <input
+    <Form action={formAction} className="flex flex-col rounded min-w-md">
+      <FormField
+        label="Blog Title:"
         name="title"
-        className="form-input"
         defaultValue={state.payload?.get('title') as string}
-        data-testid="input-blog-title"
+        errors={state.fieldErrors?.properties?.title?.errors[0]}
+        testId="input-blog-title"
       />
-      <span className="form-error-text">
-        {state.fieldErrors?.properties?.title?.errors[0]}
-      </span>
-      <label htmlFor="slug">Blog Slug:</label>
-      <input
+      <FormField
+        label="Blog Slug:"
         name="slug"
-        className="form-input"
         defaultValue={state.payload?.get('slug') as string}
-        data-testid="input-blog-slug"
+        errors={state.fieldErrors?.properties?.slug?.errors[0]}
+        testId="input-blog-slug"
       />
-      <span className="form-error-text">
-        {state.fieldErrors?.properties?.slug?.errors[0]}
-      </span>
-      <label htmlFor="summary">Blog Summary:</label>
-      <input
+      <FormField
+        label="Blog Summary:"
         name="summary"
-        placeholder="A short summary of the blog"
-        className="form-input"
         defaultValue={state.payload?.get('summary') as string}
-        data-testid="input-blog-summary"
+        errors={state.fieldErrors?.properties?.summary?.errors[0]}
+        testId="input-blog-summary"
       />
-      <span className="form-error-text">
-        {state.fieldErrors?.properties?.summary?.errors[0]}
-      </span>
-      <label htmlFor="markdown">Blog Content:</label>
-      <textarea
+      <FormField
+        label="Blog Content:"
         name="markdown"
-        placeholder="Blog Written In Markdown (MDX) Format"
-        className="form-input"
-        rows={2}
         defaultValue={state.payload?.get('markdown') as string}
-        data-testid="input-blog-markdown"
+        errors={state.fieldErrors?.properties?.markdown?.errors[0]}
+        testId="input-blog-markdown"
       />
-      <span className="form-error-text">
-        {state.fieldErrors?.properties?.markdown?.errors[0]}
-      </span>
-      <label htmlFor="featureImage">Feature Image:</label>
-      <input
-        type="file"
+      <FormField
+        label="Feature Image:"
         name="featureImage"
-        accept="image/*"
-        className="form-input"
         defaultValue={state.payload?.get('featureImage') as string}
-        data-testid="input-blog-feature-image"
+        errors={state.fieldErrors?.properties?.featureImage?.errors[0]}
+        testId="input-blog-feature-image"
       />
-      <span className="form-error-text">
-        {state.fieldErrors?.properties?.featureImage?.errors[0]}
-      </span>
-      <label htmlFor="previewImage">Preview Image:</label>
-      <input
-        placeholder="Select A Preview Image"
-        type="file"
+      <FormField
+        label="Preview Image:"
         name="previewImage"
-        accept="image/*"
-        className="form-input"
         defaultValue={state.payload?.get('previewImage') as string}
-        data-testid="input-blog-preview-image"
+        errors={state.fieldErrors?.properties?.previewImage?.errors[0]}
+        testId="input-blog-preview-image"
       />
-      <span className="form-error-text">
-        {state.fieldErrors?.properties?.previewImage?.errors[0]}
-      </span>
-      <label htmlFor="tags">Blog Tags:</label>
-      <input
+      <FormField
+        label="Blog Tags:"
         name="tags"
-        placeholder="Tag Relevant Topics"
-        className="form-input"
         defaultValue={state.payload?.get('tags') as string}
-        data-testid="input-blog-tags"
+        errors={state.fieldErrors?.properties?.tags?.errors[0]}
+        testId="input-blog-tags"
       />
-      <span className="form-error-text">
-        {state.fieldErrors?.properties?.tags?.errors[0]}
-      </span>
-      <label htmlFor="publishedAt">Publish Date:</label>
-      <input
-        type="datetime-local"
+      <FormField
+        label="Publish Date:"
         name="publishedAt"
-        className="form-input"
         defaultValue={state.payload?.get('publishedAt') as string}
-        data-testid="input-blog-publishedAt-date"
+        errors={state.fieldErrors?.properties?.publishedAt?.errors[0]}
+        testId="input-blog-publishedAt"
       />
-      <span className="form-error-text">
-        {state.fieldErrors?.properties?.publishedAt?.errors[0]}
-      </span>
       <Button
         type="submit"
-        className="Button-primary"
+        className="Button-primary mt-4"
         disabled={pending}
         data-testid="btn-blog-publish"
       >

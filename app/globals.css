@@ -17,6 +17,10 @@
   @apply text-red-400 text-sm;
 }
 
+.form-label-text {
+  @apply text-sm font-semibold text-slate-500 mt-1;
+}
+
 .nav-hover-effect:hover {
   @apply hover:text-white hover:-translate-y-0.5 transition-colors duration-200;
 }
