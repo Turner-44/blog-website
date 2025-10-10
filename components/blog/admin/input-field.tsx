@@ -44,7 +44,11 @@ export function FormField(props: FormFieldProps) {
           className="form-input"
         />
       )}
-      {props.errors && <span className="form-error-text">{props.errors}</span>}
+      {props.errors && (
+        <span className="form-error-text" data-testid={`${props.testId}-error`}>
+          {props.errors}
+        </span>
+      )}
     </div>
   );
 }

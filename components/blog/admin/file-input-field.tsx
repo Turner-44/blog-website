@@ -41,7 +41,7 @@ export function FileFormField(props: FileFormFieldProps) {
           Select File
         </Button>
         <div>
-          {props.value && (
+          {props.value && props.value.size > 0 && (
             <p>
               <strong>{props.label}</strong> {props.value.name}
             </p>
@@ -49,7 +49,11 @@ export function FileFormField(props: FileFormFieldProps) {
         </div>
       </div>
 
-      {props.errors && <span className="form-error-text">{props.errors}</span>}
+      {props.errors && (
+        <span className="form-error-text" data-testid={`${props.testId}-error`}>
+          {props.errors}
+        </span>
+      )}
     </div>
   );
 }

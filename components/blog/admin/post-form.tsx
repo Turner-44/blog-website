@@ -22,8 +22,8 @@ export default function CreateBlogForm() {
     slug: '',
     summary: '',
     markdown: '',
-    featureImage: null as File | null,
-    previewImage: null as File | null,
+    featureImage: new File([], '', { type: 'application/octet-stream' }),
+    previewImage: new File([], '', { type: 'application/octet-stream' }),
     tags: '',
     publishedAt: '',
   });
@@ -58,8 +58,8 @@ export default function CreateBlogForm() {
         slug: '',
         summary: '',
         markdown: '',
-        featureImage: null,
-        previewImage: null,
+        featureImage: new File([], '', { type: 'application/octet-stream' }),
+        previewImage: new File([], '', { type: 'application/octet-stream' }),
         tags: '',
         publishedAt: '',
       });
