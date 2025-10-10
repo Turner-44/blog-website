@@ -8,11 +8,12 @@ export default function BlogCard({ blog }: { blog: BlogMetaData }) {
   return (
     <Link href={`/blog/${blog.slug}`} className="no-underline">
       <div
-        className="w-90 mx-auto sm:w-96 h-80 bg-black relative rounded-2xl hover:scale-105"
+        className="relative mx-auto max-w-[24rem] sm:max-w-[26rem]
+          aspect-[3/2] bg-black rounded-2xl hover:scale-105"
         key={blog.id}
         data-testid={`blog-card-${blog.slug}`}
       >
-        <div className="aspect-w-1 aspect-h-1 h-full relative">
+        <div className="h-full relative">
           <Image
             src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.previewImageKey}`}
             alt={blog.title || 'Blog image'}
