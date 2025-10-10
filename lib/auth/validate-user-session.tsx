@@ -1,12 +1,16 @@
+import { StatusCodes } from 'http-status-codes';
 import { authOptions } from './next-auth-options';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import { createErrorResponse } from '../error-handling/api';
+import { ErrorResponse } from '@/types/api/common';
+import { NextResponse } from 'next/server';
 
 type ValidationLocation = 'UI' | 'API';
 
 export const validateUserSession = async (
   validationLocation: ValidationLocation
-) => {
+): Promise<NextResponse<ErrorResponse> | void> => {
   const session = await getServerSession(authOptions);
 
   if (validationLocation === 'UI') {
@@ -18,9 +22,20 @@ export const validateUserSession = async (
       redirect('/403');
     }
   } else {
-    if (!session) return new Response('Unauthorized', { status: 401 });
+    if (!session)
+      return NextResponse.json<ErrorResponse>(
+        createErrorResponse('Unauthorized'),
+        {
+          status: StatusCodes.UNAUTHORIZED,
+        }
+      );
     if (session.user?.email !== process.env.ADMIN_EMAIL) {
-      return new Response('Forbidden', { status: 403 });
+      return NextResponse.json<ErrorResponse>(
+        createErrorResponse('Forbidden'),
+        {
+          status: StatusCodes.FORBIDDEN,
+        }
+      );
     }
   }
 };

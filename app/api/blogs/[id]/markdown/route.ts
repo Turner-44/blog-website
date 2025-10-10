@@ -70,7 +70,8 @@ export async function POST(
   req: Request
 ): Promise<NextResponse | NextResponse<MarkdownResponses['Post']>> {
   try {
-    validateUserSession('API');
+    const authResponse = await validateUserSession('API');
+    if (authResponse instanceof NextResponse) return authResponse;
 
     const reqData = await req.json();
 
@@ -113,7 +114,8 @@ export async function DELETE(
   req: Request
 ): Promise<NextResponse | NextResponse<MarkdownResponses['Delete']>> {
   try {
-    validateUserSession('API');
+    const authResponse = await validateUserSession('API');
+    if (authResponse instanceof NextResponse) return authResponse;
 
     const markdownKey = new URL(req.url).searchParams.get('markdownKey') ?? '';
 

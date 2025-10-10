@@ -3,7 +3,7 @@ import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { Button } from '@/components/shared-components/button';
 
 export default async function AdminPage() {
-  validateUserSession('UI');
+  await validateUserSession('UI');
 
   return (
     <main className="standard-page-format">

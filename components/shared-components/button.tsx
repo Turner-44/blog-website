@@ -7,19 +7,23 @@ import { cn } from '@/lib/utils/react-class-names';
 const buttonVariants = cva('rounded transition-colors duration-200', {
   variants: {
     variant: {
-      default:
-        'bg-black text-white/90 hover:text-white disabled:opacity-50 font-poppins font-medium',
-      secondary:
-        'bg-white text-black/90 hover:text-black disabled:opacity-50 font-poppins font-medium',
+      default: 'bg-black text-white/90 hover:text-white disabled:opacity-50',
+      secondary: 'bg-white text-black/90 hover:text-black disabled:opacity-50',
     },
     size: {
       default: 'px-4 py-2',
       extraWide: 'px-10 py-2',
     },
+    font: {
+      default: 'font-poppins font-medium',
+      bold: 'font-poppins font-bold',
+      semibold: 'font-poppins font-semibold',
+    },
   },
   defaultVariants: {
     variant: 'default',
     size: 'default',
+    font: 'default',
   },
 });
 

@@ -20,6 +20,7 @@ import {
   validateResultFound,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
+import { ErrorResponse } from '@/types/api/common';
 
 export async function GET(
   req: Request
@@ -75,7 +76,8 @@ export async function POST(
   req: Request
 ): Promise<NextResponse | NextResponse<BlogsResponses['Post']>> {
   try {
-    validateUserSession('API');
+    const authResponse = await validateUserSession('API');
+    if (authResponse instanceof NextResponse) return authResponse;
 
     const reqData = await req.json();
 
@@ -117,7 +119,8 @@ export async function DELETE(
   req: Request
 ): Promise<NextResponse | NextResponse<BlogsResponses['Delete']>> {
   try {
-    validateUserSession('API');
+    const authResponse = await validateUserSession('API');
+    if (authResponse instanceof NextResponse) return authResponse;
 
     const sk = new URL(req.url).searchParams.get('sk') as string;
 

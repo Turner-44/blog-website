@@ -24,7 +24,7 @@ export default function BlogCard({ blog }: { blog: BlogMetaData }) {
         </div>
         <div className="absolute h-full w-full top-0 flex flex-col">
           <div className="flex-1"></div>
-          <div className="flex-1 flex flex-col px-5 py-8 bg-gradient-to-t from-black rounded-2xl">
+          <div className="flex-1 flex flex-col px-5 py-5 bg-gradient-to-t from-black rounded-2xl">
             <div className="flex-1"></div>
             <div>
               <h2
@@ -34,7 +34,7 @@ export default function BlogCard({ blog }: { blog: BlogMetaData }) {
                 {blog.title}
               </h2>
             </div>
-            <div className="flex items-center justify-between text-gray-300 text-sm py-1.5">
+            <div className="flex items-center justify-between text-gray-300 text-sm py-1">
               <p
                 className="font-bold text-md"
                 data-testid={`text-blog-card-publishedAt-date-${blog.slug}`}

@@ -16,7 +16,8 @@ export async function POST(
   req: Request
 ): Promise<NextResponse | NextResponse<ImageResponses['Post']>> {
   try {
-    validateUserSession('API');
+    const authResponse = await validateUserSession('API');
+    if (authResponse instanceof NextResponse) return authResponse;
 
     const formData = await req.formData();
     const entries = Object.fromEntries(formData.entries());
@@ -67,7 +68,8 @@ export async function DELETE(
   req: Request
 ): Promise<NextResponse | NextResponse<ImageResponses['Delete']>> {
   try {
-    validateUserSession('API');
+    const authResponse = await validateUserSession('API');
+    if (authResponse instanceof NextResponse) return authResponse;
 
     const imageKey = new URL(req.url).searchParams.get('imageKey') ?? '';
 
