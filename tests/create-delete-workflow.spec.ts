@@ -36,6 +36,10 @@ test.describe.serial(
           )
         );
 
+      await expect(
+        page.getByText(`Feature Image: ${blogData.featureImageFileName}`)
+      ).toHaveCount(1);
+
       await page
         .getByTestId('input-blog-preview-image')
         .setInputFiles(
@@ -46,6 +50,10 @@ test.describe.serial(
             )
           )
         );
+
+      await expect(
+        page.getByText(`Preview Image: ${blogData.previewImageFileName}`)
+      ).toHaveCount(1);
 
       await page.getByTestId('input-blog-tags').fill(blogData.tags.join(','));
 

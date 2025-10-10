@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { startTransition } from 'react';
 
 import { Button } from '@/components/shared-components/button';
 import { createBlog } from '@/lib/api/blog/create-blog.tsx/create-blogs';
@@ -41,14 +41,17 @@ export default function CreateBlogForm() {
     setInputs((prev) => ({ ...prev, [name]: file }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = new FormData();
     Object.entries(inputs).forEach(([key, value]) => {
       if (value instanceof File) formData.append(key, value);
       else formData.append(key, value ?? '');
     });
 
-    await formAction(formData);
+    startTransition(() => {
+      formAction(formData);
+    });
   };
 
   React.useEffect(() => {
@@ -68,11 +71,9 @@ export default function CreateBlogForm() {
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
+      onSubmit={handleSubmit}
       className="relative flex flex-col max-w-2xl mx-auto"
+      autoComplete="off"
     >
       <FormField
         label="Blog Title:"
