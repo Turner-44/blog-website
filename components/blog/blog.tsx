@@ -8,7 +8,7 @@ export default async function Blog({ slug }: { slug: string }) {
   return (
     <div>
       <h1
-        className="tracking-tight text-center py-5"
+        className="tracking-tight text-center py-2"
         data-testid="header-blog-title"
       >
         {blogMetaData.title}
@@ -20,7 +20,7 @@ export default async function Blog({ slug }: { slug: string }) {
           day: 'numeric',
         })}
       </p>
-      <div className="relative h-100 aspect-w-1 aspect-h-1">
+      <div className="relative h-full aspect-[3/2] w-full max-w-4xl mx-auto mt-2 mb-5 rounded-2xl overflow-hidden">
         <Image
           src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blogMetaData.featureImageKey}`}
           alt={blogMetaData.title || 'Blog image'}

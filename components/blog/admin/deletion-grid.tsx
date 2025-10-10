@@ -36,15 +36,15 @@ export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
   };
 
   return (
-    <ul className="space-y-4 ">
+    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
       {blogList.map((blog) => (
         <li
           key={blog.id}
-          className="py-1"
+          className="opacity-90 py-3 pt-1"
           data-testid={`row-blog-deletion-grid-${blog.slug}`}
         >
-          <article className="flex items-center space-x-4 gap-2">
-            <div className="w-48 h-32 flex-shrink-0 relative">
+          <article className="flex flex-col sm:flex-row gap-4">
+            <div className="relative w-full sm:w-44 md:w-48 aspect-[4/3] rounded-2xl overflow-hidden">
               <Image
                 src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.featureImageKey}`}
                 alt={blog.title || 'Blog image'}
@@ -53,18 +53,15 @@ export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
                 data-testid={`img-blog-feature-${blog.slug}`}
               />
             </div>
-            <div className="flex-1 h-32 flex flex-col justify-center space-y-2">
+            <div className="flex flex-col justify-center flex-1 min-w-0">
               <h2 data-testid={`header-blog-deletion-row-title-${blog.slug}`}>
                 {blog.title}
               </h2>
-              <p
-                className="text-justify"
-                data-testid={`text-blog-deletion-row-summary-${blog.slug}`}
-              >
+              <p data-testid={`text-blog-deletion-row-summary-${blog.slug}`}>
                 {blog.summary}
               </p>
             </div>
-            <div>
+            <div className="flex flex-col justify-center">
               <Button
                 className="Button-destructive"
                 onClick={(e) => handleDeleteClick(blog, e)}

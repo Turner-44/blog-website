@@ -5,12 +5,12 @@ import { BlogMetaData } from '@/types/blog';
 
 export default function BlogGrid({ blogs }: { blogs: BlogMetaData[] }) {
   return (
-    <ul className="space-y-4 ">
+    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
       {blogs.map((blog) => (
-        <li key={blog.id} className="hover:scale-105 opacity-90 py-1">
+        <li key={blog.id} className="hover:scale-105 opacity-90 py-3 pt-1">
           <Link href={`/blog/${blog.slug}`}>
-            <article className="flex items-start space-x-4 gap-2 ">
-              <div className="w-48 h-32 flex-shrink-0 relative">
+            <article className="flex flex-col sm:flex-row gap-4">
+              <div className="relative w-full sm:w-44 md:w-48 aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
                   src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.featureImageKey}`}
                   alt={blog.title || 'Blog image'}
@@ -18,9 +18,9 @@ export default function BlogGrid({ blogs }: { blogs: BlogMetaData[] }) {
                   fill
                 />
               </div>
-              <div className="flex-1 h-32 flex flex-col justify-center space-y-2">
+              <div className="flex flex-col justify-center flex-1 min-w-0">
                 <h2>{blog.title}</h2>
-                <p className="text-justify">{blog.summary}</p>
+                <p>{blog.summary}</p>
               </div>
             </article>
           </Link>
