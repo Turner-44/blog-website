@@ -72,7 +72,7 @@ export default function CreateBlogForm() {
         e.preventDefault();
         handleSubmit();
       }}
-      className="flex flex-col rounded min-w-md"
+      className="relative flex flex-col max-w-2xl mx-auto"
     >
       <FormField
         label="Blog Title:"
@@ -146,7 +146,7 @@ export default function CreateBlogForm() {
       />
       <Button
         type="submit"
-        className="Button-primary mt-4"
+        className="Button-primary mt-4 mx-auto"
         disabled={pending}
         data-testid="btn-blog-publish"
       >
