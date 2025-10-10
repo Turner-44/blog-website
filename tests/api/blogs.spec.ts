@@ -1,6 +1,4 @@
-import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
-import fs from 'fs';
-import test, { expect, request } from '@playwright/test';
+import test, { expect } from '@playwright/test';
 import { StatusCodes } from 'http-status-codes';
 import { createApiContextDefaultTestCookies } from '../support/api/common';
 

@@ -20,7 +20,6 @@ import {
   validateResultFound,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
-import { ErrorResponse } from '@/types/api/common';
 
 export async function GET(
   req: Request

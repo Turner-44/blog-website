@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { createBlogDataUI } from './data/create-blog';
-import { TEST_PATHS, resolveFromRoot } from '@/lib/utils/paths';
-import path from 'path';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
@@ -9,8 +7,6 @@ test.describe(
   'Check form validation in create blog form',
   { tag: '@e2e' },
   () => {
-    const blogData = createBlogDataUI();
-
     test('Check all field errors', async ({ page }) => {
       await page.goto('/admin', { waitUntil: 'domcontentloaded' });
 
