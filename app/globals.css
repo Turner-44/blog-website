@@ -1,6 +1,14 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
+.font-poppins {
+  font-family: var(--font-poppins);
+}
+
+.font-nunito {
+  font-family: var(--font-nunito);
+}
+
 .form-input {
   @apply border border-gray-700 rounded px-2 py-1;
 }
@@ -51,33 +59,36 @@ body {
 }
 
 h1 {
-  font-family: var(--font-roboto);
+  font-family: var(--font-poppins);
   @apply text-3xl font-bold;
 }
 
 h2 {
-  font-family: var(--font-roboto);
+  font-family: var(--font-poppins);
   @apply text-2xl font-bold;
 }
 
 h3 {
-  font-family: var(--font-roboto);
+  font-family: var(--font-poppins);
   @apply text-xl font-bold;
 }
 
 h4 {
-  font-family: var(--font-roboto);
+  font-family: var(--font-poppins);
   @apply text-lg font-bold;
 }
 
 li {
+  font-family: var(--font-nunito);
   @apply mb-2 leading-relaxed;
 }
 
 ul {
+  font-family: var(--font-nunito);
   @apply list-inside;
 }
 
 ol {
+  font-family: var(--font-nunito);
   @apply list-decimal list-inside space-y-2 mb-4 pl-4;
 }

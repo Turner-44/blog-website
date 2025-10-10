@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { nunito, roboto } from '@/lib/utils/fonts';
+import { nunito, poppins } from '@/lib/utils/fonts';
 import Navbar from '@/components/navigation/navbar';
 import Footer from '@/components/navigation/footer';
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} ${roboto.variable} min-h-screen flex flex-col`}
+        className={`${nunito.variable} ${poppins.variable} min-h-screen flex flex-col`}
       >
         <Navbar />
         <main className="flex-1">{children}</main>
