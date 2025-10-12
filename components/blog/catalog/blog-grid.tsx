@@ -1,9 +1,34 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
 import { BlogMetaData } from '@/types/blog';
+import { useState } from 'react';
+import { getBlogList } from '@/lib/api/blog/get-blogs';
+import { Button } from '@/components/shared-components/button';
 
-export default function BlogGrid({ blogs }: { blogs: BlogMetaData[] }) {
+export default function BlogGrid({
+  initialBlogs,
+  initialCursor,
+}: {
+  initialBlogs: BlogMetaData[];
+  initialCursor?: string | undefined;
+}) {
+  const [blogs, setBlogs] = useState(initialBlogs);
+  const [cursor, setCursor] = useState(initialCursor);
+  const [loading, setLoading] = useState(false);
+
+  const loadMore = async () => {
+    if (!cursor) return;
+    setLoading(true);
+
+    const { blogPosts: newBlogs, nextCursor } = await getBlogList(10, cursor);
+    setBlogs((prev) => [...prev, ...newBlogs]);
+    setCursor(nextCursor);
+
+    setLoading(false);
+  };
   return (
     <ul className="divide-y divide-gray-200 dark:divide-gray-700">
       {blogs.map((blog) => (
@@ -26,6 +51,13 @@ export default function BlogGrid({ blogs }: { blogs: BlogMetaData[] }) {
           </Link>
         </li>
       ))}
+      {cursor && (
+        <div className="flex justify-center mt-6">
+          <Button onClick={loadMore} disabled={loading}>
+            {loading ? 'Loading…' : 'Load More'}
+          </Button>
+        </div>
+      )}
     </ul>
   );
 }

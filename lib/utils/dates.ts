@@ -5,3 +5,5 @@ export const formattedDate = (isoStringDate: string) => {
     year: 'numeric',
   });
 };
+
+export const revalidateIn7Days = 60 * 60 * 24 * 7;

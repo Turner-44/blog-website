@@ -7,9 +7,13 @@ import { useState } from 'react';
 import { Button } from '@/components/shared-components/button';
 import { deleteBlogPost } from '@/lib/api/blog/delete-blogs';
 
-export default function DeletionGrid({ blogs }: { blogs: BlogMetaData[] }) {
+export default function DeletionGrid({
+  blogPosts,
+}: {
+  blogPosts: BlogMetaData[];
+}) {
   // eslint-disable-next-line
-  const [blogList, setBlogList] = useState<BlogMetaData[]>(blogs);
+  const [blogList, setBlogList] = useState<BlogMetaData[]>(blogPosts);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const handleDeleteClick = async (blog: BlogMetaData, e: React.MouseEvent) => {

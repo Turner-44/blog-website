@@ -2,24 +2,47 @@ import { BlogMetaData } from '@/types/blog';
 import { notFound } from 'next/navigation';
 import getBlogMarkdown from './get-markdown';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
+import { revalidateIn7Days } from '@/lib/utils/dates';
+import { validateResponse } from '@/lib/error-handling/api';
+import { cache } from 'react';
 
-export async function getBlogList(limit: number = 30) {
+export async function getBlogList(
+  limit: number = 10,
+  cursor?: string | undefined
+) {
+  const query = new URLSearchParams({ limit: String(limit) });
+  if (cursor) query.append('cursor', cursor);
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?limit=${limit}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?${query.toString()}`,
+    { cache: 'no-store' }
   );
 
-  const { items }: { items: BlogMetaData[] } = await res.json();
+  const responseError = validateResponse(
+    res.status,
+    StatusCodes.OK,
+    'Failed to fetch blogs'
+  );
+  if (responseError)
+    return {
+      blogPosts: [] as BlogMetaData[],
+    };
 
-  if (!items) {
-    return [];
-  }
+  const {
+    blogPosts,
+    nextCursor,
+  }: { blogPosts: BlogMetaData[]; nextCursor?: string | undefined } =
+    await res.json();
 
-  return items;
+  return {
+    blogPosts: (blogPosts ?? []) as BlogMetaData[],
+    nextCursor: nextCursor ?? undefined,
+  };
 }
 
 export async function getBlogBySlug(slug: string) {
   const metaDataRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?slug=${encodeURIComponent(slug)}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/slug/${encodeURIComponent(slug)}`
   );
 
   if (metaDataRes.status !== StatusCodes.OK) {
@@ -29,7 +52,7 @@ export async function getBlogBySlug(slug: string) {
 
   const metaDataResJson = await metaDataRes.json();
 
-  return metaDataResJson.items[0];
+  return metaDataResJson.item;
 }
 
 export async function getAllBlogData(slug: string) {

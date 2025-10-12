@@ -4,11 +4,11 @@ import { Suspense } from 'react';
 import BlogCardSkeleton from './loading-skeleton';
 
 export default async function BlogCarousel() {
-  const blogs = await getBlogList(3);
+  const result = await getBlogList(3);
 
   return (
     <div data-testid="blog-carousel" className="w-full">
-      {blogs.length === 0 ? (
+      {result.blogPosts.length === 0 ? (
         <p>No blogs available.</p>
       ) : (
         <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-5">
@@ -21,7 +21,7 @@ export default async function BlogCarousel() {
               </div>
             }
           >
-            {blogs.map((blog, index) => {
+            {result.blogPosts.map((blog, index) => {
               return <BlogCard blog={blog} key={index} />;
             })}
           </Suspense>

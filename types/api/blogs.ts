@@ -9,11 +9,12 @@ export type BlogsResponses = {
 };
 
 interface BlogsPostResponse {
-  item: BlogMetaData;
+  blogPost: BlogMetaData;
 }
 
 interface BlogsGetResponse {
-  items: BlogMetaData[];
+  blogPosts: BlogMetaData[];
+  nextCursor: string | null;
 }
 
 interface BlogsDeleteResponse {

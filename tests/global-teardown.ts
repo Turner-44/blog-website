@@ -41,7 +41,7 @@ teardown('Delete blogs', async ({}) => {
 
     await deleteBlogPost(apiContext, blog.blogMetaData);
 
-    console.log('Blog deleted ' + blog.blogMetaData.item.title);
+    console.log('Blog deleted ' + blog.blogMetaData.blogPost.title);
   }
 
   await apiContext.dispose();

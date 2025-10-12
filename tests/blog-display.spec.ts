@@ -1,20 +1,18 @@
 import test, { expect } from '@playwright/test';
 import testData from './data/.temp/test-blog-data.json';
-import {
-  BlogsPostResponse,
-  ImagePostResponse,
-  MarkdownPostResponse,
-} from '@/types/api/api';
+import { BlogsResponses } from '@/types/api/blogs';
+import { MarkdownResponses } from '@/types/api/markdown';
+import { ImageResponses } from '@/types/api/image';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
 test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
   test('Validate blogs display as expected', async ({ page, context }) => {
     const createdData = testData as {
-      blogMetaData: BlogsPostResponse;
-      featureImageJson: ImagePostResponse;
-      previewImageJson: ImagePostResponse;
-      markdownJson: MarkdownPostResponse;
+      blogMetaData: BlogsResponses['Post'];
+      featureImageJson: ImageResponses['Post'];
+      previewImageJson: ImageResponses['Post'];
+      markdownJson: MarkdownResponses['Post'];
     }[];
 
     await expect(async () => {
@@ -24,24 +22,24 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
         const blog = createdData[i];
         await expect(
           page.getByTestId(
-            `header-blog-card-title-${blog.blogMetaData.item.slug}`
+            `header-blog-card-title-${blog.blogMetaData.blogPost.slug}`
           )
-        ).toContainText(blog.blogMetaData.item.title);
+        ).toContainText(blog.blogMetaData.blogPost.title);
         await expect(
           page.getByTestId(
-            `text-blog-card-summary-${blog.blogMetaData.item.slug}`
+            `text-blog-card-summary-${blog.blogMetaData.blogPost.slug}`
           )
-        ).toContainText(blog.blogMetaData.item.summary);
+        ).toContainText(blog.blogMetaData.blogPost.summary);
       }
     }).toPass();
 
     for (let i = 0; i < createdData.length; i++) {
       const blog = createdData[i];
-      await page.goto(`/blog/${blog.blogMetaData.item.slug}`, {
+      await page.goto(`/blog/${blog.blogMetaData.blogPost.slug}`, {
         waitUntil: 'domcontentloaded',
       });
       await expect(page.getByTestId('header-blog-title')).toHaveText(
-        blog.blogMetaData.item.title
+        blog.blogMetaData.blogPost.title
       );
     }
 

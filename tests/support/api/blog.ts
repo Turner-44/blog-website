@@ -35,7 +35,7 @@ export const deleteBlogPost = async (
   blog: BlogsResponses['Post']
 ) => {
   const blogMetaRes = await apiContext.delete(
-    `/api/blogs?sk=${encodeURIComponent(blog.item.SK)}`
+    `/api/blogs?sk=${encodeURIComponent(blog.blogPost.SK)}`
   );
   return await blogMetaRes.json();
 };

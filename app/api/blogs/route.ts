@@ -6,7 +6,6 @@ import {
   dynamoDBClient,
   TABLE_NAME,
   buildAllBlogsQuery,
-  buildBlogBySlugQuery,
 } from '@/lib/api/aws/dynamo';
 import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
@@ -27,21 +26,14 @@ export async function GET(
   try {
     const url = new URL(req.url);
 
-    let queryParams;
+    const cursor = url.searchParams.get('cursor');
 
-    if (url.searchParams.has('slug')) {
-      const slug = url.searchParams.get('slug') ?? '';
-
-      const schemaError = validateRequestAgainstSchema(slug, FieldSchemas.slug);
-      if (schemaError) return schemaError;
-
-      queryParams = buildBlogBySlugQuery(slug);
-    } else {
-      queryParams = buildAllBlogsQuery(url);
-    }
+    const startKey = cursor
+      ? JSON.parse(Buffer.from(cursor, 'base64').toString())
+      : undefined;
 
     const dynamodbRes = await dynamoDBClient.send(
-      new QueryCommand(queryParams)
+      new QueryCommand(buildAllBlogsQuery(url, startKey))
     );
 
     const awsError = dynamoDBResponseHandler(dynamodbRes, {
@@ -55,9 +47,16 @@ export async function GET(
     );
     if (notFoundError) return notFoundError;
 
+    const nextCursor = dynamodbRes.LastEvaluatedKey
+      ? Buffer.from(JSON.stringify(dynamodbRes.LastEvaluatedKey)).toString(
+          'base64'
+        )
+      : null;
+
     return NextResponse.json<BlogsResponses['Get']>(
       {
-        items: dynamodbRes.Items as BlogMetaData[],
+        blogPosts: dynamodbRes.Items as BlogMetaData[],
+        nextCursor,
       },
       {
         status: StatusCodes.OK,
@@ -106,7 +105,7 @@ export async function POST(
     if (awsError) return awsError;
 
     return NextResponse.json<BlogsResponses['Post']>(
-      { item },
+      { blogPost: item },
       { status: StatusCodes.CREATED }
     );
   } catch (err: Error | unknown) {

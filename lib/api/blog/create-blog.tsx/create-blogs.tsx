@@ -84,7 +84,6 @@ export async function createBlog(
     };
 
     const blogResult = await storeBlogMetadata(blogMeta, cookieHeader);
-
     if (!blogResult.success) return blogResult;
 
     revalidatePath('/');

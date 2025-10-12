@@ -7,8 +7,6 @@ export type FormValidationResult =
   | { success: false; message: string; fieldErrors: TreeifiedError };
 
 export const validateFormData = (data: FormData): FormValidationResult => {
-  console.log('FormData Feature Image:', data.get('featureImage'));
-
   const parsed = blogUiFormSchema.safeParse({
     title: data.get('title'),
     slug: data.get('slug'),

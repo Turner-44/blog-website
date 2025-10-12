@@ -32,14 +32,18 @@ const BASE_ATTRIBUTES = [
 
 const projectionExpression = BASE_ATTRIBUTES.join(', ');
 
-export const buildAllBlogsQuery = (url: URL): QueryCommandInput => ({
+export const buildAllBlogsQuery = (
+  url: URL,
+  startKey: Record<string, string> | undefined
+): QueryCommandInput => ({
   TableName: TABLE_NAME,
   KeyConditionExpression: '#pk = :pk',
   ExpressionAttributeNames: { '#pk': 'PK' },
   ExpressionAttributeValues: { ':pk': BLOG_PK },
-  ScanIndexForward: false,
-  Limit: Number(url.searchParams.get('limit') ?? 50),
   ProjectionExpression: projectionExpression,
+  Limit: Number(url.searchParams.get('limit') ?? 50),
+  ExclusiveStartKey: startKey,
+  ScanIndexForward: false,
 });
 
 export const buildBlogBySlugQuery = (slug: string): QueryCommandInput => ({
