@@ -2,9 +2,8 @@ import { BlogMetaData } from '@/types/blog';
 import { notFound } from 'next/navigation';
 import getBlogMarkdown from './get-markdown';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
-import { revalidateIn7Days } from '@/lib/utils/dates';
 import { validateResponse } from '@/lib/error-handling/api';
-import { cache } from 'react';
+import { SlugResponses } from '@/types/api/blogs-slug';
 
 export async function getBlogList(
   limit: number = 10,
@@ -50,15 +49,15 @@ export async function getBlogBySlug(slug: string) {
     return notFound();
   }
 
-  const metaDataResJson = await metaDataRes.json();
+  const metaDataResJson: SlugResponses['Get'] = await metaDataRes.json();
 
-  return metaDataResJson.item;
+  return metaDataResJson;
 }
 
 export async function getAllBlogData(slug: string) {
-  const blogMetaData = await getBlogBySlug(slug);
+  const blogMetaData: SlugResponses['Get'] = await getBlogBySlug(slug);
 
-  const markdown = await getBlogMarkdown(blogMetaData);
+  const markdown = await getBlogMarkdown(blogMetaData.blogPost);
 
   return { blogMetaData, markdown };
 }

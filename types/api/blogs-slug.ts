@@ -5,5 +5,7 @@ export type SlugResponses = {
 };
 
 interface SlugGetResponse {
-  item: BlogMetaData;
+  blogPost: BlogMetaData;
+  prevBlogPost: BlogMetaData;
+  nextBlogPost: BlogMetaData;
 }

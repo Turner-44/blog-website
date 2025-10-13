@@ -1,3 +1,4 @@
+import { BlogMetaData } from '@/types/blog';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
@@ -53,3 +54,23 @@ export const buildBlogBySlugQuery = (slug: string): QueryCommandInput => ({
   ExpressionAttributeValues: { ':slug': slug },
   ProjectionExpression: projectionExpression,
 });
+
+export const buildBlogByRelativePublishedAtQuery = (
+  primaryPost: BlogMetaData,
+  position: 'before' | 'after',
+  limit: number = 1
+): QueryCommandInput => {
+  const operator = position === 'before' ? '<' : '>';
+
+  return {
+    TableName: TABLE_NAME,
+    KeyConditionExpression: `PK = :pk AND SK ${operator} :sk`,
+    ExpressionAttributeValues: {
+      ':pk': 'BLOG',
+      ':sk': `${primaryPost.publishedAt}#${primaryPost.id}`,
+    },
+    ScanIndexForward: !(position === 'before'),
+    ProjectionExpression: projectionExpression,
+    Limit: limit,
+  };
+};

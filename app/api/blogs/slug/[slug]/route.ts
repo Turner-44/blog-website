@@ -2,7 +2,11 @@ import { NextResponse } from 'next/server';
 
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 
-import { dynamoDBClient, buildBlogBySlugQuery } from '@/lib/api/aws/dynamo';
+import {
+  dynamoDBClient,
+  buildBlogByRelativePublishedAtQuery,
+  buildBlogBySlugQuery,
+} from '@/lib/api/aws/dynamo';
 import { FieldSchemas } from '@/lib/zod';
 import { BlogMetaData } from '@/types/blog';
 import {
@@ -43,9 +47,26 @@ export async function GET(
     );
     if (notFoundError) return notFoundError;
 
+    const dynamodbPrevRes = await dynamoDBClient.send(
+      new QueryCommand(
+        buildBlogByRelativePublishedAtQuery(result[0], 'before')
+      )
+    );
+
+    const dynamodbNextRes = await dynamoDBClient.send(
+      new QueryCommand(
+        buildBlogByRelativePublishedAtQuery(result[0], 'after')
+      )
+    );
+
+    const prevBlogs = (dynamodbPrevRes.Items ?? []) as BlogMetaData[];
+    const nextBlogs = (dynamodbNextRes.Items ?? []) as BlogMetaData[];
+
     return NextResponse.json<SlugResponses['Get']>(
       {
-        item: result[0],
+        blogPost: result[0],
+        prevBlogPost: prevBlogs[0],
+        nextBlogPost: nextBlogs[0],
       },
       {
         status: StatusCodes.OK,
