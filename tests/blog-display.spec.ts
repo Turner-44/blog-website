@@ -8,7 +8,7 @@ test.use({ storageState: 'tests/.auth/cookies.json' });
 
 test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
   test('Validate blogs display as expected', async ({ page, context }) => {
-    const createdData = testData as {
+    const blogPosts = testData as {
       blogMetaData: BlogsResponses['Post'];
       featureImageJson: ImageResponses['Post'];
       previewImageJson: ImageResponses['Post'];
@@ -18,8 +18,8 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
     await expect(async () => {
       await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-      for (let i = 0; i < createdData.length; i++) {
-        const blog = createdData[i];
+      for (let i = 0; i < blogPosts.length; i++) {
+        const blog = blogPosts[i];
         await expect(
           page.getByTestId(
             `header-blog-card-title-${blog.blogMetaData.blogPost.slug}`
@@ -33,8 +33,8 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
       }
     }).toPass();
 
-    for (let i = 0; i < createdData.length; i++) {
-      const blog = createdData[i];
+    for (let i = 0; i < blogPosts.length; i++) {
+      const blog = blogPosts[i];
       await page.goto(`/blog/${blog.blogMetaData.blogPost.slug}`, {
         waitUntil: 'domcontentloaded',
       });
@@ -42,7 +42,48 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
         blog.blogMetaData.blogPost.title
       );
     }
+  });
 
-    await context.close();
+  test('Check blog navigation is present', async ({ page }) => {
+    const blogPosts = testData as {
+      blogMetaData: BlogsResponses['Post'];
+      featureImageJson: ImageResponses['Post'];
+      previewImageJson: ImageResponses['Post'];
+      markdownJson: MarkdownResponses['Post'];
+    }[];
+
+    const firstBlog = blogPosts[0];
+    const secondBlog = blogPosts[1];
+    const thirdBlog = blogPosts[2];
+
+    await expect(async () => {
+      await page.goto(`/blog/${secondBlog.blogMetaData.blogPost.slug}`, {
+        waitUntil: 'domcontentloaded',
+      });
+
+      await expect(page.getByTestId('header-blog-title')).toContainText(
+        secondBlog.blogMetaData.blogPost.title
+      );
+    }).toPass();
+
+    await expect(page.getByTestId('link-next-blog')).toContainText(
+      thirdBlog.blogMetaData.blogPost.title
+    );
+
+    await page.getByTestId('link-next-blog').click();
+    await expect(page).toHaveURL(
+      `http://localhost:3000/blog/${thirdBlog.blogMetaData.blogPost.slug}`
+    );
+
+    await page.goBack();
+
+    await expect(page.getByTestId('link-prev-blog')).toContainText(
+      firstBlog.blogMetaData.blogPost.title
+    );
+
+    await page.getByTestId('link-prev-blog').click();
+    await expect(page).toHaveURL(
+      `http://localhost:3000/blog/${firstBlog.blogMetaData.blogPost.slug}`
+    );
   });
 });

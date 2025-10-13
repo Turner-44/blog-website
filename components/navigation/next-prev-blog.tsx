@@ -15,6 +15,7 @@ export default function NextPrevBlog(blogMetaData: {
           <Link
             href={`/blog/${prevBlogPost.slug}`}
             className="hover:text-black hover:underline"
+            data-testid="link-prev-blog"
           >
             ← {prevBlogPost.title}
           </Link>
@@ -25,6 +26,7 @@ export default function NextPrevBlog(blogMetaData: {
           <Link
             href={`/blog/${nextBlogPost.slug}`}
             className="hover:text-black hover:underline"
+            data-testid="link-next-blog"
           >
             {nextBlogPost.title} →
           </Link>
