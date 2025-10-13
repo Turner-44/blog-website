@@ -7,7 +7,7 @@ import { validateFormData } from './validate-form';
 import {
   storeFile,
   storeMarkdown,
-  storeBlogMetadata,
+  storeBlogPost,
   MarkdownResult,
   ImageResult,
 } from './store-data';
@@ -71,7 +71,7 @@ export async function createBlog(
     );
     if (!previewImageResult.success) return previewImageResult;
 
-    const blogMeta = {
+    const blogPost = {
       id: id,
       title: title,
       slug: slug,
@@ -83,7 +83,7 @@ export async function createBlog(
       tags: tags,
     };
 
-    const blogResult = await storeBlogMetadata(blogMeta, cookieHeader);
+    const blogResult = await storeBlogPost(blogPost, cookieHeader);
     if (!blogResult.success) return blogResult;
 
     revalidatePath('/');

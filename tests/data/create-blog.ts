@@ -43,7 +43,7 @@ export const getImageFile = (
   );
 };
 
-export const createBlogDataUI = (
+export const createBlogPostDataUI = (
   title = faker.book.title(),
   markdown = markdownFileName.cats,
   featureImage = featureImageFileName.askWhy,
@@ -64,7 +64,7 @@ export const createBlogDataUI = (
   };
 };
 
-export const createBlogDataAPI = (
+export const createBlogPostDataAPI = (
   title = faker.book.title(),
   markdown = markdownFileName.coffee,
   featureImage = featureImageFileName.differenceOfOpinion,
@@ -87,7 +87,7 @@ export const createBlogDataAPI = (
   };
 };
 
-export type CreateBlogDataUI = {
+export type CreateBlogPostDataUI = {
   title: string;
   slug: string;
   summary: string;
@@ -97,7 +97,7 @@ export type CreateBlogDataUI = {
   previewImageFileName: string;
 };
 
-export type CreateBlogDataAPI = {
+export type CreateBlogPostDataAPI = {
   id: string;
   title: string;
   slug: string;

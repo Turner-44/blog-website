@@ -1,4 +1,4 @@
-import { BlogMetaData } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 import { notFound } from 'next/navigation';
 import getBlogMarkdown from './get-markdown';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
@@ -24,40 +24,40 @@ export async function getBlogList(
   );
   if (responseError)
     return {
-      blogPosts: [] as BlogMetaData[],
+      blogPosts: [] as BlogPost[],
     };
 
   const {
     blogPosts,
     nextCursor,
-  }: { blogPosts: BlogMetaData[]; nextCursor?: string | undefined } =
+  }: { blogPosts: BlogPost[]; nextCursor?: string | undefined } =
     await res.json();
 
   return {
-    blogPosts: (blogPosts ?? []) as BlogMetaData[],
+    blogPosts: (blogPosts ?? []) as BlogPost[],
     nextCursor: nextCursor ?? undefined,
   };
 }
 
 export async function getBlogBySlug(slug: string) {
-  const metaDataRes = await fetch(
+  const blogPostRes = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/slug/${encodeURIComponent(slug)}`
   );
 
-  if (metaDataRes.status !== StatusCodes.OK) {
-    console.error('Failed to fetch blog metadata:', metaDataRes.statusText);
+  if (blogPostRes.status !== StatusCodes.OK) {
+    console.error('Failed to fetch blog post:', blogPostRes.statusText);
     return notFound();
   }
 
-  const metaDataResJson: SlugResponses['Get'] = await metaDataRes.json();
+  const blogPostResJson: SlugResponses['Get'] = await blogPostRes.json();
 
-  return metaDataResJson;
+  return blogPostResJson;
 }
 
-export async function getAllBlogData(slug: string) {
-  const blogMetaData: SlugResponses['Get'] = await getBlogBySlug(slug);
+export async function getBlogPosts(slug: string) {
+  const blogPosts: SlugResponses['Get'] = await getBlogBySlug(slug);
 
-  const markdown = await getBlogMarkdown(blogMetaData.blogPost);
+  const markdown = await getBlogMarkdown(blogPosts.blogPost);
 
-  return { blogMetaData, markdown };
+  return { blogPosts, markdown };
 }

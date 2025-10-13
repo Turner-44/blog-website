@@ -2,9 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { formattedDate as formatDate } from '@/lib/utils/dates';
-import { BlogMetaData } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 
-export default function BlogCard({ blog }: { blog: BlogMetaData }) {
+export default function BlogCard({ blog }: { blog: BlogPost }) {
   return (
     <Link href={`/blog/${blog.slug}`} className="no-underline">
       <div

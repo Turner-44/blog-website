@@ -1,7 +1,7 @@
 import { request, chromium } from '@playwright/test';
 import fs from 'fs/promises';
-import { storeBlogMetaData } from './support/api/blog';
-import { createBlogDataAPI } from './data/create-blog';
+import { storeBlogPost } from './support/api/blog';
+import { createBlogPostDataAPI } from './data/create-blog';
 import { storeMarkdown } from './support/api/markdown';
 import { storeImage } from './support/api/image';
 import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
@@ -31,24 +31,34 @@ setup('Create blogs', async ({}) => {
   });
 
   const testData = [
-    createBlogDataAPI(),
-    createBlogDataAPI(),
-    createBlogDataAPI(),
+    createBlogPostDataAPI(),
+    createBlogPostDataAPI(),
+    createBlogPostDataAPI(),
   ];
+
+  testData.forEach((blog, index) => {
+    // Set publishedAt to now, incremented by 100ms per blog - Stop blogs clashing with same date value
+    blog.publishedAt = new Date(Date.now() + index * 100).toISOString();
+  });
 
   const createdData = await Promise.all(
     testData.map(async (blog) => {
       const markdownJson = await storeMarkdown(apiContext, blog);
       const featureImageJson = await storeImage(apiContext, blog, 'feature');
       const previewImageJson = await storeImage(apiContext, blog, 'preview');
-      const blogMetaData = await storeBlogMetaData(
+      const blogPost = await storeBlogPost(
         apiContext,
         blog,
         featureImageJson,
         previewImageJson,
         markdownJson
       );
-      return { blogMetaData, featureImageJson, previewImageJson, markdownJson };
+      return {
+        blogPost,
+        featureImageJson,
+        previewImageJson,
+        markdownJson,
+      };
     })
   );
 

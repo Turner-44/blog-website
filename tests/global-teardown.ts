@@ -30,7 +30,7 @@ teardown('Delete blogs', async ({}) => {
   });
 
   const createdData = testData as {
-    blogMetaData: BlogsResponses['Post'];
+    blogPost: BlogsResponses['Post'];
     featureImageJson: ImageResponses['Post'];
     previewImageJson: ImageResponses['Post'];
     markdownJson: MarkdownResponses['Post'];
@@ -39,9 +39,9 @@ teardown('Delete blogs', async ({}) => {
   for (let i = 0; i < createdData.length; i++) {
     const blog = createdData[i];
 
-    await deleteBlogPost(apiContext, blog.blogMetaData);
+    await deleteBlogPost(apiContext, blog.blogPost);
 
-    console.log('Blog deleted ' + blog.blogMetaData.blogPost.title);
+    console.log('Blog deleted ' + blog.blogPost.title);
   }
 
   await apiContext.dispose();

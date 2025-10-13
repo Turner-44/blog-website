@@ -1,41 +1,41 @@
-import { CreateBlogDataAPI } from '@/tests/data/create-blog';
+import { CreateBlogPostDataAPI } from '@/tests/data/create-blog';
 import { ImageResponses } from '@/types/api/image';
 import { BlogsResponses } from '@/types/api/blogs';
 import { MarkdownResponses } from '@/types/api/markdown';
 import { APIRequestContext } from '@playwright/test';
 
-export const storeBlogMetaData = async (
+export const storeBlogPost = async (
   apiContext: APIRequestContext,
-  blogData: CreateBlogDataAPI,
+  blogPost: CreateBlogPostDataAPI,
   featureImageJson: ImageResponses['Post'],
   previewImageJson: ImageResponses['Post'],
   markdownJson: MarkdownResponses['Post']
 ): Promise<BlogsResponses['Post']> => {
-  const metaDataBody = JSON.stringify({
-    id: blogData.id,
-    title: blogData.title,
-    slug: blogData.slug,
-    summary: blogData.summary,
+  const blogPostBody = JSON.stringify({
+    id: blogPost.id,
+    title: blogPost.title,
+    slug: blogPost.slug,
+    summary: blogPost.summary,
     featureImageKey: featureImageJson.imageKey,
     previewImageKey: previewImageJson.imageKey,
     markdownKey: markdownJson.markdownKey,
-    publishedAt: blogData.publishedAt,
-    tags: blogData.tags,
+    publishedAt: blogPost.publishedAt,
+    tags: blogPost.tags,
   });
 
-  const blogMetaRes = await apiContext.post(`/api/blogs`, {
-    data: metaDataBody,
+  const blogPostRes = await apiContext.post(`/api/blogs`, {
+    data: blogPostBody,
   });
-
-  return await blogMetaRes.json();
+  const resJson = await blogPostRes.json();
+  return resJson;
 };
 
 export const deleteBlogPost = async (
   apiContext: APIRequestContext,
-  blog: BlogsResponses['Post']
-) => {
+  blogPost: BlogsResponses['Post']
+): Promise<BlogsResponses['Delete']> => {
   const blogMetaRes = await apiContext.delete(
-    `/api/blogs?sk=${encodeURIComponent(blog.blogPost.SK)}`
+    `/api/blogs?sk=${encodeURIComponent(blogPost.SK)}`
   );
   return await blogMetaRes.json();
 };

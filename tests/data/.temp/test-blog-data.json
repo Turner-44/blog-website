@@ -1,19 +1,17 @@
 [
   {
-    "blogMetaData": {
-      "blogPost": {
-        "PK": "BLOG",
-        "SK": "",
-        "id": "",
-        "title": "",
-        "slug": "",
-        "summary": "",
-        "featureImageKey": "",
-        "previewImageKey": "",
-        "markdownKey": "",
-        "publishedAt": "",
-        "tags": []
-      }
+    "blogPost": {
+      "PK": "BLOG",
+      "SK": "",
+      "id": "",
+      "title": "",
+      "slug": "",
+      "summary": "",
+      "featureImageKey": "",
+      "previewImageKey": "",
+      "markdownKey": "",
+      "publishedAt": "",
+      "tags": []
     },
     "featureImageJson": {
       "blogId": "",

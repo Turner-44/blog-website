@@ -1,6 +1,6 @@
 import test, { expect, request } from '@playwright/test';
 import { StatusCodes } from 'http-status-codes';
-import { createBlogDataAPI } from '@/tests/data/create-blog';
+import { createBlogPostDataAPI } from '@/tests/data/create-blog';
 
 test.describe('API tests', { tag: ['@api', '@smoke'] }, () => {
   test('Check blogs API endpoints', async ({}) => {
@@ -9,7 +9,7 @@ test.describe('API tests', { tag: ['@api', '@smoke'] }, () => {
       extraHTTPHeaders: {},
     });
 
-    const data = createBlogDataAPI();
+    const data = createBlogPostDataAPI();
     const createResponse = await apiContext.post('/api/blogs', {
       data,
     });

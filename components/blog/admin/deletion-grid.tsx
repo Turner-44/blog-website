@@ -1,22 +1,18 @@
 'use client';
 
-import { BlogMetaData } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import { Button } from '@/components/shared-components/button';
-import { deleteBlogPost } from '@/lib/api/blog/delete-blogs';
+import { deleteCompleteBlogPost } from '@/lib/api/blog/delete-blogs';
 
-export default function DeletionGrid({
-  blogPosts,
-}: {
-  blogPosts: BlogMetaData[];
-}) {
+export default function DeletionGrid({ blogPosts }: { blogPosts: BlogPost[] }) {
   // eslint-disable-next-line
-  const [blogList, setBlogList] = useState<BlogMetaData[]>(blogPosts);
+  const [blogList, setBlogList] = useState<BlogPost[]>(blogPosts);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
-  const handleDeleteClick = async (blog: BlogMetaData, e: React.MouseEvent) => {
+  const handleDeleteClick = async (blog: BlogPost, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -29,7 +25,7 @@ export default function DeletionGrid({
     setIsDeleting(blog.id);
 
     try {
-      await deleteBlogPost(blog);
+      await deleteCompleteBlogPost(blog);
       setBlogList((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
     } catch (error) {
       console.error('Delete error:', error);

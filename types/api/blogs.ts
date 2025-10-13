@@ -1,19 +1,15 @@
 import { createBlogSchema } from '@/lib/zod';
-import { BlogMetaData } from '../blog';
+import { BlogPost } from '../blog';
 import z from 'zod';
 
 export type BlogsResponses = {
-  Post: BlogsPostResponse;
+  Post: BlogPost;
   Get: BlogsGetResponse;
   Delete: BlogsDeleteResponse;
 };
 
-interface BlogsPostResponse {
-  blogPost: BlogMetaData;
-}
-
 interface BlogsGetResponse {
-  blogPosts: BlogMetaData[];
+  blogPosts: BlogPost[];
   nextCursor: string | null;
 }
 

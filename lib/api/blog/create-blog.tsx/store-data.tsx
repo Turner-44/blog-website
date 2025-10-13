@@ -7,20 +7,20 @@ import { cleanupOnFailure } from '../delete-blogs';
 
 export type MarkdownResult = Result<MarkdownResponses['Post']>;
 export type ImageResult = Result<ImageResponses['Post']>;
-export type BlogMetaDataResult = Result<BlogsResponses['Post']>;
+export type BlogPostResult = Result<BlogsResponses['Post']>;
 
-export const storeBlogMetadata = async (
-  blogMeta: BlogsRequestBody['Post'],
+export const storeBlogPost = async (
+  blogPost: BlogsRequestBody['Post'],
   cookieHeader: string
-): Promise<BlogMetaDataResult> => {
+): Promise<BlogPostResult> => {
   const blogResponse = await postJson<BlogsResponses['Post']>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`,
-    blogMeta,
+    blogPost,
     cookieHeader
   );
 
   if (!blogResponse.success) {
-    await cleanupOnFailure(blogMeta, cookieHeader);
+    await cleanupOnFailure(blogPost, cookieHeader);
   }
 
   return blogResponse;

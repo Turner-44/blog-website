@@ -7,9 +7,9 @@ import { ImageResponses } from '@/types/api/image';
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
 test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
-  test('Validate blogs display as expected', async ({ page, context }) => {
+  test('Validate blogs display as expected', async ({ page }) => {
     const blogPosts = testData as {
-      blogMetaData: BlogsResponses['Post'];
+      blogPost: BlogsResponses['Post'];
       featureImageJson: ImageResponses['Post'];
       previewImageJson: ImageResponses['Post'];
       markdownJson: MarkdownResponses['Post'];
@@ -21,32 +21,28 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
       for (let i = 0; i < blogPosts.length; i++) {
         const blog = blogPosts[i];
         await expect(
-          page.getByTestId(
-            `header-blog-card-title-${blog.blogMetaData.blogPost.slug}`
-          )
-        ).toContainText(blog.blogMetaData.blogPost.title);
+          page.getByTestId(`header-blog-card-title-${blog.blogPost.slug}`)
+        ).toContainText(blog.blogPost.title);
         await expect(
-          page.getByTestId(
-            `text-blog-card-summary-${blog.blogMetaData.blogPost.slug}`
-          )
-        ).toContainText(blog.blogMetaData.blogPost.summary);
+          page.getByTestId(`text-blog-card-summary-${blog.blogPost.slug}`)
+        ).toContainText(blog.blogPost.summary);
       }
     }).toPass();
 
     for (let i = 0; i < blogPosts.length; i++) {
       const blog = blogPosts[i];
-      await page.goto(`/blog/${blog.blogMetaData.blogPost.slug}`, {
+      await page.goto(`/blog/${blog.blogPost.slug}`, {
         waitUntil: 'domcontentloaded',
       });
       await expect(page.getByTestId('header-blog-title')).toHaveText(
-        blog.blogMetaData.blogPost.title
+        blog.blogPost.title
       );
     }
   });
 
   test('Check blog navigation is present', async ({ page }) => {
     const blogPosts = testData as {
-      blogMetaData: BlogsResponses['Post'];
+      blogPost: BlogsResponses['Post'];
       featureImageJson: ImageResponses['Post'];
       previewImageJson: ImageResponses['Post'];
       markdownJson: MarkdownResponses['Post'];
@@ -57,33 +53,33 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
     const thirdBlog = blogPosts[2];
 
     await expect(async () => {
-      await page.goto(`/blog/${secondBlog.blogMetaData.blogPost.slug}`, {
+      await page.goto(`/blog/${secondBlog.blogPost.slug}`, {
         waitUntil: 'domcontentloaded',
       });
 
       await expect(page.getByTestId('header-blog-title')).toContainText(
-        secondBlog.blogMetaData.blogPost.title
+        secondBlog.blogPost.title
+      );
+
+      await expect(page.getByTestId('link-next-blog')).toContainText(
+        thirdBlog.blogPost.title
       );
     }).toPass();
 
-    await expect(page.getByTestId('link-next-blog')).toContainText(
-      thirdBlog.blogMetaData.blogPost.title
-    );
-
     await page.getByTestId('link-next-blog').click();
     await expect(page).toHaveURL(
-      `http://localhost:3000/blog/${thirdBlog.blogMetaData.blogPost.slug}`
+      `http://localhost:3000/blog/${thirdBlog.blogPost.slug}`
     );
 
     await page.goBack();
 
     await expect(page.getByTestId('link-prev-blog')).toContainText(
-      firstBlog.blogMetaData.blogPost.title
+      firstBlog.blogPost.title
     );
 
     await page.getByTestId('link-prev-blog').click();
     await expect(page).toHaveURL(
-      `http://localhost:3000/blog/${firstBlog.blogMetaData.blogPost.slug}`
+      `http://localhost:3000/blog/${firstBlog.blogPost.slug}`
     );
   });
 });

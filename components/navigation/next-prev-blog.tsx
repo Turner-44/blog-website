@@ -1,12 +1,12 @@
 import { SlugResponses } from '@/types/api/blogs-slug';
 import Link from 'next/link';
 
-export default function NextPrevBlog(blogMetaData: {
-  blogMetaData: SlugResponses['Get'];
+export default function NextPrevBlog(blogPosts: {
+  blogPosts: SlugResponses['Get'];
 }) {
   const {
-    blogMetaData: { prevBlogPost, nextBlogPost },
-  } = blogMetaData;
+    blogPosts: { prevBlogPost, nextBlogPost },
+  } = blogPosts;
 
   return (
     <div className="flex justify-between mt-6">

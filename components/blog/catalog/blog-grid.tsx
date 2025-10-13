@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { BlogMetaData } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 import { useState } from 'react';
 import { getBlogList } from '@/lib/api/blog/get-blogs';
 import { Button } from '@/components/shared-components/button';
@@ -12,7 +12,7 @@ export default function BlogGrid({
   initialBlogs,
   initialCursor,
 }: {
-  initialBlogs: BlogMetaData[];
+  initialBlogs: BlogPost[];
   initialCursor?: string | undefined;
 }) {
   const [blogs, setBlogs] = useState(initialBlogs);

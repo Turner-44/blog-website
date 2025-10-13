@@ -1,4 +1,4 @@
-import { BlogMetaData } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
@@ -56,7 +56,7 @@ export const buildBlogBySlugQuery = (slug: string): QueryCommandInput => ({
 });
 
 export const buildBlogByRelativePublishedAtQuery = (
-  primaryPost: BlogMetaData,
+  primaryPost: BlogPost,
   position: 'before' | 'after',
   limit: number = 1
 ): QueryCommandInput => {

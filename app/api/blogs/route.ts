@@ -11,7 +11,7 @@ import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { BlogsResponses } from '@/types/api/blogs';
 import { FieldSchemas, createBlogSchema } from '@/lib/zod';
-import { BlogMetaData } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 import {
   dynamoDBResponseHandler,
   genericCatchError,
@@ -55,7 +55,7 @@ export async function GET(
 
     return NextResponse.json<BlogsResponses['Get']>(
       {
-        blogPosts: dynamodbRes.Items as BlogMetaData[],
+        blogPosts: dynamodbRes.Items as BlogPost[],
         nextCursor,
       },
       {
@@ -84,7 +84,7 @@ export async function POST(
 
     const id = reqData.id || crypto.randomUUID();
 
-    const item: BlogMetaData = {
+    const blogPost: BlogPost = {
       PK: 'BLOG',
       SK: `${reqData.publishedAt}#${id}`,
       id: id,
@@ -94,7 +94,7 @@ export async function POST(
     const dynamodbRes = await dynamoDBClient.send(
       new PutCommand({
         TableName: TABLE_NAME,
-        Item: item,
+        Item: blogPost,
       })
     );
 
@@ -104,10 +104,9 @@ export async function POST(
     });
     if (awsError) return awsError;
 
-    return NextResponse.json<BlogsResponses['Post']>(
-      { blogPost: item },
-      { status: StatusCodes.CREATED }
-    );
+    return NextResponse.json<BlogsResponses['Post']>(blogPost, {
+      status: StatusCodes.CREATED,
+    });
   } catch (err: Error | unknown) {
     return genericCatchError(err);
   }

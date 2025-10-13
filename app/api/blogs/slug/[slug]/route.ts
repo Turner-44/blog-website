@@ -8,7 +8,7 @@ import {
   buildBlogBySlugQuery,
 } from '@/lib/api/aws/dynamo';
 import { FieldSchemas } from '@/lib/zod';
-import { BlogMetaData } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 import {
   createErrorResponse,
   dynamoDBResponseHandler,
@@ -39,7 +39,7 @@ export async function GET(
     });
     if (awsError) return awsError;
 
-    const result = (dynamodbRes.Items ?? []) as BlogMetaData[];
+    const result = (dynamodbRes.Items ?? []) as BlogPost[];
 
     const notFoundError = validateResultFound(
       result.length === 1,
@@ -48,19 +48,15 @@ export async function GET(
     if (notFoundError) return notFoundError;
 
     const dynamodbPrevRes = await dynamoDBClient.send(
-      new QueryCommand(
-        buildBlogByRelativePublishedAtQuery(result[0], 'before')
-      )
+      new QueryCommand(buildBlogByRelativePublishedAtQuery(result[0], 'before'))
     );
 
     const dynamodbNextRes = await dynamoDBClient.send(
-      new QueryCommand(
-        buildBlogByRelativePublishedAtQuery(result[0], 'after')
-      )
+      new QueryCommand(buildBlogByRelativePublishedAtQuery(result[0], 'after'))
     );
 
-    const prevBlogs = (dynamodbPrevRes.Items ?? []) as BlogMetaData[];
-    const nextBlogs = (dynamodbNextRes.Items ?? []) as BlogMetaData[];
+    const prevBlogs = (dynamodbPrevRes.Items ?? []) as BlogPost[];
+    const nextBlogs = (dynamodbNextRes.Items ?? []) as BlogPost[];
 
     return NextResponse.json<SlugResponses['Get']>(
       {

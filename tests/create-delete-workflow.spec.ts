@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { createBlogDataUI } from './data/create-blog';
+import { createBlogPostDataUI } from './data/create-blog';
 import { TEST_PATHS, resolveFromRoot } from '@/lib/utils/paths';
 import path from 'path';
 
@@ -9,7 +9,7 @@ test.describe.serial(
   'Check blog creation and deletion user workflow',
   { tag: '@e2e' },
   () => {
-    const blogData = createBlogDataUI();
+    const blogPostData = createBlogPostDataUI();
 
     test('Create Blog', async ({ page }) => {
       await page.goto('/admin', { waitUntil: 'domcontentloaded' });
@@ -20,10 +20,10 @@ test.describe.serial(
 
       await page.getByTestId('btn-admin-create-blog').click();
 
-      await page.getByTestId('input-blog-title').fill(blogData.title);
-      await page.getByTestId('input-blog-slug').fill(blogData.slug);
-      await page.getByTestId('input-blog-summary').fill(blogData.summary);
-      await page.getByTestId('input-blog-markdown').fill(blogData.markdown);
+      await page.getByTestId('input-blog-title').fill(blogPostData.title);
+      await page.getByTestId('input-blog-slug').fill(blogPostData.slug);
+      await page.getByTestId('input-blog-summary').fill(blogPostData.summary);
+      await page.getByTestId('input-blog-markdown').fill(blogPostData.markdown);
 
       await page
         .getByTestId('input-blog-feature-image')
@@ -31,13 +31,13 @@ test.describe.serial(
           resolveFromRoot(
             path.join(
               TEST_PATHS.testsDataFeatureImages,
-              blogData.featureImageFileName
+              blogPostData.featureImageFileName
             )
           )
         );
 
       await expect(
-        page.getByText(`Feature Image: ${blogData.featureImageFileName}`)
+        page.getByText(`Feature Image: ${blogPostData.featureImageFileName}`)
       ).toHaveCount(1);
 
       await page
@@ -46,16 +46,18 @@ test.describe.serial(
           resolveFromRoot(
             path.join(
               TEST_PATHS.testsDataPreviewImages,
-              blogData.previewImageFileName
+              blogPostData.previewImageFileName
             )
           )
         );
 
       await expect(
-        page.getByText(`Preview Image: ${blogData.previewImageFileName}`)
+        page.getByText(`Preview Image: ${blogPostData.previewImageFileName}`)
       ).toHaveCount(1);
 
-      await page.getByTestId('input-blog-tags').fill(blogData.tags.join(','));
+      await page
+        .getByTestId('input-blog-tags')
+        .fill(blogPostData.tags.join(','));
 
       await page.getByTestId('btn-blog-publish').click();
 
@@ -66,18 +68,18 @@ test.describe.serial(
 
     test('View Blog', async ({ page }) => {
       await expect(async () => {
-        await page.goto(`/blog/${blogData.slug}`, {
+        await page.goto(`/blog/${blogPostData.slug}`, {
           waitUntil: 'domcontentloaded',
         });
 
         await expect(page.getByTestId('header-blog-title')).toContainText(
-          blogData.title
+          blogPostData.title
         );
       }).toPass();
 
       await expect(page.getByTestId('img-blog-feature')).toHaveAttribute(
         'alt',
-        blogData.title
+        blogPostData.title
       );
     });
 
@@ -93,28 +95,28 @@ test.describe.serial(
       await page.getByTestId('btn-admin-delete-blog').click();
 
       await expect(
-        page.getByTestId(`row-blog-deletion-grid-${blogData.slug}`)
+        page.getByTestId(`row-blog-deletion-grid-${blogPostData.slug}`)
       ).toBeVisible();
 
       await expect(
-        page.getByTestId(`header-blog-deletion-row-title-${blogData.slug}`)
-      ).toContainText(blogData.title);
+        page.getByTestId(`header-blog-deletion-row-title-${blogPostData.slug}`)
+      ).toContainText(blogPostData.title);
 
       await expect(
-        page.getByTestId(`text-blog-deletion-row-summary-${blogData.slug}`)
-      ).toContainText(blogData.summary);
+        page.getByTestId(`text-blog-deletion-row-summary-${blogPostData.slug}`)
+      ).toContainText(blogPostData.summary);
 
       await page
-        .getByTestId(`btn-blog-deletion-row-delete-${blogData.slug}`)
+        .getByTestId(`btn-blog-deletion-row-delete-${blogPostData.slug}`)
         .click();
 
       await page.waitForSelector(
-        `[data-testid="row-blog-deletion-grid-${blogData.slug}"]`,
+        `[data-testid="row-blog-deletion-grid-${blogPostData.slug}"]`,
         { state: 'detached', timeout: 10000 }
       );
 
       await expect(
-        page.getByTestId(`row-blog-deletion-grid-${blogData.slug}`)
+        page.getByTestId(`row-blog-deletion-grid-${blogPostData.slug}`)
       ).toHaveCount(0);
     });
   }

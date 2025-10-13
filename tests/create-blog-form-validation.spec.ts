@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { createBlogDataUI } from './data/create-blog';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 

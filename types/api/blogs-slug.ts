@@ -1,11 +1,11 @@
-import { BlogMetaData } from '../blog';
+import { BlogPost } from '../blog';
 
 export type SlugResponses = {
   Get: SlugGetResponse;
 };
 
 interface SlugGetResponse {
-  blogPost: BlogMetaData;
-  prevBlogPost: BlogMetaData;
-  nextBlogPost: BlogMetaData;
+  blogPost: BlogPost;
+  prevBlogPost?: BlogPost;
+  nextBlogPost?: BlogPost;
 }

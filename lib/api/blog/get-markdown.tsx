@@ -1,9 +1,9 @@
-import { BlogMetaData } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 import { notFound } from 'next/navigation';
 
-export default async function getBlogMarkdown(blogMetaData: BlogMetaData) {
+export default async function getBlogMarkdown(blogPost: BlogPost) {
   const markdownRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blogMetaData.id}/markdown?markdownKey=${encodeURIComponent(blogMetaData.markdownKey)}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blogPost.id}/markdown?markdownKey=${encodeURIComponent(blogPost.markdownKey)}`
   );
 
   if (!markdownRes.ok) {
