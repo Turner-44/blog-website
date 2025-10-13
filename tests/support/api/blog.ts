@@ -34,8 +34,8 @@ export const deleteBlogPost = async (
   apiContext: APIRequestContext,
   blogPost: BlogsResponses['Post']
 ): Promise<BlogsResponses['Delete']> => {
-  const blogMetaRes = await apiContext.delete(
+  const blogPostRes = await apiContext.delete(
     `/api/blogs?sk=${encodeURIComponent(blogPost.SK)}`
   );
-  return await blogMetaRes.json();
+  return await blogPostRes.json();
 };

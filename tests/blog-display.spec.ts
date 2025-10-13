@@ -68,10 +68,13 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
 
     await page.getByTestId('link-next-blog').click();
     await expect(page).toHaveURL(
-      `http://localhost:3000/blog/${thirdBlog.blogPost.slug}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${thirdBlog.blogPost.slug}`
+    );
+    await expect(page.getByTestId('header-blog-title')).toContainText(
+      thirdBlog.blogPost.title
     );
 
-    await page.goBack();
+    await page.goBack({ waitUntil: 'domcontentloaded' });
 
     await expect(page.getByTestId('link-prev-blog')).toContainText(
       firstBlog.blogPost.title
@@ -79,7 +82,10 @@ test.describe('Check carousel and blog display', { tag: '@e2e' }, () => {
 
     await page.getByTestId('link-prev-blog').click();
     await expect(page).toHaveURL(
-      `http://localhost:3000/blog/${firstBlog.blogPost.slug}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${firstBlog.blogPost.slug}`
+    );
+    await expect(page.getByTestId('header-blog-title')).toContainText(
+      firstBlog.blogPost.title
     );
   });
 });
