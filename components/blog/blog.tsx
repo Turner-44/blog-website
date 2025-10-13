@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import BlogContent from './blog-markdown';
 import { getAllBlogData } from '@/lib/api/blog/get-blogs';
-import Link from 'next/link';
+import NextPrevBlog from '../navigation/next-prev-blog';
 
 export default async function Blog({ slug }: { slug: string }) {
   const { blogMetaData, markdown } = await getAllBlogData(slug);
-  console.log(blogMetaData);
   return (
     <div>
       <h1
@@ -35,28 +34,7 @@ export default async function Blog({ slug }: { slug: string }) {
         />
       </div>
       <BlogContent markdown={markdown} />
-      <div className="flex justify-between mt-6">
-        <div className="w-full sm:w-auto text-left">
-          {blogMetaData.prevBlogPost ? (
-            <Link
-              href={`/blog/${blogMetaData.prevBlogPost.slug}`}
-              className="hover:text-black hover:underline"
-            >
-              ← {blogMetaData.prevBlogPost.title}
-            </Link>
-          ) : null}
-        </div>
-        <div className="w-full sm:w-auto text-right">
-          {blogMetaData.nextBlogPost ? (
-            <Link
-              href={`/blog/${blogMetaData.nextBlogPost.slug}`}
-              className="hover:text-black hover:underline"
-            >
-              {blogMetaData.nextBlogPost.title} →
-            </Link>
-          ) : null}
-        </div>
-      </div>
+      <NextPrevBlog blogMetaData={blogMetaData} />
     </div>
   );
 }
