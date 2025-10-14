@@ -25,5 +25,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/admin/:path*`],
+  matcher: ['/api/blogs/admin/:path*'],
 };
