@@ -31,6 +31,7 @@ jobs:
       - name: Create environment file
         run: |
           touch .env
+          echo "NEXT_PUBLIC_POINTED_AT_TEST=false" >> .env
           echo "NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
           echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
           echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .env
@@ -47,13 +48,7 @@ jobs:
           echo "DEPLOY_S3_BUCKET_NAME=${{ vars.DEPLOY_S3_BUCKET_NAME }}" >> .env
 
       - name: Build app
-        run: |
-          set -a
-          source .env
-          set +a
-          echo "NEXT_PUBLIC_BASE_URL = $NEXT_PUBLIC_BASE_URL"
-          echo "AWS_REGION = $AWS_REGION"
-          npm run build
+        run: npm run build
 
       - name: 📤 Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
