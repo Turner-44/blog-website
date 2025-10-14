@@ -51,6 +51,8 @@ jobs:
           set -a
           source .env
           set +a
+          echo "NEXT_PUBLIC_BASE_URL = $NEXT_PUBLIC_BASE_URL"
+          echo "AWS_REGION = $AWS_REGION"
           npm run build
 
       - name: 📤 Deploy to S3
