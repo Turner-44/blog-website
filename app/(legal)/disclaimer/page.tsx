@@ -1,4 +1,18 @@
+import { Metadata } from 'next';
 import classes from '../legal.module.css';
+import { liveSiteUrl } from '@/lib/utils/seo';
+
+export const metadata: Metadata = {
+  title: 'Disclaimer',
+  description: 'Read the disclaimer for using Becoming Matthew.',
+  robots: {
+    index: false,
+    follow: true,
+  },
+  alternates: {
+    canonical: `${liveSiteUrl}/disclaimer`,
+  },
+};
 
 export default function Disclaimer() {
   return (

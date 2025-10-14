@@ -1,4 +1,22 @@
+import { liveSiteUrl, siteName } from '@/lib/utils/seo';
+import { Metadata } from 'next';
 import Image from 'next/image';
+
+const pageTitle = 'About';
+const pageDescription =
+  'Learn more about me and the purpose behind Becoming Matthew.';
+export const metadata: Metadata = {
+  title: pageTitle,
+  description: pageDescription,
+  alternates: {
+    canonical: `${liveSiteUrl}/about`,
+  },
+  openGraph: {
+    title: `${siteName} | ${pageTitle}`,
+    description: pageDescription,
+    url: `${liveSiteUrl}/about`,
+  },
+};
 
 export default function About() {
   return (

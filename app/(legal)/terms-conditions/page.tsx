@@ -1,4 +1,18 @@
+import { Metadata } from 'next';
 import classes from '../legal.module.css';
+import { liveSiteUrl } from '@/lib/utils/seo';
+
+export const metadata: Metadata = {
+  title: 'Terms and Conditions',
+  description: 'Read the terms and conditions for using Becoming Matthew.',
+  robots: {
+    index: false,
+    follow: true,
+  },
+  alternates: {
+    canonical: `${liveSiteUrl}/terms-conditions`,
+  },
+};
 
 export default function TermsAndConditions() {
   return (

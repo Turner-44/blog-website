@@ -11,6 +11,7 @@ import {
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { FieldSchemas, createImageSchema } from '@/lib/zod';
+import { AWSCacheValue } from '@/lib/api/common/headers';
 
 export async function POST(
   req: Request
@@ -41,7 +42,7 @@ export async function POST(
         Key: imageKey,
         Body: Buffer.from(await imageFile.arrayBuffer()),
         ContentType: imageFile.type,
-        CacheControl: 'public, max-age=31536000, immutable',
+        CacheControl: AWSCacheValue,
       })
     );
 

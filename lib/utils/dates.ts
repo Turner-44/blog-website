@@ -6,4 +6,11 @@ export const formattedDate = (isoStringDate: string) => {
   });
 };
 
+// 7 days (in seconds)
 export const revalidateIn7Days = 60 * 60 * 24 * 7;
+
+// 1 day (in seconds)
+export const revalidateIn1Day = 60 * 60 * 24 * 1;
+
+// 1 year (in seconds)
+export const revalidateIn1Year = 60 * 60 * 24 * 365;

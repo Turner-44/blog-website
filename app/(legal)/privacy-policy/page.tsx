@@ -1,4 +1,18 @@
+import { Metadata } from 'next';
 import classes from '../legal.module.css';
+import { liveSiteUrl } from '@/lib/utils/seo';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'Read the privacy policy for using Becoming Matthew.',
+  robots: {
+    index: false,
+    follow: true,
+  },
+  alternates: {
+    canonical: `${liveSiteUrl}/privacy-policy`,
+  },
+};
 
 export default function PrivacyPolicy() {
   return (

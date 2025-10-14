@@ -18,6 +18,7 @@ import {
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes';
 import { createMarkdownSchema, FieldSchemas } from '@/lib/zod';
+import { AWSCacheValue, SevenDayCacheHeader } from '@/lib/api/common/headers';
 
 export async function GET(
   req: Request
@@ -56,9 +57,7 @@ export async function GET(
       { markdown },
       {
         status: StatusCodes.OK,
-        headers: {
-          'Cache-Control': 's-maxage=31536000, stale-while-revalidate=31536000',
-        },
+        headers: { ...SevenDayCacheHeader },
       }
     );
   } catch (err: Error | unknown) {
@@ -88,7 +87,7 @@ export async function POST(
         Bucket: BUCKET_NAME,
         Key: markdownKey,
         Body: reqData.markdown,
-        CacheControl: 'public, max-age=31536000, immutable',
+        CacheControl: AWSCacheValue,
       })
     );
 

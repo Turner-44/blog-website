@@ -3,10 +3,24 @@ import './globals.css';
 import { nunito, poppins } from '@/lib/utils/fonts';
 import Navbar from '@/components/navigation/navbar';
 import Footer from '@/components/navigation/footer';
+import { liveSiteUrl, siteName } from '@/lib/utils/seo';
 
 export const metadata: Metadata = {
-  title: 'Becoming Matthew',
+  title: {
+    default: siteName,
+    template: `%s | ${siteName}`,
+  },
   description: 'A blog about my journey to become the best version of myself.',
+  metadataBase: new URL(liveSiteUrl),
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: liveSiteUrl,
+    siteName: siteName,
+  },
+  alternates: {
+    canonical: liveSiteUrl,
+  },
 };
 
 export default function RootLayout({

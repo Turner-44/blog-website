@@ -1,3 +1,23 @@
+import { liveSiteUrl, siteName } from '@/lib/utils/seo';
+import { Metadata } from 'next';
+
+const description =
+  'Get in touch with Matthew — for questions, collaborations, or conversations about personal growth.';
+const pageTitle = 'Contact';
+
+export const metadata: Metadata = {
+  title: pageTitle,
+  description,
+  alternates: {
+    canonical: `${liveSiteUrl}/contact`,
+  },
+  openGraph: {
+    title: `${siteName} | ${pageTitle}`,
+    description: description,
+    url: `${liveSiteUrl}/contact`,
+  },
+};
+
 export default function Contact() {
   return (
     <main className="narrow-page-format">

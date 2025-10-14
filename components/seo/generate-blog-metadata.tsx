@@ -1,8 +1,8 @@
 import { BlogPost } from '@/types/blog';
 
-export const generateBlogMetadata = (blogPost: BlogPost, readTime: number) => {
-  const blogPostUrl = `${liveSiteUrl}/blog/${blogPost.slug}`;
-  const blogPostFeatureImage = `${liveSiteUrl}/${blogPost.featureImageKey}`;
+export const generateBlogMetadata = (blogPost: BlogPost, readTime: string) => {
+  const blogPostUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${blogPost.slug}`;
+  const blogPostFeatureImage = `${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blogPost.featureImageKey}`;
 
   return {
     title: blogPost.title,
@@ -25,13 +25,7 @@ export const generateBlogMetadata = (blogPost: BlogPost, readTime: number) => {
     alternates: {
       canonical: blogPostUrl,
     },
-    other: {
-      readTime: readTime,
-      isPublished: 'true',
-    },
+    readTime: readTime,
+    isPublished: true,
   };
 };
-
-export const siteName = 'Becoming Matthew';
-export const liveSiteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://becomingmatthew.com';

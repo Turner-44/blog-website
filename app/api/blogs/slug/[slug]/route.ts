@@ -18,6 +18,7 @@ import {
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { SlugResponses } from '@/types/api/blogs-slug';
+import { SevenDayCacheHeader } from '@/lib/api/common/headers';
 
 export async function GET(
   req: Request,
@@ -66,9 +67,7 @@ export async function GET(
       },
       {
         status: StatusCodes.OK,
-        headers: {
-          'Cache-Control': 's-maxage=31536000, stale-while-revalidate=31536000',
-        },
+        headers: { ...SevenDayCacheHeader },
       }
     );
   } catch (err: Error | unknown) {
