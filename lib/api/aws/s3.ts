@@ -5,6 +5,7 @@ export const s3Client = new S3Client({
     accessKeyId: process.env.ACCESS_KEY_ID_AWS as string,
     secretAccessKey: process.env.SECRET_ACCESS_KEY_AWS as string,
   },
+  region: process.env.REGION_AWS as string,
 });
 
 export const BUCKET_NAME = process.env.S3_BUCKET_NAME as string;
