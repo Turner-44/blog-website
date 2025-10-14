@@ -15,11 +15,11 @@ export const validateUserSession = async (
 
   if (validationLocation === 'UI') {
     if (!session) {
-      redirect('/api/auth/signin');
+      redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signin`);
     }
 
     if (session.user?.email !== process.env.ADMIN_EMAIL) {
-      redirect('/403');
+      redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/403`);
     }
   } else {
     if (!session)

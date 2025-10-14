@@ -15,7 +15,7 @@ export const storeImage = async (
   const imageFile = getImageFile(imageFileName, category);
 
   const imageResponse = await apiContext.post(
-    `/api/blogs/${blogPost.id}/image`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blogPost.id}/image`,
     {
       multipart: {
         blogId: blogPost.id,

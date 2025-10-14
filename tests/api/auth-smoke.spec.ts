@@ -10,18 +10,23 @@ test.describe('API tests', { tag: ['@api', '@smoke'] }, () => {
     });
 
     const data = createBlogPostDataAPI();
-    const createResponse = await apiContext.post('/api/blogs', {
-      data,
-    });
+    const createResponse = await apiContext.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`,
+      {
+        data,
+      }
+    );
 
     expect(createResponse.status()).toBe(StatusCodes.UNAUTHORIZED);
 
     const DeleteResponse = await apiContext.delete(
-      `/api/blogs?sk=${encodeURIComponent('non-existent-sk')}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?sk=${encodeURIComponent('non-existent-sk')}`
     );
     expect(DeleteResponse.status()).toBe(StatusCodes.UNAUTHORIZED);
 
-    const getResponse = await apiContext.get('/api/blogs');
+    const getResponse = await apiContext.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`
+    );
     expect(getResponse.status()).toBe(StatusCodes.OK);
   });
 
@@ -34,7 +39,7 @@ test.describe('API tests', { tag: ['@api', '@smoke'] }, () => {
     const data = { markdown: '# Sample Markdown', blogId: 'blog-id' };
 
     const createResponse = await apiContext.post(
-      `/api/blogs/${data.blogId}/markdown`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${data.blogId}/markdown`,
       {
         data,
       }
@@ -43,12 +48,12 @@ test.describe('API tests', { tag: ['@api', '@smoke'] }, () => {
     expect(createResponse.status()).toBe(StatusCodes.UNAUTHORIZED);
 
     const DeleteResponse = await apiContext.delete(
-      `/api/blogs/${data.blogId}/markdown?markdownKey=${encodeURIComponent('non-existent-key')}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${data.blogId}/markdown?markdownKey=${encodeURIComponent('non-existent-key')}`
     );
     expect(DeleteResponse.status()).toBe(StatusCodes.UNAUTHORIZED);
 
     const getResponse = await apiContext.get(
-      `/api/blogs/${data.blogId}/markdown?markdownKey=${encodeURIComponent('non-existent-key')}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${data.blogId}/markdown?markdownKey=${encodeURIComponent('non-existent-key')}`
     );
     expect(getResponse.status()).toBe(StatusCodes.INTERNAL_SERVER_ERROR); // Need to handle aws default errors for accessDenied
   });
@@ -68,7 +73,7 @@ test.describe('API tests', { tag: ['@api', '@smoke'] }, () => {
     };
 
     const createResponse = await apiContext.post(
-      `/api/blogs/${data.blogId}/markdown`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${data.blogId}/markdown`,
       {
         multipart: {
           blogId: data.id,
@@ -82,7 +87,7 @@ test.describe('API tests', { tag: ['@api', '@smoke'] }, () => {
     expect(createResponse.status()).toBe(StatusCodes.UNAUTHORIZED);
 
     const DeleteResponse = await apiContext.delete(
-      `/api/blogs/${data.blogId}/image?imageKey=${encodeURIComponent('non-existent-key')}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${data.blogId}/image?imageKey=${encodeURIComponent('non-existent-key')}`
     );
     expect(DeleteResponse.status()).toBe(StatusCodes.UNAUTHORIZED);
   });

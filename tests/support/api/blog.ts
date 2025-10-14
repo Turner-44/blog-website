@@ -23,9 +23,12 @@ export const storeBlogPost = async (
     tags: blogPost.tags,
   });
 
-  const blogPostRes = await apiContext.post(`/api/blogs`, {
-    data: blogPostBody,
-  });
+  const blogPostRes = await apiContext.post(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`,
+    {
+      data: blogPostBody,
+    }
+  );
   const resJson = await blogPostRes.json();
   return resJson;
 };
@@ -35,7 +38,7 @@ export const deleteBlogPost = async (
   blogPost: BlogsResponses['Post']
 ): Promise<BlogsResponses['Delete']> => {
   const blogPostRes = await apiContext.delete(
-    `/api/blogs?sk=${encodeURIComponent(blogPost.SK)}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?sk=${encodeURIComponent(blogPost.SK)}`
   );
   return await blogPostRes.json();
 };

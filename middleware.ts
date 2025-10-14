@@ -14,7 +14,10 @@ export async function middleware(req: NextRequest) {
   );
 
   if (isProtected && !token) {
-    const signInUrl = new URL('/api/auth/signin', req.url);
+    const signInUrl = new URL(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signin`,
+      req.url
+    );
     return NextResponse.redirect(signInUrl);
   }
 
@@ -22,5 +25,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: [`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/admin/:path*`],
 };

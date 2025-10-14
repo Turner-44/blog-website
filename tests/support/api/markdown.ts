@@ -12,7 +12,7 @@ export const storeMarkdown = async (
   });
 
   const markdownRes = await apiContext.post(
-    `/api/blogs/${blogPost.id}/markdown`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blogPost.id}/markdown`,
     {
       data: markdownBody,
     }
