@@ -32,8 +32,6 @@ export async function GET(
     );
     if (schemaError) return schemaError;
 
-    console.log('Fetching markdown from:', markdownKey);
-
     const s3 = getS3Client();
     const s3Res = await s3.send(
       new GetObjectCommand({
@@ -94,10 +92,6 @@ export async function POST(
         CacheControl: AWSCacheValue,
       })
     );
-
-    console.log('Uploading markdown to:', markdownKey);
-
-    console.log('Uploading to:', `${BUCKET_NAME}/${markdownKey}`);
 
     const awsError = s3ResponseHandler(s3Res, {
       expectedStatus: StatusCodes.OK,

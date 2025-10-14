@@ -3,20 +3,20 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { getAuthSecrets } from '../api/aws/secrets-manager';
 
-let GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
-let GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
-let NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string;
-
-if (!NEXTAUTH_SECRET) {
-  // Lazy-load once, but synchronously for NextAuth
-  // Use a top-level await if your Node version supports it (Node 18+)
-  const secrets = await getAuthSecrets();
-  GOOGLE_CLIENT_ID = secrets.GOOGLE_CLIENT_ID as string;
-  GOOGLE_CLIENT_SECRET = secrets.GOOGLE_CLIENT_SECRET as string;
-  NEXTAUTH_SECRET = secrets.NEXTAUTH_SECRET as string;
-}
-
 export const authOptions = async (): Promise<NextAuthOptions> => {
+  let GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
+  let GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
+  let NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string;
+
+  if (!NEXTAUTH_SECRET) {
+    const secrets = await getAuthSecrets();
+    GOOGLE_CLIENT_ID = secrets.GOOGLE_CLIENT_ID as string;
+    GOOGLE_CLIENT_SECRET = secrets.GOOGLE_CLIENT_SECRET as string;
+    NEXTAUTH_SECRET = secrets.NEXTAUTH_SECRET as string;
+
+    console.error('Secrets length:', Object.keys(secrets).length);
+  }
+
   return {
     providers: [
       process.env.NEXT_PUBLIC_POINTED_AT_TEST
