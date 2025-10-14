@@ -1,24 +1,21 @@
-name: Playwright Tests
-on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
-jobs:
-  test:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.55.1-noble
-      # Optionally mount cache dirs for npm + playwright
-      options: --ipc=host
+name: 🚀 Deploy to AWS
 
+workflow_dispatch:
+  inputs:
     environment:
-      name: test
+      description: 'Environment to deploy (prod or test)'
+      required: true
+      default: 'production'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 🧰 Checkout repo
+        uses: actions/checkout@v4
 
+      - name: ⚙️ Setup Node
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
@@ -33,7 +30,6 @@ jobs:
       - name: Create environment file
         run: |
           touch .env
-          echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
           echo "NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
           echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
           echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .env
@@ -49,16 +45,14 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Run Playwright tests
-        env:
-          HOME: /root
-        run: npx playwright test --project=e2e-all-browsers
-
-
-      - uses: actions/upload-artifact@v4
-        if: ${{ always() }}
+      - name: 📤 Deploy to S3
+        uses: aws-actions/s3-sync@v2
         with:
-          name: playwright-results
-          path: |
-            playwright-report/
-          retention-days: 5
+          bucket: ${{ env.S3_BUCKET }}
+          region: ${{ env.AWS_REGION }}
+          delete: true
+          source: ./out
+          cache-control: max-age=0,no-cache,no-store,must-revalidate
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

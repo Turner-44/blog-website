@@ -7,8 +7,8 @@ import {
 
 const dbClient = new DynamoDBClient({
   credentials: {
-    accessKeyId: process.env.DYNAMO_DB_AWS_ACCESS_KEY_ID as string,
-    secretAccessKey: process.env.DYNAMO_DB_AWS_SECRET_ACCESS_KEY as string,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
   },
 });
 
