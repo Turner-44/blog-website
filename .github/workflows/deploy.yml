@@ -55,16 +55,22 @@ jobs:
           echo "AWS_REGION = $AWS_REGION"
           npm run build
 
+      - name: 🔧 Install AWS CLI
+        run: pip install awscli
+
+      - name: 🧾 Verify files to deploy
+        run: ls -R ./out
+
       - name: 📤 Deploy to S3
-        uses: jakejarvis/s3-sync-action@v0.5.1
-        with:
-          args: --delete --cache-control "public, max-age=31536000, immutable"
+        run: |
+          aws s3 sync ./out s3://${{ vars.DEPLOY_S3_BUCKET_NAME }} \
+            --region ${{ vars.AWS_REGION }} \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable"
         env:
-          AWS_S3_BUCKET: ${{ vars.DEPLOY_S3_BUCKET_NAME }}
-          AWS_REGION: ${{ vars.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.DEPLOY_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEPLOY_AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: './out'
+          AWS_REGION: ${{ vars.AWS_REGION }}
 
       - name: Cleanup
         run: rm .env
