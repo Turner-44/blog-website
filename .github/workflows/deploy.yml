@@ -47,7 +47,11 @@ jobs:
           echo "DEPLOY_S3_BUCKET_NAME=${{ vars.DEPLOY_S3_BUCKET_NAME }}" >> .env
 
       - name: Build app
-        run: npm run build
+        run: |
+          set -a
+          source .env
+          set +a
+          npm run build
 
       - name: 📤 Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
