@@ -12,10 +12,10 @@ interface AuthSecrets {
   NEXTAUTH_SECRET: string;
 }
 
-const client = new SecretsManagerClient(sdkClientConfig);
-let cachedSecrets: AuthSecrets | null = null;
-
 export async function getAuthSecrets() {
+  const client = new SecretsManagerClient(sdkClientConfig);
+  let cachedSecrets: AuthSecrets | null = null;
+
   if (cachedSecrets) return cachedSecrets;
 
   const data = await client.send(
