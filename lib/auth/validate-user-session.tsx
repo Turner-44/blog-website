@@ -11,7 +11,7 @@ type ValidationLocation = 'UI' | 'API';
 export const validateUserSession = async (
   validationLocation: ValidationLocation
 ): Promise<NextResponse<ErrorResponse> | void> => {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(await authOptions());
 
   if (validationLocation === 'UI') {
     if (!session) {
