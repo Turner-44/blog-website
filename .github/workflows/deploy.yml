@@ -41,12 +41,12 @@ jobs:
           echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
           echo "NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "ACCESS_KEY_ID_AWS=${{ secrets.ACCESS_KEY_ID_AWS }}" >> .env
+          echo "SECRET_ACCESS_KEY_AWS=${{ secrets.SECRET_ACCESS_KEY_AWS }}" >> .env
           echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
           echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
-          echo "DEPLOY_AWS_ACCESS_KEY_ID=${{ secrets.DEPLOY_AWS_ACCESS_KEY_ID }}" >> .env
-          echo "DEPLOY_AWS_SECRET_ACCESS_KEY=${{ secrets.DEPLOY_AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "DEPLOY_ACCESS_KEY_ID_AWS=${{ secrets.DEPLOY_ACCESS_KEY_ID_AWS }}" >> .env
+          echo "DEPLOY_SECRET_ACCESS_KEY_AWS=${{ secrets.DEPLOY_SECRET_ACCESS_KEY_AWS }}" >> .env
           echo "DEPLOY_S3_BUCKET_NAME=${{ vars.DEPLOY_S3_BUCKET_NAME }}" >> .env
 
       - name: Build app
@@ -68,8 +68,8 @@ jobs:
             --delete \
             --cache-control "public, max-age=31536000, immutable"
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.DEPLOY_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEPLOY_AWS_SECRET_ACCESS_KEY }}
+          ACCESS_KEY_ID_AWS: ${{ secrets.DEPLOY_ACCESS_KEY_ID_AWS }}
+          SECRET_ACCESS_KEY_AWS: ${{ secrets.DEPLOY_SECRET_ACCESS_KEY_AWS }}
           AWS_REGION: ${{ vars.AWS_REGION }}
 
       - name: Cleanup
