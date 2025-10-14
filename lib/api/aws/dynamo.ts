@@ -18,7 +18,7 @@ const dbClient = new DynamoDBClient({
 
 export const dynamoDBClient = DynamoDBDocumentClient.from(dbClient);
 
-export const TABLE_NAME = process.env.POSTS_TABLE || 'BlogPosts';
+export const TABLE_NAME = process.env.BLOG_POSTS_TABLE_NAME;
 
 export const BLOG_PK = 'BLOG';
 
