@@ -1,11 +1,12 @@
 name: 🚀 Deploy to AWS
 
-workflow_dispatch:
-  inputs:
-    environment:
-      description: 'Environment to deploy (prod or test)'
-      required: true
-      default: 'production'
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy (prod or test)'
+        required: true
+        default: 'production'
 
 jobs:
   build-and-deploy:
