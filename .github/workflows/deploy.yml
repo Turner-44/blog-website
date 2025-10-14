@@ -44,7 +44,7 @@ jobs:
           echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
           echo "DEPLOY_AWS_ACCESS_KEY_ID=${{ secrets.DEPLOY_AWS_ACCESS_KEY_ID }}" >> .env
           echo "DEPLOY_AWS_SECRET_ACCESS_KEY=${{ secrets.DEPLOY_AWS_SECRET_ACCESS_KEY }}" >> .env
-
+          echo "DEPLOY_S3_BUCKET_NAME=${{ vars.DEPLOY_S3_BUCKET_NAME }}" >> .env
 
       - name: Build app
         run: npm run build
@@ -52,11 +52,14 @@ jobs:
       - name: 📤 Deploy to S3
         uses: aws-actions/s3-sync@v2
         with:
-          bucket: ${{ env.S3_BUCKET }}
-          region: ${{ env.AWS_REGION }}
+          bucket: ${{ vars.DEPLOY_S3_BUCKET_NAME }}
+          region: ${{ vars.AWS_REGION }}
           delete: true
           source: ./out
-          cache-control: max-age=0,no-cache,no-store,must-revalidate
+          cache-control: public,max-age=31536000,immutable
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.DEPLOY_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEPLOY_AWS_SECRET_ACCESS_KEY }}
+
+      - name: Cleanup
+        run: rm .env
