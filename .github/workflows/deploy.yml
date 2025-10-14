@@ -50,16 +50,15 @@ jobs:
         run: npm run build
 
       - name: 📤 Deploy to S3
-        uses: aws-actions/s3-sync@v2
+        uses: jakejarvis/s3-sync-action@v0.5.1
         with:
-          bucket: ${{ vars.DEPLOY_S3_BUCKET_NAME }}
-          region: ${{ vars.AWS_REGION }}
-          delete: true
-          source: ./out
-          cache-control: public,max-age=31536000,immutable
+          args: --delete --cache-control "public, max-age=31536000, immutable"
         env:
+          AWS_S3_BUCKET: ${{ vars.DEPLOY_S3_BUCKET_NAME }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.DEPLOY_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEPLOY_AWS_SECRET_ACCESS_KEY }}
+          SOURCE_DIR: './out'
 
       - name: Cleanup
         run: rm .env
