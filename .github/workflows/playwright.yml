@@ -35,7 +35,7 @@ jobs:
           echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
           echo "NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
           echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
-          echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .env
+          echo "REGION_AWS=${{ vars.REGION_AWS }}" >> .env
           echo "POSTS_TABLE=${{ vars.POSTS_TABLE }}" >> .env
           echo "S3_BUCKET_NAME=${{ vars.S3_BUCKET_NAME }}" >> .env
           echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env

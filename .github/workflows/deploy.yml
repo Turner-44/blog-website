@@ -35,7 +35,7 @@ jobs:
           touch .env
           echo "NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
           echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
-          echo "AWS_REGION=${{ vars.AWS_REGION }}" >> .env
+          echo "REGION_AWS=${{ vars.REGION_AWS }}" >> .env
           echo "POSTS_TABLE=${{ vars.POSTS_TABLE }}" >> .env
           echo "S3_BUCKET_NAME=${{ vars.S3_BUCKET_NAME }}" >> .env
           echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
@@ -64,13 +64,13 @@ jobs:
       - name: 📤 Deploy to S3
         run: |
           aws s3 sync ./out s3://${{ vars.DEPLOY_S3_BUCKET_NAME }} \
-            --region ${{ vars.AWS_REGION }} \
+            --region ${{ vars.REGION_AWS }} \
             --delete \
             --cache-control "public, max-age=31536000, immutable"
         env:
           ACCESS_KEY_ID_AWS: ${{ secrets.DEPLOY_ACCESS_KEY_ID_AWS }}
           SECRET_ACCESS_KEY_AWS: ${{ secrets.DEPLOY_SECRET_ACCESS_KEY_AWS }}
-          AWS_REGION: ${{ vars.AWS_REGION }}
+          REGION_AWS: ${{ vars.REGION_AWS }}
 
       - name: Cleanup
         run: rm .env
