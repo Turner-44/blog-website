@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://becomingmatthew.com';
+    process.env.NEXT_PUBLIC_BASE_URL ?? 'https://becomingmatthew.com';
 
   const blogListResult = await getBlogList(100);
   const blogs = (blogListResult?.blogPosts ?? []) as BlogPost[];

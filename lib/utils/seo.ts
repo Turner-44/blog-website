@@ -34,4 +34,4 @@ export const generateBlogMetadata = (blogPost: BlogPost, readTime: number) => {
 
 export const siteName = 'Becoming Matthew';
 export const liveSiteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://becomingmatthew.com';
+  process.env.NEXT_PUBLIC_BASE_URL ?? 'https://becomingmatthew.com';
