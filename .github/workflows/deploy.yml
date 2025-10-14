@@ -11,9 +11,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.55.1-noble
-      options: --ipc=host
+    environment:
+      name: production
 
     steps:
       - name: 🧰 Checkout repo
