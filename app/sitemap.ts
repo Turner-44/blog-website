@@ -1,20 +1,15 @@
 import type { MetadataRoute } from 'next';
 import { BlogPost } from '@/types/blog';
-import { dynamoDBClient, buildAllBlogsQuery } from '@/lib/api/aws/dynamo';
-import { QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { getBlogList } from '@/lib/api/blog/get-blogs';
+
+export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? 'https://becomingmatthew.com';
 
-  //Buiild was failing in the pipeline when referencing internal api, so querying DynamoDB directly here instead
-  const url = new URL(`${baseUrl}/api/blogs`);
-  url.searchParams.set('limit', '100');
-  const dynamodbRes = await dynamoDBClient.send(
-    new QueryCommand(buildAllBlogsQuery(url, undefined))
-  );
-
-  const blogs = (dynamodbRes.Items ?? []) as BlogPost[];
+  const blogListResult = await getBlogList(100);
+  const blogs = (blogListResult?.blogPosts ?? []) as BlogPost[];
 
   const staticPages = ['/', '/about', '/contact', '/blog/library'].map(
     (path) => ({
