@@ -3,18 +3,32 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { getAuthSecrets } from '../api/aws/secrets-manager';
 
+let cachedSecrets: {
+  GOOGLE_CLIENT_ID: string;
+  GOOGLE_CLIENT_SECRET: string;
+  NEXTAUTH_SECRET: string;
+} | null = null;
+
 export const authOptions = async (): Promise<NextAuthOptions> => {
   let GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
   let GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
   let NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string;
 
   if (!NEXTAUTH_SECRET) {
-    const secrets = await getAuthSecrets();
-    GOOGLE_CLIENT_ID = secrets.GOOGLE_CLIENT_ID as string;
-    GOOGLE_CLIENT_SECRET = secrets.GOOGLE_CLIENT_SECRET as string;
-    NEXTAUTH_SECRET = secrets.NEXTAUTH_SECRET as string;
-
-    console.error('Secrets length:', Object.keys(secrets).length);
+    if (!cachedSecrets) {
+      try {
+        const secrets = await getAuthSecrets();
+        cachedSecrets = secrets;
+      } catch (err) {
+        console.error('Failed to fetch secrets', err);
+        throw err;
+      }
+      GOOGLE_CLIENT_ID = cachedSecrets.GOOGLE_CLIENT_ID as string;
+      GOOGLE_CLIENT_SECRET = cachedSecrets.GOOGLE_CLIENT_SECRET as string;
+      NEXTAUTH_SECRET = cachedSecrets.NEXTAUTH_SECRET as string;
+    } else {
+      console.log('Using cached secrets');
+    }
   }
 
   return {
