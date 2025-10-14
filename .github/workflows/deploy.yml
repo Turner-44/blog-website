@@ -50,15 +50,15 @@ jobs:
           echo "DEPLOY_S3_BUCKET_NAME=${{ vars.DEPLOY_S3_BUCKET_NAME }}" >> .env
 
       - name: Build app
-        run: |
-          echo "NEXT_PUBLIC_BASE_URL = $NEXT_PUBLIC_BASE_URL"
-          echo "AWS_REGION = $AWS_REGION"
-          npm run build
+        run: npm run build
 
-      - name: 🔧 Install AWS CLI
+      - name: Export static site
+        run: npx next export
+
+      - name: Install AWS CLI
         run: pip install awscli
 
-      - name: 🧾 Verify files to deploy
+      - name: Verify files to deploy
         run: ls -R ./out
 
       - name: 📤 Deploy to S3
