@@ -1,7 +1,7 @@
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 
-import { BUCKET_NAME, s3Client } from '@/lib/api/aws/s3';
+import { BUCKET_NAME, getS3Client } from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { ImageResponses } from '@/types/api/image';
 import {
@@ -36,7 +36,8 @@ export async function POST(
 
     const imageKey = `blog-posts/${blogId}/images/${slug}-${category}.${fileType}`;
 
-    const s3Res = await s3Client.send(
+    const s3 = getS3Client();
+    const s3Res = await s3.send(
       new PutObjectCommand({
         Bucket: BUCKET_NAME,
         Key: imageKey,
@@ -80,7 +81,8 @@ export async function DELETE(
     );
     if (schemaError) return schemaError;
 
-    const s3Res = await s3Client.send(
+    const s3 = getS3Client();
+    const s3Res = await s3.send(
       new DeleteObjectCommand({
         Bucket: BUCKET_NAME,
         Key: imageKey,

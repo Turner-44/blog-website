@@ -5,7 +5,7 @@ import {
 } from '@aws-sdk/client-s3';
 
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
-import { BUCKET_NAME, s3Client } from '@/lib/api/aws/s3';
+import { BUCKET_NAME, getS3Client } from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { MarkdownResponses } from '@/types/api/markdown';
 import {
@@ -32,7 +32,10 @@ export async function GET(
     );
     if (schemaError) return schemaError;
 
-    const s3Res = await s3Client.send(
+    console.log('Fetching markdown from:', markdownKey);
+
+    const s3 = getS3Client();
+    const s3Res = await s3.send(
       new GetObjectCommand({
         Bucket: BUCKET_NAME,
         Key: markdownKey as string,
@@ -82,7 +85,8 @@ export async function POST(
 
     const markdownKey = `blog-posts/${reqData.blogId}/content/blog.mdx`;
 
-    const s3Res = await s3Client.send(
+    const s3 = getS3Client();
+    const s3Res = await s3.send(
       new PutObjectCommand({
         Bucket: BUCKET_NAME,
         Key: markdownKey,
@@ -90,6 +94,10 @@ export async function POST(
         CacheControl: AWSCacheValue,
       })
     );
+
+    console.log('Uploading markdown to:', markdownKey);
+
+    console.log('Uploading to:', `${BUCKET_NAME}/${markdownKey}`);
 
     const awsError = s3ResponseHandler(s3Res, {
       expectedStatus: StatusCodes.OK,
@@ -124,7 +132,9 @@ export async function DELETE(
     );
     if (schemaError) return schemaError;
 
-    const s3Res = await s3Client.send(
+    const s3 = getS3Client();
+
+    const s3Res = await s3.send(
       new DeleteObjectCommand({
         Bucket: BUCKET_NAME,
         Key: markdownKey,

@@ -6,9 +6,9 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { sdkClientConfig } from './shared';
 
-const dbClient = new DynamoDBClient(sdkClientConfig);
+const getDbClient = () => new DynamoDBClient(sdkClientConfig);
 
-export const dynamoDBClient = DynamoDBDocumentClient.from(dbClient);
+export const dynamoDBClient = DynamoDBDocumentClient.from(getDbClient());
 
 export const TABLE_NAME = process.env.BLOG_POSTS_TABLE_NAME;
 
