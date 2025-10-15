@@ -12,7 +12,7 @@ interface AuthSecrets {
   NEXTAUTH_SECRET: string;
 }
 
-export async function getAuthSecrets() {
+export async function getAuthSecrets(): Promise<AuthSecrets> {
   const client = new SecretsManagerClient(sdkClientConfig);
 
   const data = await client.send(
@@ -20,11 +20,6 @@ export async function getAuthSecrets() {
   );
 
   const parsed = JSON.parse(data.SecretString ?? '{}');
-
-  console.log('Fetched auth secrets from AWS Secrets Manager');
-  console.log(`Secret ID: ${parsed.GOOGLE_CLIENT_ID}`);
-  console.log(`Secret ID: ${parsed.GOOGLE_CLIENT_SECRET}`);
-  console.log(`Secret ID: ${parsed.NEXTAUTH_SECRET}`);
 
   return {
     GOOGLE_CLIENT_ID: parsed.GOOGLE_CLIENT_ID,

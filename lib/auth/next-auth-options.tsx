@@ -5,7 +5,6 @@ import { getAuthSecrets } from '../api/aws/secrets-manager';
 
 export const authOptions = async (): Promise<NextAuthOptions> => {
   const secrets = await getAuthSecrets();
-
   return {
     providers: [
       process.env.NEXT_PUBLIC_POINTED_AT_TEST
