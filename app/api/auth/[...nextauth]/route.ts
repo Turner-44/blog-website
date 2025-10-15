@@ -8,7 +8,7 @@ const handler = async (req: NextRequest) => {
   try {
     console.log('✅ NextAuth initialized');
     const options = await authOptions();
-    return NextAuth(options)(req, NextResponse.next());
+    return NextAuth(options)(req);
   } catch (err) {
     console.error('❌ Failed initializing NextAuth:', err);
     return NextResponse.error();
