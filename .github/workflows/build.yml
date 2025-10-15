@@ -16,10 +16,8 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
-    environment: test
-    secrets: inherit
-
+    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v4
 
