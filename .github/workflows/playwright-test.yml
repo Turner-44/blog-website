@@ -39,12 +39,12 @@ jobs:
           name: app-build
           path: .next
 
+      # --- Install Playwright and run tests ---
       - name: Create environment file
         run: |
           touch .env
           echo "NEXT_PUBLIC_BASE_URL=${{ env.NEXT_PUBLIC_BASE_URL }}" >> .env
 
-      # --- Install Playwright and run tests ---
       - name: Run Playwright tests
         env:
           HOME: /root
