@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
     REGION_AWS: process.env.REGION_AWS,
-    NEXTAUTH_URL: process.env.NEXT_PUBLIC_BASE_URL + '/api/auth/signin',
+    NEXTAUTH_URL: process.env.NEXT_PUBLIC_BASE_URL + '/api/auth/',
   },
 };
 

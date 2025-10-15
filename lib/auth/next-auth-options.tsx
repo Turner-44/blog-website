@@ -46,7 +46,7 @@ export const authOptions = async (
 
 export async function buildAuthOptions(): Promise<AuthOptions> {
   // Try local environment variables first
-  const secrets: AuthSecrets = {
+  let secrets: AuthSecrets = {
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || '',
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || '',
@@ -54,13 +54,12 @@ export async function buildAuthOptions(): Promise<AuthOptions> {
 
   // Fallback: fetch from AWS Secrets Manager (Amplify runtime)
   if (
-    !secrets.GOOGLE_CLIENT_ID ||
-    !secrets.GOOGLE_CLIENT_SECRET ||
-    !secrets.NEXTAUTH_SECRET
+    secrets.GOOGLE_CLIENT_ID === '' ||
+    secrets.GOOGLE_CLIENT_SECRET === '' ||
+    secrets.NEXTAUTH_SECRET === ''
   ) {
     try {
-      console.log('Fetching secrets from AWS Secrets Manager...');
-      const secrets: AuthSecrets = (await getAuthSecrets()) ?? {};
+      secrets = (await getAuthSecrets()) ?? {};
       if (!secrets || Object.keys(secrets).length === 0) {
         console.error('No secrets found');
         throw new Error('Auth configuration error: could not load secrets.');
