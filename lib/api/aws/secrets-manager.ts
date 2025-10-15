@@ -3,14 +3,9 @@ import {
   GetSecretValueCommand,
 } from '@aws-sdk/client-secrets-manager';
 import { sdkClientConfig } from './shared';
+import { AuthSecrets } from '@/types/secrets-manager';
 
 const secretId = 'becomingmatthew/nextauth';
-
-interface AuthSecrets {
-  GOOGLE_CLIENT_ID: string;
-  GOOGLE_CLIENT_SECRET: string;
-  NEXTAUTH_SECRET: string;
-}
 
 export async function getAuthSecrets(): Promise<AuthSecrets> {
   const client = new SecretsManagerClient(sdkClientConfig);

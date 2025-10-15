@@ -1,10 +1,12 @@
-import { type NextAuthOptions } from 'next-auth';
+import { AuthOptions, type NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
+import { AuthSecrets } from '@/types/secrets-manager';
 import { getAuthSecrets } from '../api/aws/secrets-manager';
 
-export const authOptions = async (): Promise<NextAuthOptions> => {
-  const secrets = await getAuthSecrets();
+export const authOptions = async (
+  secrets: AuthSecrets
+): Promise<NextAuthOptions> => {
   return {
     providers: [
       process.env.NEXT_PUBLIC_POINTED_AT_TEST
@@ -41,3 +43,33 @@ export const authOptions = async (): Promise<NextAuthOptions> => {
     },
   };
 };
+
+export async function buildAuthOptions(): Promise<AuthOptions> {
+  // Try local environment variables first
+  const secrets: AuthSecrets = {
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || '',
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || '',
+  };
+
+  // Fallback: fetch from AWS Secrets Manager (Amplify runtime)
+  if (
+    !secrets.GOOGLE_CLIENT_ID ||
+    !secrets.GOOGLE_CLIENT_SECRET ||
+    !secrets.NEXTAUTH_SECRET
+  ) {
+    try {
+      console.log('Fetching secrets from AWS Secrets Manager...');
+      const secrets: AuthSecrets = (await getAuthSecrets()) ?? {};
+      if (!secrets || Object.keys(secrets).length === 0) {
+        console.error('No secrets found');
+        throw new Error('Auth configuration error: could not load secrets.');
+      }
+    } catch (err) {
+      console.error('Failed to load auth secrets:', err);
+      throw new Error('Auth configuration error: could not load secrets.');
+    }
+  }
+
+  return await authOptions(secrets);
+}

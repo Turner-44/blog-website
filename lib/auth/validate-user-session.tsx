@@ -5,13 +5,14 @@ import { redirect } from 'next/navigation';
 import { createErrorResponse } from '../error-handling/api';
 import { ErrorResponse } from '@/types/api/common';
 import { NextResponse } from 'next/server';
+import { buildAuthOptions } from './next-auth-options';
 
 type ValidationLocation = 'UI' | 'API';
 
 export const validateUserSession = async (
   validationLocation: ValidationLocation
 ): Promise<NextResponse<ErrorResponse> | void> => {
-  const session = await getServerSession(await authOptions());
+  const session = await getServerSession(await buildAuthOptions());
 
   if (validationLocation === 'UI') {
     if (!session) {

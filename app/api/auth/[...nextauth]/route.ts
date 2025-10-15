@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import { authOptions } from '@/lib/auth/next-auth-options';
+import { buildAuthOptions } from '@/lib/auth/next-auth-options';
 import { NextRequest, NextResponse } from 'next/server';
 
 // const handler = NextAuth(await authOptions());
@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const handler = async (req: NextRequest) => {
   try {
     console.log('✅ NextAuth initialized');
-    const options = await authOptions();
+    const options = await buildAuthOptions();
     return NextAuth(options);
   } catch (err) {
     console.error('❌ Failed initializing NextAuth:', err);
