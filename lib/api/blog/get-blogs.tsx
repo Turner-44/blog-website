@@ -14,7 +14,8 @@ export async function getBlogList(
   if (cursor) query.append('cursor', cursor);
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?${query.toString()}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?${query.toString()}`,
+    { next: { revalidate: revalidateIn7Days, tags: ['blog-posts'] } }
   );
 
   const responseError = validateResponse(
@@ -42,7 +43,7 @@ export async function getBlogList(
 export async function getBlogBySlug(slug: string) {
   const blogPostRes = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/slug/${encodeURIComponent(slug)}`,
-    { next: { revalidate: revalidateIn7Days } }
+    { next: { revalidate: revalidateIn7Days, tags: ['blog-posts'] } }
   );
 
   if (blogPostRes.status !== StatusCodes.OK) {

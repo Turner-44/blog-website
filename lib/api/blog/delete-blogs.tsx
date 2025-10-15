@@ -7,6 +7,7 @@ import { MarkdownResponses } from '@/types/api/markdown';
 import { deleteRequest } from '../common/delete';
 import z from 'zod';
 import { FieldSchemas } from '@/lib/zod/field-schema';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 const deleteMarkdown = async (
   blogId: z.infer<typeof FieldSchemas.id>,
@@ -72,6 +73,12 @@ export async function deleteCompleteBlogPost(blog: BlogPost) {
     ) {
       throw new Error('Failed to delete one or more blog components');
     }
+
+    revalidatePath('/');
+    revalidatePath('/blog/library');
+    revalidatePath('/blog/admin');
+    revalidatePath(`/blog/${blog.slug}`);
+    revalidateTag('blog-posts');
 
     return { success: true };
   } catch (error) {

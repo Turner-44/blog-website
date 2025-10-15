@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { createUIErrorResponse } from '../../../error-handling/ui';
 import { validateFormData } from './validate-form';
@@ -88,7 +88,9 @@ export async function createBlog(
 
     revalidatePath('/');
     revalidatePath('/blog/library');
+    revalidatePath('/blog/admin');
     revalidatePath(`/blog/${slug}`);
+    revalidateTag('blog-posts');
     return {
       success: true,
       message: 'Blog created!',
