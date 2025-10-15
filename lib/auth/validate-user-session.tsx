@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-import { authOptions } from './next-auth-options';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { createErrorResponse } from '../error-handling/api';
