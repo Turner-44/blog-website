@@ -1,0 +1,62 @@
+name: Playwright Tests
+
+name: Playwright Tests
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: "Playwright project name to run"
+        required: false
+        default: e2e-all-browsers
+        type: string
+    secrets: inherit
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.1-noble
+      options: --ipc=host
+
+    env:
+      NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # --- If testing local app, download and start it ---
+      - name: Download build
+        if: ${{ github.environment == 'test' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: app-build
+          path: .next
+
+      - name: Create environment file
+        run: |
+          touch .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ env.NEXT_PUBLIC_BASE_URL }}" >> .env
+
+      # --- Install Playwright and run tests ---
+      - name: Run Playwright tests
+        env:
+          HOME: /root
+        run: npx playwright test --project=e2e-all-browsers
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: playwright-results
+          path: |
+            playwright-report/
+          retention-days: 5
