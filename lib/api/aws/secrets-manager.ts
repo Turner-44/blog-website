@@ -14,9 +14,6 @@ interface AuthSecrets {
 
 export async function getAuthSecrets() {
   const client = new SecretsManagerClient(sdkClientConfig);
-  let cachedSecrets: AuthSecrets | null = null;
-
-  if (cachedSecrets) return cachedSecrets;
 
   const data = await client.send(
     new GetSecretValueCommand({ SecretId: secretId })
@@ -24,11 +21,14 @@ export async function getAuthSecrets() {
 
   const parsed = JSON.parse(data.SecretString ?? '{}');
 
-  cachedSecrets = {
+  console.log('Fetched auth secrets from AWS Secrets Manager');
+  console.log(`Secret ID: ${parsed.GOOGLE_CLIENT_ID}`);
+  console.log(`Secret ID: ${parsed.GOOGLE_CLIENT_SECRET}`);
+  console.log(`Secret ID: ${parsed.NEXTAUTH_SECRET}`);
+
+  return {
     GOOGLE_CLIENT_ID: parsed.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: parsed.GOOGLE_CLIENT_SECRET,
     NEXTAUTH_SECRET: parsed.NEXTAUTH_SECRET,
   };
-
-  return cachedSecrets;
 }
