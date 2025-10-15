@@ -1,7 +1,5 @@
 name: Playwright Tests
 
-name: Playwright Tests
-
 on:
   workflow_call:
     inputs:
