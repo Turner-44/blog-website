@@ -14,7 +14,8 @@ export async function getBlogList(
   if (cursor) query.append('cursor', cursor);
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?${query.toString()}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?${query.toString()}`,
+    { cache: 'no-store' }
   );
 
   const responseError = validateResponse(
@@ -41,7 +42,8 @@ export async function getBlogList(
 
 export async function getBlogBySlug(slug: string) {
   const blogPostRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/slug/${encodeURIComponent(slug)}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/slug/${encodeURIComponent(slug)}`,
+    { cache: 'no-store' }
   );
 
   if (blogPostRes.status !== StatusCodes.OK) {
