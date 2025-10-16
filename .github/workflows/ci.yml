@@ -5,10 +5,9 @@ on:
     branches: [ master ]
 
 jobs:
-  environment:
-    name: test
-
   build:
+    name: Build Application
+    environment: test
     uses: ./.github/workflows/build.yml
     secrets:
       ACCESS_KEY_ID_AWS: ${{ secrets.ACCESS_KEY_ID_AWS }}
@@ -28,6 +27,9 @@ jobs:
 
   functional-tests:
     needs: build
+    name: Run Playwright Tests
+    environment: test
+    timeout-minutes: 5
     uses: ./.github/workflows/playwright-test.yml
     secrets:
       ACCESS_KEY_ID_AWS: ${{ secrets.ACCESS_KEY_ID_AWS }}
