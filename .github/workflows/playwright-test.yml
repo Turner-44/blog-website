@@ -63,9 +63,6 @@ jobs:
       run:
         working-directory: ${{ github.workspace }}
 
-    env:
-      NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -98,14 +95,14 @@ jobs:
         run: |
           echo "Creating .env file for test environment"
           touch .env
-          echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
-          echo "NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
-          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
-          echo "REGION_AWS=${{ vars.REGION_AWS }}" >> .env
-          echo "BLOG_POSTS_TABLE_NAME=${{ vars.BLOG_POSTS_TABLE_NAME }}" >> .env
-          echo "S3_BUCKET_NAME=${{ vars.S3_BUCKET_NAME }}" >> .env
+          echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ inputs.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ inputs.NEXT_PUBLIC_BASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ inputs.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
+          echo "REGION_AWS=${{ inputs.REGION_AWS }}" >> .env
+          echo "BLOG_POSTS_TABLE_NAME=${{ inputs.BLOG_POSTS_TABLE_NAME }}" >> .env
+          echo "S3_BUCKET_NAME=${{ inputs.S3_BUCKET_NAME }}" >> .env
           echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
-          echo "NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }}" >> .env
+          echo "NEXTAUTH_URL=${{ inputs.NEXTAUTH_URL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "ACCESS_KEY_ID_AWS=${{ secrets.ACCESS_KEY_ID_AWS }}" >> .env
           echo "SECRET_ACCESS_KEY_AWS=${{ secrets.SECRET_ACCESS_KEY_AWS }}" >> .env
@@ -118,7 +115,7 @@ jobs:
         run: |
           echo "Creating .env file for production environment"
           touch .env
-          echo "NEXT_PUBLIC_BASE_URL=${{ env.NEXT_PUBLIC_BASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ inputs.NEXT_PUBLIC_BASE_URL }}" >> .env
 
       - name: Run Playwright tests
         env:

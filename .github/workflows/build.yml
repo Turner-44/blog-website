@@ -64,14 +64,14 @@ jobs:
       - name: Create environment file
         run: |
           touch .env
-          echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ env.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
-          echo "NEXT_PUBLIC_BASE_URL=${{ env.NEXT_PUBLIC_BASE_URL }}" >> .env
-          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ env.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
-          echo "REGION_AWS=${{ env.REGION_AWS }}" >> .env
-          echo "BLOG_POSTS_TABLE_NAME=${{ env.BLOG_POSTS_TABLE_NAME }}" >> .env
-          echo "S3_BUCKET_NAME=${{ env.S3_BUCKET_NAME }}" >> .env
-          echo "ADMIN_EMAIL=${{ env.ADMIN_EMAIL }}" >> .env
-          echo "NEXTAUTH_URL=${{ env.NEXTAUTH_URL }}" >> .env
+          echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ inputs.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ inputs.NEXT_PUBLIC_BASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ inputs.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
+          echo "REGION_AWS=${{ inputs.REGION_AWS }}" >> .env
+          echo "BLOG_POSTS_TABLE_NAME=${{ inputs.BLOG_POSTS_TABLE_NAME }}" >> .env
+          echo "S3_BUCKET_NAME=${{ inputs.S3_BUCKET_NAME }}" >> .env
+          echo "ADMIN_EMAIL=${{ inputs.ADMIN_EMAIL }}" >> .env
+          echo "NEXTAUTH_URL=${{ inputs.NEXTAUTH_URL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "ACCESS_KEY_ID_AWS=${{ secrets.ACCESS_KEY_ID_AWS }}" >> .env
           echo "SECRET_ACCESS_KEY_AWS=${{ secrets.SECRET_ACCESS_KEY_AWS }}" >> .env
