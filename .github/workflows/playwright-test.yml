@@ -15,7 +15,7 @@ on:
       NEXT_PUBLIC_POINTED_AT_TEST:
         description: "Indicates if the app is pointed at the test environment"
         required: false
-        type: boolean
+        type: string
       NEXT_PUBLIC_S3_CDN_HOST_NAME:
         description: "The S3 CDN host name"
         required: false
