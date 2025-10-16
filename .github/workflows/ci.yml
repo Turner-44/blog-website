@@ -17,4 +17,9 @@ jobs:
   functional-tests:
     needs: build
     uses: ./.github/workflows/playwright-test.yml
-    secrets: inherit
+    secrets:
+      ACCESS_KEY_ID_AWS: ${{ secrets.ACCESS_KEY_ID_AWS }}
+      SECRET_ACCESS_KEY_AWS: ${{ secrets.SECRET_ACCESS_KEY_AWS }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
