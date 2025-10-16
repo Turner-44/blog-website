@@ -19,3 +19,5 @@ jobs:
     needs: build
     name: Run Playwright Tests
     uses: ./.github/workflows/playwright-test.yml
+    with:
+      ENVIRONMENT: test

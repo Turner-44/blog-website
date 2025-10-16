@@ -2,6 +2,11 @@ name: Playwright Tests
 
 on:
   workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
+        default: test
     secrets:
       ACCESS_KEY_ID_AWS:
         required: false
@@ -17,13 +22,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment: ${{ github.environment }}
+    environment: ${{ inputs.ENVIRONMENT }}
     container:
       image: mcr.microsoft.com/playwright:v1.55.1-noble
       options: --ipc=host
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
 
     steps:
       - name: Checkout repository
@@ -39,13 +41,13 @@ jobs:
 
       # --- If testing local app, download and start it ---
       - name: Download build
-        if: ${{ github.environment == 'test' }}
+        if: ${{ inputs.ENVIRONMENT== 'test' }}
         uses: actions/download-artifact@v4
         with:
           name: next-build
 
       - name: Check env variables
-        if: ${{ github.environment == 'test' }}
+        if: ${{ inputs.ENVIRONMENT == 'test' }}
         run: |
           if [ -z "${NEXTAUTH_SECRET}" ]; then
           echo "Error: NextJs variables required for running tests against local build"
@@ -53,7 +55,7 @@ jobs:
           fi
 
       - name: Create environment file
-        if: ${{ github.environment == 'test' }}
+        if: ${{ inputs.ENVIRONMENT == 'test' }}
         run: |
           echo "Creating .env file for test environment"
           touch .env
@@ -72,7 +74,7 @@ jobs:
 
       # --- Install Playwright and run tests ---
       - name: Create environment file
-        if: ${{ github.environment == 'prod' }}
+        if: ${{ inputs.ENVIRONMENT == 'prod' }}
         run: |
           echo "Creating .env file for production environment"
           touch .env
