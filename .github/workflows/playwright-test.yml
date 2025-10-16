@@ -111,7 +111,7 @@ jobs:
 
       # --- Install Playwright and run tests ---
       - name: Create environment file
-        if: ${{ github.environment == 'production' }}
+        if: ${{ github.environment == 'prod' }}
         run: |
           echo "Creating .env file for production environment"
           touch .env
