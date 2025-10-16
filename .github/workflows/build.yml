@@ -49,13 +49,22 @@ jobs:
     environment: test
 
     steps:
+      - name: Output inputs for debugging
+        run: |
+          echo "NEXT_PUBLIC_BASE_URL: ${{ inputs.NEXT_PUBLIC_BASE_URL }}"
+          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ inputs.NEXT_PUBLIC_S3_CDN_HOST_NAME }}"
+          echo "REGION_AWS: ${{ inputs.REGION_AWS }}"
+          echo "BLOG_POSTS_TABLE_NAME: ${{ inputs.BLOG_POSTS_TABLE_NAME }}"
+          echo "S3_BUCKET_NAME: ${{ inputs.S3_BUCKET_NAME }}"
+          echo "ADMIN_EMAIL: ${{ inputs.ADMIN_EMAIL }}"
+          echo "NEXT_PUBLIC_POINTED_AT_TEST: ${{ inputs.NEXT_PUBLIC_POINTED_AT_TEST }}"
+          
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-
 
       - name: Create environment file
         run: |
@@ -84,4 +93,4 @@ jobs:
         with:
           name: next-build
           path: ${{ github.workspace }}/.next
-          include-hidden-files: true  
+          include-hidden-files: true

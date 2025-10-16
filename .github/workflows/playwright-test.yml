@@ -97,7 +97,7 @@ jobs:
           echo "REGION_AWS=${{ inputs.REGION_AWS }}" >> .env
           echo "BLOG_POSTS_TABLE_NAME=${{ inputs.BLOG_POSTS_TABLE_NAME }}" >> .env
           echo "S3_BUCKET_NAME=${{ inputs.S3_BUCKET_NAME }}" >> .env
-          echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
+          echo "ADMIN_EMAIL=${{ inputs.ADMIN_EMAIL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "ACCESS_KEY_ID_AWS=${{ secrets.ACCESS_KEY_ID_AWS }}" >> .env
           echo "SECRET_ACCESS_KEY_AWS=${{ secrets.SECRET_ACCESS_KEY_AWS }}" >> .env
