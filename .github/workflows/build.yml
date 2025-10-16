@@ -2,46 +2,6 @@ name: Build App
 
 on:
   workflow_call:
-    inputs:
-      NEXT_PUBLIC_BASE_URL:
-        description: "The base URL for the Next.js application"
-        required: true
-        type: string
-      NEXT_PUBLIC_S3_CDN_HOST_NAME:
-        description: "The S3 CDN host name"
-        required: true
-        type: string
-      REGION_AWS:
-        description: "The AWS region"
-        required: true
-        type: string
-      BLOG_POSTS_TABLE_NAME:
-        description: "The DynamoDB table name for blog posts"
-        required: true
-        type: string
-      S3_BUCKET_NAME:
-        description: "The S3 bucket name"
-        required: true
-        type: string
-      ADMIN_EMAIL:
-        description: "The admin email address"
-        required: true
-        type: string
-      NEXT_PUBLIC_POINTED_AT_TEST:
-        description: "Indicates if the app is pointed at the test environment"
-        required: false
-        type: boolean # Needs to be boolean for project. Manipulate string before passing in
-    secrets:
-      ACCESS_KEY_ID_AWS:
-        required: true
-      SECRET_ACCESS_KEY_AWS:
-        required: true
-      NEXTAUTH_SECRET:
-        required: true
-      GOOGLE_CLIENT_ID:
-        required: true
-      GOOGLE_CLIENT_SECRET:
-        required: true
 
 jobs:
   build:
@@ -49,18 +9,18 @@ jobs:
     environment: test
 
     steps:
-      - name: Output inputs for debugging
+      - name: Output vars for debugging
         run: |
-          echo "NEXT_PUBLIC_BASE_URL: ${{ inputs.NEXT_PUBLIC_BASE_URL }}"
-          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ inputs.NEXT_PUBLIC_S3_CDN_HOST_NAME }}"
-          echo "REGION_AWS: ${{ inputs.REGION_AWS }}"
-          echo "BLOG_POSTS_TABLE_NAME: ${{ inputs.BLOG_POSTS_TABLE_NAME }}"
-          echo "S3_BUCKET_NAME: ${{ inputs.S3_BUCKET_NAME }}"
-          echo "ADMIN_EMAIL: ${{ inputs.ADMIN_EMAIL }}"
-          echo "NEXT_PUBLIC_POINTED_AT_TEST: ${{ inputs.NEXT_PUBLIC_POINTED_AT_TEST }}"
+          echo "NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}"
+          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}"
+          echo "REGION_AWS: ${{ vars.REGION_AWS }}"
+          echo "BLOG_POSTS_TABLE_NAME: ${{ vars.BLOG_POSTS_TABLE_NAME }}"
+          echo "S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}"
+          echo "ADMIN_EMAIL: ${{ vars.ADMIN_EMAIL }}"
+          echo "NEXT_PUBLIC_POINTED_AT_TEST: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}"
           echo "NEXT_PUBLIC_POINTED_AT_TEST_VAR: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}"
           echo "S3_BUCKET_NAME_VAR: ${{ vars.S3_BUCKET_NAME }}"
-          
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -71,13 +31,13 @@ jobs:
       - name: Create environment file
         run: |
           touch .env
-          echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ inputs.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
-          echo "NEXT_PUBLIC_BASE_URL=${{ inputs.NEXT_PUBLIC_BASE_URL }}" >> .env
-          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ inputs.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
-          echo "REGION_AWS=${{ inputs.REGION_AWS }}" >> .env
-          echo "BLOG_POSTS_TABLE_NAME=${{ inputs.BLOG_POSTS_TABLE_NAME }}" >> .env
-          echo "S3_BUCKET_NAME=${{ inputs.S3_BUCKET_NAME }}" >> .env
-          echo "ADMIN_EMAIL=${{ inputs.ADMIN_EMAIL }}" >> .env
+          echo "NEXT_PUBLIC_POINTED_AT_TEST=${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}" >> .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
+          echo "REGION_AWS=${{ vars.REGION_AWS }}" >> .env
+          echo "BLOG_POSTS_TABLE_NAME=${{ vars.BLOG_POSTS_TABLE_NAME }}" >> .env
+          echo "S3_BUCKET_NAME=${{ vars.S3_BUCKET_NAME }}" >> .env
+          echo "ADMIN_EMAIL=${{ vars.ADMIN_EMAIL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "ACCESS_KEY_ID_AWS=${{ secrets.ACCESS_KEY_ID_AWS }}" >> .env
           echo "SECRET_ACCESS_KEY_AWS=${{ secrets.SECRET_ACCESS_KEY_AWS }}" >> .env
