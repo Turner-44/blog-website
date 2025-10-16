@@ -58,6 +58,8 @@ jobs:
           echo "S3_BUCKET_NAME: ${{ inputs.S3_BUCKET_NAME }}"
           echo "ADMIN_EMAIL: ${{ inputs.ADMIN_EMAIL }}"
           echo "NEXT_PUBLIC_POINTED_AT_TEST: ${{ inputs.NEXT_PUBLIC_POINTED_AT_TEST }}"
+          echo "NEXT_PUBLIC_POINTED_AT_TEST_VAR: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}"
+          echo "S3_BUCKET_NAME_VAR: ${{ vars.S3_BUCKET_NAME }}"
           
       - uses: actions/checkout@v4
 
