@@ -30,7 +30,7 @@ on:
       NEXT_PUBLIC_POINTED_AT_TEST:
         description: "Indicates if the app is pointed at the test environment"
         required: false
-        type: string
+        type: boolean # Needs to be boolean for project. Manipulate string before passing in
     secrets:
       ACCESS_KEY_ID_AWS:
         required: true
