@@ -7,10 +7,6 @@ on:
         description: "The base URL for the Next.js application"
         required: true
         type: string
-      NEXT_PUBLIC_POINTED_AT_TEST:
-        description: "Indicates if the app is pointed at the test environment"
-        required: false
-        type: boolean
       NEXT_PUBLIC_S3_CDN_HOST_NAME:
         description: "The S3 CDN host name"
         required: true
@@ -31,10 +27,14 @@ on:
         description: "The admin email address"
         required: true
         type: string
-      NEXTAUTH_URL: 
+      NEXTAUTH_URL:
         description: "The URL for NextAuth"
         required: true
         type: string
+      NEXT_PUBLIC_POINTED_AT_TEST:
+        description: "Indicates if the app is pointed at the test environment"
+        required: false
+        type: boolean
     secrets:
       ACCESS_KEY_ID_AWS:
         required: true

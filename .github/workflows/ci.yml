@@ -3,6 +3,7 @@ name: CI Pipeline
 on:
   push:
     branches: [ master ]
+  environment: test
 
 jobs:
   build:
@@ -16,12 +17,12 @@ jobs:
     with:
       ADMIN_EMAIL: ${{ vars.ADMIN_EMAIL }}
       NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
-      NEXT_PUBLIC_POINTED_AT_TEST: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}
       NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}
       REGION_AWS: ${{ vars.REGION_AWS }}
       BLOG_POSTS_TABLE_NAME: ${{ vars.BLOG_POSTS_TABLE_NAME }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
-      NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}s
+      NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
+      NEXT_PUBLIC_POINTED_AT_TEST: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}
 
   functional-tests:
     needs: build
