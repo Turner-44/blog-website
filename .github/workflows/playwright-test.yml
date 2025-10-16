@@ -54,12 +54,14 @@ jobs:
           name: next-build
 
       - name: Check env variables
-        if: ${{ github.environment == 'test' }} && ${{ secrets.NEXTAUTH_URL == ''}}
+        if: ${{ github.environment == 'test' }}
         run: |
+          if [ -z "${NEXTAUTH_URL}" ]; then
           echo "Error: NextJs variables required for running tests against local build"
           exit 1
+          fi
 
-      - name: Create environment file 
+      - name: Create environment file
         if: ${{ github.environment == 'test' }}
         run: |
           echo "Creating .env file for test environment"
