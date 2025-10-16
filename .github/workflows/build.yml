@@ -2,6 +2,17 @@ name: Build App
 
 on:
   workflow_call:
+    secrets:
+      ACCESS_KEY_ID_AWS:
+        required: true
+      SECRET_ACCESS_KEY_AWS:
+        required: true
+      NEXTAUTH_SECRET:
+        required: true
+      GOOGLE_CLIENT_ID:
+        required: true
+      GOOGLE_CLIENT_SECRET:
+        required: true
 
 jobs:
   build:
