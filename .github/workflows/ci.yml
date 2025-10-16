@@ -21,7 +21,7 @@ jobs:
       REGION_AWS: ${{ vars.REGION_AWS }}
       BLOG_POSTS_TABLE_NAME: ${{ vars.BLOG_POSTS_TABLE_NAME }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
-      NEXT_PUBLIC_POINTED_AT_TEST: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}
+      NEXT_PUBLIC_POINTED_AT_TEST: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST == 'true' || false }}
 
   functional-tests:
     needs: build
