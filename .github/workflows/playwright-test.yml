@@ -36,10 +36,6 @@ on:
         description: "The admin email address"
         required: false
         type: string
-      NEXTAUTH_URL:
-        description: "The URL for NextAuth"
-        required: false
-        type: string
     secrets:
       ACCESS_KEY_ID_AWS:
         required: false
@@ -85,7 +81,7 @@ jobs:
       - name: Check env variables
         if: ${{ github.environment == 'test' }}
         run: |
-          if [ -z "${NEXTAUTH_URL}" ]; then
+          if [ -z "${NEXTAUTH_SECRET}" ]; then
           echo "Error: NextJs variables required for running tests against local build"
           exit 1
           fi
@@ -102,7 +98,6 @@ jobs:
           echo "BLOG_POSTS_TABLE_NAME=${{ inputs.BLOG_POSTS_TABLE_NAME }}" >> .env
           echo "S3_BUCKET_NAME=${{ inputs.S3_BUCKET_NAME }}" >> .env
           echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
-          echo "NEXTAUTH_URL=${{ inputs.NEXTAUTH_URL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "ACCESS_KEY_ID_AWS=${{ secrets.ACCESS_KEY_ID_AWS }}" >> .env
           echo "SECRET_ACCESS_KEY_AWS=${{ secrets.SECRET_ACCESS_KEY_AWS }}" >> .env

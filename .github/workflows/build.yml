@@ -27,10 +27,6 @@ on:
         description: "The admin email address"
         required: true
         type: string
-      NEXTAUTH_URL:
-        description: "The URL for NextAuth"
-        required: true
-        type: string
       NEXT_PUBLIC_POINTED_AT_TEST:
         description: "Indicates if the app is pointed at the test environment"
         required: false
@@ -71,7 +67,6 @@ jobs:
           echo "BLOG_POSTS_TABLE_NAME=${{ inputs.BLOG_POSTS_TABLE_NAME }}" >> .env
           echo "S3_BUCKET_NAME=${{ inputs.S3_BUCKET_NAME }}" >> .env
           echo "ADMIN_EMAIL=${{ inputs.ADMIN_EMAIL }}" >> .env
-          echo "NEXTAUTH_URL=${{ inputs.NEXTAUTH_URL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "ACCESS_KEY_ID_AWS=${{ secrets.ACCESS_KEY_ID_AWS }}" >> .env
           echo "SECRET_ACCESS_KEY_AWS=${{ secrets.SECRET_ACCESS_KEY_AWS }}" >> .env
