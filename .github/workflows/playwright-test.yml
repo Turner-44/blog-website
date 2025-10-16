@@ -8,6 +8,38 @@ on:
         required: false
         default: e2e-all-browsers
         type: string
+      NEXT_PUBLIC_BASE_URL:
+        description: "The base URL for the Next.js application"
+        required: true
+        type: string
+      NEXT_PUBLIC_POINTED_AT_TEST:
+        description: "Indicates if the app is pointed at the test environment"
+        required: false
+        type: boolean
+      NEXT_PUBLIC_S3_CDN_HOST_NAME:
+        description: "The S3 CDN host name"
+        required: false
+        type: string
+      REGION_AWS:
+        description: "The AWS region"
+        required: false
+        type: string
+      BLOG_POSTS_TABLE_NAME:
+        description: "The DynamoDB table name for blog posts"
+        required: false
+        type: string
+      S3_BUCKET_NAME:
+        description: "The S3 bucket name"
+        required: false
+        type: string
+      ADMIN_EMAIL:
+        description: "The admin email address"
+        required: false
+        type: string
+      NEXTAUTH_URL:
+        description: "The URL for NextAuth"
+        required: false
+        type: string
     secrets:
       ACCESS_KEY_ID_AWS:
         required: false

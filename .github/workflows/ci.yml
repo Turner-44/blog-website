@@ -13,6 +13,14 @@ jobs:
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      ADMIN_EMAIL: ${{ vars.ADMIN_EMAIL }}
+      NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
+      NEXT_PUBLIC_POINTED_AT_TEST: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}
+      NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}
+      REGION_AWS: ${{ vars.REGION_AWS }}
+      BLOG_POSTS_TABLE_NAME: ${{ vars.BLOG_POSTS_TABLE_NAME }}
+      S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+      NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
 
   functional-tests:
     needs: build
