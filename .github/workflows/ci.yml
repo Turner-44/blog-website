@@ -8,7 +8,7 @@ jobs:
   build:
     name: Build Application
     uses: ./.github/workflows/build.yml
-    secrets:
+    secrets: # Passing in is required to set environment secrets correctly but not variables.
       ACCESS_KEY_ID_AWS: ${{ secrets.ACCESS_KEY_ID_AWS }}
       SECRET_ACCESS_KEY_AWS: ${{ secrets.SECRET_ACCESS_KEY_AWS }}
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
