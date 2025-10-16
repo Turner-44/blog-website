@@ -39,8 +39,7 @@ jobs:
         if: ${{ github.environment == 'test' }}
         uses: actions/download-artifact@v4
         with:
-          name: app-build
-          path: .next
+          name: next-build
 
       # --- Install Playwright and run tests ---
       - name: Create environment file

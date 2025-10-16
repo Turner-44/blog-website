@@ -18,9 +18,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: test
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
 
     steps:
       - uses: actions/checkout@v4
@@ -57,5 +54,6 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
-          name: app-build
-          path: ${{ github.workspace }}/.next/
+          name: next-build
+          path: ${{ github.workspace }}/.next
+          include-hidden-files: true  
