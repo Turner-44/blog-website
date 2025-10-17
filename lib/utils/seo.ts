@@ -9,6 +9,7 @@ export const generateBlogMetadata = (blogPost: BlogPost, readTime: number) => {
     description: blogPost.summary,
     openGraph: {
       title: blogPost.title,
+      siteName: siteName,
       description: blogPost.summary,
       url: blogPostUrl,
       type: 'article',
