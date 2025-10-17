@@ -27,6 +27,7 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.55.1-noble
       options: --ipc=host
 
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
