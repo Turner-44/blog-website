@@ -9,7 +9,6 @@ const handler = async (
   context: { params: Promise<{ nextauth: string[] }> }
 ) => {
   try {
-    console.log('NextAuth initialized');
     const options = await buildAuthOptions();
     return NextAuth(req, context, options);
   } catch (err) {

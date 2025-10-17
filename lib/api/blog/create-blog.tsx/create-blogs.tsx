@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath, revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { createUIErrorResponse } from '../../../error-handling/ui';
 import { validateFormData } from './validate-form';
@@ -12,6 +11,7 @@ import {
   ImageResult,
 } from './store-data';
 import { TreeifiedError } from '@/lib/zod';
+import { revalidateBlogCache } from '@/lib/api/common/revalidate-cache';
 
 type FormState = {
   success: true | false;
@@ -24,7 +24,7 @@ export async function createBlog(
   data: FormData
 ): Promise<FormState> {
   try {
-    const validData = await validateFormData(data);
+    const validData = validateFormData(data);
 
     if (!validData.success) {
       return validData;
@@ -86,11 +86,8 @@ export async function createBlog(
     const blogResult = await storeBlogPost(blogPost, cookieHeader);
     if (!blogResult.success) return blogResult;
 
-    revalidatePath('/');
-    revalidatePath('/blog/library');
-    revalidatePath('/blog/admin');
-    revalidatePath(`/blog/${slug}`);
-    revalidateTag('blog-posts');
+    revalidateBlogCache(slug);
+
     return {
       success: true,
       message: 'Blog created!',

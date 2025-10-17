@@ -40,6 +40,9 @@ export const authOptions = async (
       jwt: ({ token }) => {
         return token;
       },
+      redirect: async () => {
+        return '/admin';
+      },
     },
   };
 };

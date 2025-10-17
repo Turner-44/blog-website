@@ -1,9 +1,15 @@
 import Link from 'next/link';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { Button } from '@/components/shared-components/button';
+import { revalidateBlogCache } from '@/lib/api/common/revalidate-cache';
 
 export default async function AdminPage() {
   await validateUserSession('UI');
+
+  const handleRevalidate = async () => {
+    'use server';
+    revalidateBlogCache();
+  };
 
   return (
     <main className="standard-page-format">
@@ -27,6 +33,13 @@ export default async function AdminPage() {
             </Button>
           </Link>
         </div>
+        <Button
+          onClick={handleRevalidate}
+          className="Button-destructive mt-10"
+          data-testid="btn-admin-refresh-blog-cache"
+        >
+          Refresh Blog Cache
+        </Button>
       </div>
     </main>
   );
