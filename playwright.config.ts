@@ -118,13 +118,15 @@ export default defineConfig({
     // },
   ],
   ...(process.env.CI
-    ? {
-        webServer: {
-          command: 'npm run start',
-          url: baseUrl + '/api/health',
-          reuseExistingServer: !process.env.CI,
-        },
-      }
+    ? process.env.NEXT_PUBLIC_POINTED_AT_TEST
+      ? {
+          webServer: {
+            command: 'npm run start',
+            url: baseUrl + '/api/health',
+            reuseExistingServer: !process.env.CI,
+          },
+        }
+      : {}
     : {
         /* Run your local dev server before starting the tests */
         webServer: {
