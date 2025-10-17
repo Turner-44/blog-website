@@ -2,7 +2,7 @@ import { BlogPost } from '@/types/blog';
 
 export const generateBlogMetadata = (blogPost: BlogPost, readTime: number) => {
   const blogPostUrl = `${liveSiteUrl}/blog/${blogPost.slug}`;
-  const blogPostFeatureImage = `${liveSiteUrl}/${blogPost.featureImageKey}`;
+  const blogPostFeatureImage = `https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blogPost.featureImageKey}`;
 
   return {
     title: blogPost.title,
