@@ -123,6 +123,13 @@ test.describe.serial(
       await expect(
         page.getByTestId(`row-blog-deletion-grid-${blogPostData.slug}`)
       ).toHaveCount(0);
+
+      await page.reload();
+
+      await expect(
+        page.getByTestId(`row-blog-deletion-grid-${blogPostData.slug}`),
+        'Delete blog still visible, potential cache issue'
+      ).toHaveCount(0);
     });
   }
 );
