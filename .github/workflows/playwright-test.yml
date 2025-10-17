@@ -7,6 +7,9 @@ on:
         required: true
         type: string
         default: test
+      PLAYWRIGHT_PROJECT:
+        required: false
+        type: string
     secrets:
       ACCESS_KEY_ID_AWS:
         required: false
@@ -76,7 +79,7 @@ jobs:
       - name: Run Playwright tests
         env:
           HOME: /root
-        run: npx playwright test --project=e2e-all-browsers
+        run: npx playwright test --project=${{ inputs.PLAYWRIGHT_PROJECT }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}

@@ -1,0 +1,17 @@
+name: Smoke Test Live App
+
+on:
+  workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
+        default: production
+
+  functional-tests:
+    needs: build
+    name: Run Playwright Tests
+    uses: ./.github/workflows/playwright-test.yml
+    with:
+      ENVIRONMENT: inputs.ENVIRONMENT
+      PLAYWRIGHT_PROJECT: smoke-test
