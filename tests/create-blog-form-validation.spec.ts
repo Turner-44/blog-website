@@ -17,9 +17,14 @@ test.describe(
 
       await page.getByTestId('btn-blog-publish').click();
 
-      await expect(page.getByText('Validation failed.')).toBeVisible({
-        timeout: 30000,
-      });
+      await expect(page.getByTestId('header-page-title')).toBeVisible();
+
+      await expect(page.getByTestId('form-error-message')).toContainText(
+        'Validation failed.',
+        {
+          timeout: 30000,
+        }
+      );
 
       await expect(page.getByTestId('input-blog-title-error')).toContainText(
         'Title must be at least 3 characters long'

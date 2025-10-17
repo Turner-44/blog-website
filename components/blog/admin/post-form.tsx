@@ -154,12 +154,20 @@ export default function CreateBlogForm() {
         {pending ? 'Publishing...' : 'Publish Blog'}
       </Button>
       {state.success && (
-        <p className="text-green-600 text-center mt-4">
+        <p
+          className="text-green-600 text-center mt-4"
+          data-testid="form-success-message"
+        >
           Blog submitted successfully!
         </p>
       )}
       {!state.success && (
-        <p className="text-red-600 text-center mt-4">{state.message}</p>
+        <p
+          className="text-red-600 text-center mt-4"
+          data-testid="form-error-message"
+        >
+          {state.message}
+        </p>
       )}
     </form>
   );

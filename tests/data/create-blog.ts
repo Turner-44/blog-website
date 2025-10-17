@@ -73,11 +73,13 @@ export const createBlogPostDataAPI = (
   return {
     id: crypto.randomUUID(),
     title,
-    slug: faker.helpers
-      .slugify(title)
-      .toLowerCase()
-      .replace(' ', '-')
-      .replace(/[^a-zA-Z0-9-]/g, ''),
+    slug:
+      faker.helpers
+        .slugify(title)
+        .toLowerCase()
+        .replace(' ', '-')
+        .replace(/[^a-zA-Z0-9-]/g, '') +
+      `-${faker.number.bigInt({ max: 999999 })}`,
     summary: faker.lorem.sentence(),
     markdown: getMarkdownString(markdown),
     tags: ['test'],

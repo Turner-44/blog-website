@@ -42,9 +42,11 @@ export async function GET(
 
     const result = (dynamodbRes.Items ?? []) as BlogPost[];
 
+    console.log('DynamoDB query result for slug', slug, ':', result);
+
     const notFoundError = validateResultFound(
       result.length === 1,
-      createErrorResponse('No single blog found with the provided slug')
+      createErrorResponse('Expected 1 blog post but found ' + result)
     );
     if (notFoundError) return notFoundError;
 

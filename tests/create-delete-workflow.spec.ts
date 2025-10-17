@@ -20,40 +20,44 @@ test.describe.serial(
 
       await page.getByTestId('btn-admin-create-blog').click();
 
+      await expect(page.getByTestId('header-page-title')).toBeVisible();
+
       await page.getByTestId('input-blog-title').fill(blogPostData.title);
       await page.getByTestId('input-blog-slug').fill(blogPostData.slug);
       await page.getByTestId('input-blog-summary').fill(blogPostData.summary);
       await page.getByTestId('input-blog-markdown').fill(blogPostData.markdown);
 
-      await page
-        .getByTestId('input-blog-feature-image')
-        .setInputFiles(
-          resolveFromRoot(
-            path.join(
-              TEST_PATHS.testsDataFeatureImages,
-              blogPostData.featureImageFileName
+      await expect(async () => {
+        await page
+          .getByTestId('input-blog-feature-image')
+          .setInputFiles(
+            resolveFromRoot(
+              path.join(
+                TEST_PATHS.testsDataFeatureImages,
+                blogPostData.featureImageFileName
+              )
             )
-          )
-        );
+          );
 
-      await expect(
-        page.getByText(`Feature Image: ${blogPostData.featureImageFileName}`)
-      ).toHaveCount(1);
+        await expect(
+          page.getByText(`Feature Image: ${blogPostData.featureImageFileName}`)
+        ).toHaveCount(1);
 
-      await page
-        .getByTestId('input-blog-preview-image')
-        .setInputFiles(
-          resolveFromRoot(
-            path.join(
-              TEST_PATHS.testsDataPreviewImages,
-              blogPostData.previewImageFileName
+        await page
+          .getByTestId('input-blog-preview-image')
+          .setInputFiles(
+            resolveFromRoot(
+              path.join(
+                TEST_PATHS.testsDataPreviewImages,
+                blogPostData.previewImageFileName
+              )
             )
-          )
-        );
+          );
 
-      await expect(
-        page.getByText(`Preview Image: ${blogPostData.previewImageFileName}`)
-      ).toHaveCount(1);
+        await expect(
+          page.getByText(`Preview Image: ${blogPostData.previewImageFileName}`)
+        ).toHaveCount(1);
+      }).toPass();
 
       await page
         .getByTestId('input-blog-tags')
@@ -61,9 +65,10 @@ test.describe.serial(
 
       await page.getByTestId('btn-blog-publish').click();
 
-      await expect(page.getByText('Blog submitted successfully!')).toBeVisible({
-        timeout: 30000,
-      });
+      await expect(page.getByTestId('form-success-message')).toContainText(
+        'Blog submitted successfully!',
+        { timeout: 30000 }
+      );
     });
 
     test('View Blog', async ({ page }) => {
