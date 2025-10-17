@@ -45,6 +45,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: next-build
+          path: ${{ github.workspace }}/.next
 
       - name: Create environment file
         if: ${{ inputs.ENVIRONMENT == 'test' }}
