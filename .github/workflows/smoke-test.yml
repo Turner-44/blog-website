@@ -8,8 +8,7 @@ on:
         type: string
         default: production
 jobs:
-  functional-tests:
-    needs: build
+  smoke-tests:
     name: Run Playwright Tests
     uses: ./.github/workflows/playwright-test.yml
     with:
