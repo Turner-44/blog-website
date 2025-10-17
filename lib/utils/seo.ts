@@ -19,6 +19,8 @@ export const generateBlogMetadata = (blogPost: BlogPost, readTime: number) => {
         {
           url: blogPostFeatureImage,
           alt: blogPost.title,
+          width: 900,
+          height: 600,
         },
       ],
     },
