@@ -28,6 +28,17 @@ jobs:
       options: --ipc=host
 
     steps:
+      - name: Output environment for debugging
+        run: |
+          echo "Running tests against environment: ${{ inputs.ENVIRONMENT }}"
+          echo "NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}"
+          echo "NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}"
+          echo "REGION_AWS: ${{ vars.REGION_AWS }}"
+          echo "BLOG_POSTS_TABLE_NAME: ${{ vars.BLOG_POSTS_TABLE_NAME }}"
+          echo "S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}"
+          echo "ADMIN_EMAIL: ${{ vars.ADMIN_EMAIL }}"
+          echo "NEXT_PUBLIC_POINTED_AT_TEST: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}"  
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
