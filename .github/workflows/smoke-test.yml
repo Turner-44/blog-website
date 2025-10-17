@@ -6,7 +6,7 @@ on:
       ENVIRONMENT:
         required: true
         type: string
-        default: production
+        default: prod
 jobs:
   smoke-tests:
     name: Run Playwright Tests
