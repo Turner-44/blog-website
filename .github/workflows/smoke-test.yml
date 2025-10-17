@@ -12,5 +12,5 @@ jobs:
     name: Run Playwright Tests
     uses: ./.github/workflows/playwright-test.yml
     with:
-      ENVIRONMENT: inputs.ENVIRONMENT
+      ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
       PLAYWRIGHT_PROJECT: smoke-test
