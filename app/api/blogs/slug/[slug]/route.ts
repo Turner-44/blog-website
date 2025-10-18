@@ -19,10 +19,11 @@ import {
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { SlugResponses } from '@/types/api/blogs-slug';
 
-export async function GET(
-  req: Request,
-  { params }: { params: Promise<{ slug: string }> }
-): Promise<NextResponse | NextResponse<SlugResponses['Get']>> {
+export async function GET({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<NextResponse | NextResponse<SlugResponses['Get']>> {
   try {
     const { slug } = await params;
 
