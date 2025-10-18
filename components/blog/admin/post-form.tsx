@@ -78,7 +78,10 @@ export default function CreateBlogForm() {
   // Don't render the form until the component is fully mounted on the client
   if (!isClientMounted) {
     return (
-      <div className="relative flex flex-col max-w-2xl mx-auto min-h-[400px]" />
+      <div 
+        className="relative flex flex-col max-w-2xl mx-auto min-h-[400px]"
+        data-testid="form-loading"
+      />
     );
   }
 
