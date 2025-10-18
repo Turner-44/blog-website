@@ -8,6 +8,7 @@ import { FormField } from './input-field';
 import { FileFormField } from './file-input-field';
 
 export default function CreateBlogForm() {
+  const [isClientMounted, setIsClientMounted] = React.useState(false);
   const [state, formAction, pending] = React.useActionState(createBlog, {
     success: false,
     message: '',
@@ -27,6 +28,11 @@ export default function CreateBlogForm() {
     tags: '',
     publishedAt: '',
   });
+
+  // Ensure component is fully mounted before rendering form
+  React.useEffect(() => {
+    setIsClientMounted(true);
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -68,6 +74,13 @@ export default function CreateBlogForm() {
       });
     }
   }, [state.success]);
+
+  // Don't render the form until the component is fully mounted on the client
+  if (!isClientMounted) {
+    return (
+      <div className="relative flex flex-col max-w-2xl mx-auto min-h-[400px]" />
+    );
+  }
 
   return (
     <form

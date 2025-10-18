@@ -22,6 +22,10 @@ test.describe.serial(
 
       await expect(page.getByTestId('header-page-title')).toBeVisible();
 
+      // Wait for form to be fully loaded and visible before filling inputs
+      await expect(page.getByTestId('input-blog-title')).toBeVisible();
+      await expect(page.getByTestId('input-blog-slug')).toBeVisible();
+
       await page.getByTestId('input-blog-title').fill(blogPostData.title);
       await page.getByTestId('input-blog-slug').fill(blogPostData.slug);
       await page.getByTestId('input-blog-summary').fill(blogPostData.summary);
