@@ -15,6 +15,11 @@ test.describe(
 
       await page.getByTestId('btn-admin-create-blog').click();
 
+      await expect(page.getByTestId('header-page-title')).toBeVisible();
+
+      // Wait for form to be fully loaded before interacting with it
+      await expect(page.getByTestId('btn-blog-publish')).toBeVisible();
+
       await page.getByTestId('btn-blog-publish').click();
 
       await expect(page.getByTestId('header-page-title')).toBeVisible();
