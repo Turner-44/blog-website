@@ -1,8 +1,13 @@
 import type { NextConfig } from 'next';
 import createMDX from '@next/mdx';
+import { securityHeaders } from './lib/utils/headers';
 
 const nextConfig: NextConfig = {
   pageExtensions: ['mdx', 'ts', 'tsx'],
+  async headers() {
+    return securityHeaders;
+  },
+
   /* config options here */
   images: {
     remotePatterns: [
