@@ -2,7 +2,9 @@ name: Build and Test App
 
 on:
   push:
-    branches: [ master ]
+    branches: [ 'feature/**' ]
+  pull_request:
+    branches: [ master ]  
 
 jobs:
   build:
