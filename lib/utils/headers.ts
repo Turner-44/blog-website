@@ -8,7 +8,7 @@ export const securityHeaders = [
           "default-src 'self';",
           "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cloudfront.net https://*.amplifyapp.com;",
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
-          `img-src 'self' data: blob: ${process.env.NEXT_PUBLIC_BASE_URL} https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME} https://*.cloudfront.net  /_next/image;`,
+          `img-src 'self' data: blob: ${process.env.NEXT_PUBLIC_BASE_URL} https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME} https://*.cloudfront.net  /_next/image https://authjs.dev;`,
           "font-src 'self' https://fonts.gstatic.com;",
           "connect-src 'self' https://*.amplifyapp.com https://*.cloudfront.net;",
           "frame-ancestors 'none'; object-src 'none';",

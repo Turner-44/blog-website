@@ -4,6 +4,7 @@ import { nunito, poppins } from '@/lib/utils/fonts';
 import Navbar from '@/components/navigation/navbar';
 import Footer from '@/components/navigation/footer';
 import { liveSiteUrl, siteName } from '@/lib/utils/seo';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
   title: {
@@ -36,6 +37,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <GoogleAnalytics gaId="G-8Q7SX0LTWY" />
       </body>
     </html>
   );
