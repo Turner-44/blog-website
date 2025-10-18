@@ -4,7 +4,6 @@ import getBlogMarkdown from './get-markdown';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { validateResponse } from '@/lib/error-handling/api';
 import { SlugResponses } from '@/types/api/blogs-slug';
-import { revalidateIn7Days } from '@/lib/utils/dates';
 
 export async function getBlogList(
   limit: number = 10,
@@ -15,7 +14,7 @@ export async function getBlogList(
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?${query.toString()}`,
-    { next: { revalidate: revalidateIn7Days } }
+    { cache: 'no-store' }
   );
 
   const responseError = validateResponse(
@@ -43,7 +42,7 @@ export async function getBlogList(
 export async function getBlogBySlug(slug: string) {
   const blogPostRes = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/slug/${encodeURIComponent(slug)}`,
-    { next: { revalidate: revalidateIn7Days } }
+    { cache: 'no-store' }
   );
 
   if (blogPostRes.status !== StatusCodes.OK) {

@@ -19,7 +19,6 @@ import {
   validateResultFound,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
-import { SevenDayCacheHeader } from '@/lib/api/common/headers';
 
 export async function GET(
   req: Request
@@ -61,9 +60,6 @@ export async function GET(
       },
       {
         status: StatusCodes.OK,
-        headers: {
-          ...SevenDayCacheHeader,
-        },
       }
     );
   } catch (err: Error | unknown) {
