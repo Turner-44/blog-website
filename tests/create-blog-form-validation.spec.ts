@@ -15,9 +15,10 @@ test.describe(
 
       await page.getByTestId('btn-admin-create-blog').click();
 
-      await page.getByTestId('btn-blog-publish').click();
-
       await expect(page.getByTestId('header-page-title')).toBeVisible();
+      await expect(page.getByTestId('btn-blog-publish')).toBeVisible();
+
+      await page.getByTestId('btn-blog-publish').click();
 
       await expect(page.getByTestId('form-error-message')).toContainText(
         'Validation failed.',

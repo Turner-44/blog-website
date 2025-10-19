@@ -21,6 +21,7 @@ test.describe.serial(
       await page.getByTestId('btn-admin-create-blog').click();
 
       await expect(page.getByTestId('header-page-title')).toBeVisible();
+      await expect(page.getByTestId('btn-blog-publish')).toBeVisible();
 
       await page.getByTestId('input-blog-title').fill(blogPostData.title);
       await page.getByTestId('input-blog-slug').fill(blogPostData.slug);
