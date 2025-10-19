@@ -3,6 +3,8 @@ name: Build and Test App
 on:
   push:
     branches: [ 'feature/**' ]
+  pull_request:
+    branches: [ 'copilot/**' ]
 
 jobs:
   build:
