@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { CiImageOn } from 'react-icons/ci';
+import { FaPaperclip } from 'react-icons/fa6';
 
 import { TextInput, Textarea, FileInput, TagsInput } from '@mantine/core';
 
@@ -90,12 +92,15 @@ export default function CreateBlogForm() {
         {...form.getInputProps('markdown')}
       />
       <FileInput
-        label="Feature Image:"
+        leftSection={<CiImageOn />}
+        rightSection={<FaPaperclip />}
+        label="Upload feature image:"
         name="featureImage"
         wrapperProps={{ 'data-testid': 'field-blog-feature-image' }}
         data-testid="input-blog-feature-image"
         withAsterisk
         {...form.getInputProps('featureImage')}
+        className="w-1/2 md:w-1/3 self-start"
         onChange={(file) =>
           form.setFieldValue(
             'featureImage',
@@ -104,12 +109,15 @@ export default function CreateBlogForm() {
         }
       />
       <FileInput
-        label="Preview Image:"
+        leftSection={<CiImageOn />}
+        rightSection={<FaPaperclip />}
+        label="Upload preview image:"
         name="previewImage"
         wrapperProps={{ 'data-testid': 'field-blog-preview-image' }}
         data-testid="input-blog-preview-image"
         withAsterisk
         {...form.getInputProps('previewImage')}
+        className="w-1/2 md:w-1/3 self-start"
         onChange={(file) =>
           form.setFieldValue(
             'previewImage',
