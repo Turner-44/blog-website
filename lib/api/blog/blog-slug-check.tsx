@@ -1,4 +1,5 @@
 import { FieldSchemas } from '@/lib/zod';
+import { StatusCodes } from 'http-status-codes';
 import z from 'zod';
 
 export const checkSlugAvailability = async (
@@ -9,7 +10,5 @@ export const checkSlugAvailability = async (
     { cache: 'no-store', next: { revalidate: 0 } }
   );
 
-  const existingSlug = await blogPostRes.json();
-
-  return existingSlug.blogPost ? false : true;
+  return blogPostRes.status === StatusCodes.NOT_FOUND ? true : false;
 };

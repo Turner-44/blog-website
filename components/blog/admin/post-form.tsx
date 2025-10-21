@@ -14,7 +14,7 @@ import { Button } from '@/components/shared-components/button';
 import { createBlog } from '@/lib/api/blog/create-blog.tsx/create-blogs';
 import { blogUiFormSchema } from '@/lib/zod';
 import { BlogFormData } from '@/types/blog';
-import { checkSlugAvailability } from '@/lib/api/blog/bog-slug-check';
+import { checkSlugAvailability } from '@/lib/api/blog/blog-slug-check';
 
 export default function CreateBlogForm() {
   const form = useForm({
