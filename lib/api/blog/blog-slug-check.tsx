@@ -10,5 +10,5 @@ export const checkSlugAvailability = async (
     { cache: 'no-store', next: { revalidate: 0 } }
   );
 
-  return blogPostRes.status === StatusCodes.NOT_FOUND ? true : false;
+  return blogPostRes.status === StatusCodes.NOT_FOUND;
 };
