@@ -5,6 +5,9 @@ import Navbar from '@/components/navigation/navbar';
 import Footer from '@/components/navigation/footer';
 import { liveSiteUrl, siteName } from '@/lib/utils/seo';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 
 export const metadata: Metadata = {
   title: {
@@ -34,9 +37,18 @@ export default function RootLayout({
       <body
         className={`${nunito.variable} ${poppins.variable} min-h-screen flex flex-col`}
       >
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <MantineProvider
+          defaultColorScheme="light"
+          theme={{
+            primaryColor: 'blue',
+            fontFamily: 'var(--font-nunito), sans-serif',
+            headings: { fontFamily: 'var(--font-poppins), sans-serif' },
+          }}
+        >
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </MantineProvider>
         <GoogleAnalytics gaId="G-8Q7SX0LTWY" />
       </body>
     </html>

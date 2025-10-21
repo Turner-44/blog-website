@@ -2,7 +2,6 @@
 
 import { cookies } from 'next/headers';
 import { createUIErrorResponse } from '../../../error-handling/ui';
-import { validateFormData } from './validate-form';
 import {
   storeFile,
   storeMarkdown,
@@ -10,26 +9,11 @@ import {
   MarkdownResult,
   ImageResult,
 } from './store-data';
-import { TreeifiedError } from '@/lib/zod';
 import { revalidateBlogCache } from '@/lib/api/common/revalidate-cache';
+import { BlogFormData } from '@/types/blog';
 
-type FormState = {
-  success: true | false;
-  message: string;
-  fieldErrors?: TreeifiedError;
-};
-
-export async function createBlog(
-  state: FormState,
-  data: FormData
-): Promise<FormState> {
+export async function createBlog(values: BlogFormData) {
   try {
-    const validData = validateFormData(data);
-
-    if (!validData.success) {
-      return validData;
-    }
-
     const {
       title,
       slug,
@@ -39,7 +23,7 @@ export async function createBlog(
       previewImage,
       tags,
       publishedAt,
-    } = validData.data;
+    } = values;
 
     const cookieStore = await cookies();
     const cookieHeader = cookieStore.toString();

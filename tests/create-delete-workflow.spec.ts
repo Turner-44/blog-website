@@ -30,7 +30,7 @@ test.describe.serial(
 
       await expect(async () => {
         await page
-          .getByTestId('input-blog-feature-image')
+          .locator('input[name="featureImage"]')
           .setInputFiles(
             resolveFromRoot(
               path.join(
@@ -41,11 +41,13 @@ test.describe.serial(
           );
 
         await expect(
-          page.getByText(`Feature Image: ${blogPostData.featureImageFileName}`)
-        ).toHaveCount(1);
+          page
+            .getByTestId('field-blog-feature-image')
+            .getByText(blogPostData.featureImageFileName)
+        ).toBeVisible();
 
         await page
-          .getByTestId('input-blog-preview-image')
+          .locator('input[name="previewImage"]')
           .setInputFiles(
             resolveFromRoot(
               path.join(
@@ -56,8 +58,10 @@ test.describe.serial(
           );
 
         await expect(
-          page.getByText(`Preview Image: ${blogPostData.previewImageFileName}`)
-        ).toHaveCount(1);
+          page
+            .getByTestId('field-blog-preview-image')
+            .getByText(blogPostData.previewImageFileName)
+        ).toBeVisible();
       }).toPass();
 
       await page
