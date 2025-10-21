@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { CiImageOn } from 'react-icons/ci';
+import { FaPaperclip } from 'react-icons/fa6';
 
 import { TextInput, Textarea, FileInput, TagsInput } from '@mantine/core';
 
@@ -12,10 +14,10 @@ import { Button } from '@/components/shared-components/button';
 import { createBlog } from '@/lib/api/blog/create-blog.tsx/create-blogs';
 import { blogUiFormSchema } from '@/lib/zod';
 import { BlogFormData } from '@/types/blog';
+import { checkSlugAvailability } from '@/lib/api/blog/blog-slug-check';
 
 export default function CreateBlogForm() {
   const form = useForm({
-    mode: 'uncontrolled',
     initialValues: {
       title: '',
       slug: '',
@@ -33,21 +35,42 @@ export default function CreateBlogForm() {
 
   return (
     <form
+      // TODO Abstract submit handler logic into a separate function
       onSubmit={form.onSubmit(
         async (values: BlogFormData) => {
-          const payload: BlogFormData = {
-            ...values,
-            publishedAt: values.publishedAt || new Date().toISOString(),
-          };
-          const result = await createBlog(payload);
-          if (result.success) {
-            setSuccess(true);
-            form.reset();
-          } else {
-            setSuccess(false);
-            if (result.message) {
-              form.setFieldError('root', result.message);
+          try {
+            const payload: BlogFormData = {
+              ...values,
+              publishedAt: values.publishedAt || new Date().toISOString(),
+            };
+
+            const isSlugAvailable = await checkSlugAvailability(payload.slug);
+            if (!isSlugAvailable) {
+              form.setFieldError('slug', 'This slug is already in use.');
+              form.setFieldError('root', 'Please fix the errors above.');
+              setSuccess(false);
+              return;
             }
+
+            const result = await createBlog(payload);
+
+            if (result.success) {
+              setSuccess(true);
+              form.reset();
+            } else {
+              setSuccess(false);
+              form.setFieldError(
+                'root',
+                result.message ?? 'An unknown error occurred.'
+              );
+            }
+          } catch (error) {
+            console.error(error);
+            form.setFieldError(
+              'root',
+              'Something went wrong. Please try again.'
+            );
+            setSuccess(false);
           }
         },
         () => {
@@ -90,12 +113,15 @@ export default function CreateBlogForm() {
         {...form.getInputProps('markdown')}
       />
       <FileInput
-        label="Feature Image:"
+        leftSection={<CiImageOn />}
+        rightSection={<FaPaperclip />}
+        label="Upload feature image:"
         name="featureImage"
         wrapperProps={{ 'data-testid': 'field-blog-feature-image' }}
         data-testid="input-blog-feature-image"
         withAsterisk
         {...form.getInputProps('featureImage')}
+        className="w-1/2 md:w-1/3 self-start"
         onChange={(file) =>
           form.setFieldValue(
             'featureImage',
@@ -104,12 +130,15 @@ export default function CreateBlogForm() {
         }
       />
       <FileInput
-        label="Preview Image:"
+        leftSection={<CiImageOn />}
+        rightSection={<FaPaperclip />}
+        label="Upload preview image:"
         name="previewImage"
         wrapperProps={{ 'data-testid': 'field-blog-preview-image' }}
         data-testid="input-blog-preview-image"
         withAsterisk
         {...form.getInputProps('previewImage')}
+        className="w-1/2 md:w-1/3 self-start"
         onChange={(file) =>
           form.setFieldValue(
             'previewImage',

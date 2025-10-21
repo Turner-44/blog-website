@@ -1,4 +1,11 @@
+import { BlogsResponses } from '@/types/api/blogs';
+import { ImageResponses } from '@/types/api/image';
+import { MarkdownResponses } from '@/types/api/markdown';
 import { test, expect } from '@playwright/test';
+import testData from './data/.temp/test-blog-data.json';
+import path from 'path';
+import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
+import { createBlogPostDataUI } from './data/create-blog';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
@@ -70,6 +77,73 @@ test.describe(
           .getByTestId('field-blog-tags')
           .getByText('At least one tag is required')
       ).toBeVisible();
+    });
+
+    test('Check error shown for existing slug', async ({ page }) => {
+      const blogPosts = testData as {
+        blogPost: BlogsResponses['Post'];
+        featureImageJson: ImageResponses['Post'];
+        previewImageJson: ImageResponses['Post'];
+        markdownJson: MarkdownResponses['Post'];
+      }[];
+
+      const { blogPost } = blogPosts[0];
+      const blogPostData = createBlogPostDataUI();
+
+      await page.goto('/admin', { waitUntil: 'domcontentloaded' });
+      await expect(
+        page.getByTestId('banner-environment-notification')
+      ).toContainText('YOU ARE USING TEST VARIABLES.');
+      await page.getByTestId('btn-admin-create-blog').click();
+
+      await expect(page.getByTestId('header-page-title')).toBeVisible();
+      await expect(page.getByTestId('btn-blog-publish')).toBeVisible();
+
+      await page.getByTestId('input-blog-title').fill(blogPost.title);
+      await page.getByTestId('input-blog-slug').fill(blogPost.slug);
+      await page.getByTestId('input-blog-summary').fill(blogPost.summary);
+      await page.getByTestId('input-blog-markdown').fill(blogPostData.markdown);
+
+      await expect(async () => {
+        await page
+          .locator('input[name="featureImage"]')
+          .setInputFiles(
+            resolveFromRoot(
+              path.join(
+                TEST_PATHS.testsDataFeatureImages,
+                blogPostData.featureImageFileName
+              )
+            )
+          );
+
+        await page
+          .locator('input[name="previewImage"]')
+          .setInputFiles(
+            resolveFromRoot(
+              path.join(
+                TEST_PATHS.testsDataPreviewImages,
+                blogPostData.previewImageFileName
+              )
+            )
+          );
+      }).toPass();
+
+      await page.getByTestId('input-blog-tags').fill(blogPost.tags.join(','));
+
+      await page.getByTestId('btn-blog-publish').click();
+
+      await expect(
+        page
+          .getByTestId('field-blog-slug')
+          .getByText('This slug is already in use.')
+      ).toBeVisible();
+
+      await expect(page.getByTestId('form-error-message')).toContainText(
+        'Please fix the errors above.',
+        {
+          timeout: 30000,
+        }
+      );
     });
   }
 );
