@@ -1,83 +1,66 @@
-'use server';
+'use client';
 
-import { cookies } from 'next/headers';
-import { createUIErrorResponse } from '../../../error-handling/ui';
-import {
-  storeFile,
-  storeMarkdown,
-  storeBlogPost,
-  MarkdownResult,
-  ImageResult,
-} from './store-data';
-import { revalidateBlogCache } from '@/lib/api/common/revalidate-cache';
+import { storeCompleteBlogPost } from './store-data';
 import { BlogFormData } from '@/types/blog';
+import type { UseFormReturnType } from '@mantine/form';
+import { checkSlugAvailability } from '../blog-slug-check';
 
-export async function createBlog(values: BlogFormData) {
+const handleExistingSlug = (
+  form: UseFormReturnType<BlogFormData>,
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  form.setFieldError('slug', 'This slug is already in use.');
+  form.setFieldError('root', 'Please fix the errors above.');
+  setSuccess(false);
+};
+
+const handleFormValid = (
+  form: UseFormReturnType<BlogFormData>,
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  setSuccess(true);
+  form.reset();
+};
+
+const handleFormError = (
+  form: UseFormReturnType<BlogFormData>,
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
+  result: { message?: string }
+) => {
+  setSuccess(false);
+  form.setFieldError('root', result.message ?? 'An unknown error occurred.');
+};
+
+export async function createBlogPost(
+  values: BlogFormData,
+  form: UseFormReturnType<BlogFormData>,
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>
+) {
   try {
-    const {
-      title,
-      slug,
-      summary,
-      markdown,
-      featureImage,
-      previewImage,
-      tags,
-      publishedAt,
-    } = values;
-
-    const cookieStore = await cookies();
-    const cookieHeader = cookieStore.toString();
-
-    const id = crypto.randomUUID();
-
-    const markdownResult: MarkdownResult = await storeMarkdown(
-      id,
-      markdown,
-      cookieHeader
-    );
-    if (!markdownResult.success) return markdownResult;
-
-    const featureImageResult: ImageResult = await storeFile(
-      id,
-      slug,
-      featureImage,
-      'feature',
-      cookieHeader
-    );
-    if (!featureImageResult.success) return featureImageResult;
-
-    const previewImageResult: ImageResult = await storeFile(
-      id,
-      slug,
-      previewImage,
-      'preview',
-      cookieHeader
-    );
-    if (!previewImageResult.success) return previewImageResult;
-
-    const blogPost = {
-      id: id,
-      title: title,
-      slug: slug,
-      summary: summary,
-      featureImageKey: featureImageResult.data.imageKey,
-      previewImageKey: previewImageResult.data.imageKey,
-      markdownKey: markdownResult.data.markdownKey,
-      publishedAt: publishedAt,
-      tags: tags,
+    const payload: BlogFormData = {
+      ...values,
+      publishedAt: values.publishedAt || new Date().toISOString(),
     };
 
-    const blogResult = await storeBlogPost(blogPost, cookieHeader);
-    if (!blogResult.success) return blogResult;
+    if (!(await checkSlugAvailability(payload.slug))) {
+      handleExistingSlug(form, setSuccess);
+      return;
+    }
 
-    revalidateBlogCache(slug);
+    console.log('Creating blog post with payload:', payload);
 
-    return {
-      success: true,
-      message: 'Blog created!',
-    };
+    const result = await storeCompleteBlogPost(payload);
+
+    console.log('Blog post creation result:', result);
+
+    if (result.success) {
+      handleFormValid(form, setSuccess);
+    } else {
+      handleFormError(form, setSuccess, result);
+    }
   } catch (error) {
-    console.error('Error creating blog:', error);
-    return createUIErrorResponse('An unexpected error occurred.');
+    console.error(error);
+    form.setFieldError('root', 'Something went wrong. Please try again.');
+    setSuccess(false);
   }
 }

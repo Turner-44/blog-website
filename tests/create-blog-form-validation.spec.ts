@@ -132,18 +132,18 @@ test.describe(
 
       await page.getByTestId('btn-blog-publish').click();
 
-      await expect(
-        page
-          .getByTestId('field-blog-slug')
-          .getByText('This slug is already in use.')
-      ).toBeVisible();
-
       await expect(page.getByTestId('form-error-message')).toContainText(
         'Please fix the errors above.',
         {
           timeout: 30000,
         }
       );
+
+      await expect(
+        page
+          .getByTestId('field-blog-slug')
+          .getByText('This slug is already in use.')
+      ).toBeVisible();
     });
   }
 );
