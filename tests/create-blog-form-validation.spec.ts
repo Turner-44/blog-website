@@ -21,39 +21,55 @@ test.describe(
       await page.getByTestId('btn-blog-publish').click();
 
       await expect(page.getByTestId('form-error-message')).toContainText(
-        'Validation failed.',
+        'Please fix the errors above.',
         {
           timeout: 30000,
         }
       );
 
-      await expect(page.getByTestId('input-blog-title-error')).toContainText(
-        'Title must be at least 3 characters long'
-      );
-
-      await expect(page.getByTestId('input-blog-slug-error')).toContainText(
-        'Slug must be at least 3 characters long'
-      );
-
-      await expect(page.getByTestId('input-blog-summary-error')).toContainText(
-        'Summary must be at least 10 characters long'
-      );
-
-      await expect(page.getByTestId('input-blog-markdown-error')).toContainText(
-        'Markdown must be at least 10 characters long'
-      );
+      await expect(
+        page
+          .getByTestId('field-blog-title')
+          .getByText('Title must be at least 3 characters long')
+      ).toBeVisible();
 
       await expect(
-        page.getByTestId('input-blog-preview-image-error')
-      ).toContainText('Image must be a PNG or JPEG file');
+        page
+          .getByTestId('field-blog-slug')
+          .getByText(
+            'Slug must contain only lowercase letters, numbers, and hyphens'
+          )
+      ).toBeVisible();
 
       await expect(
-        page.getByTestId('input-blog-feature-image-error')
-      ).toContainText('Image must be a PNG or JPEG file');
+        page
+          .getByTestId('field-blog-summary')
+          .getByText('Summary must be at least 10 characters long')
+      ).toBeVisible();
 
-      await expect(page.getByTestId('input-blog-tags-error')).toContainText(
-        'At least one tag is required'
-      );
+      await expect(
+        page
+          .getByTestId('field-blog-markdown')
+          .getByText('Markdown must be at least 10 characters long')
+      ).toBeVisible();
+
+      await expect(
+        page
+          .getByTestId('field-blog-preview-image')
+          .getByText('Image must be a PNG or JPEG file')
+      ).toBeVisible();
+
+      await expect(
+        page
+          .getByTestId('field-blog-feature-image')
+          .getByText('Image must be a PNG or JPEG file')
+      ).toBeVisible();
+
+      await expect(
+        page
+          .getByTestId('field-blog-tags')
+          .getByText('At least one tag is required')
+      ).toBeVisible();
     });
   }
 );

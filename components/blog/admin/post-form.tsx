@@ -1,175 +1,146 @@
 'use client';
 
-import React, { startTransition } from 'react';
+import React, { useState } from 'react';
+
+import { TextInput, Textarea, FileInput, TagsInput } from '@mantine/core';
+
+import { DateTimePicker } from '@mantine/dates';
+import { useForm } from '@mantine/form';
+import { zod4Resolver } from 'mantine-form-zod-resolver';
 
 import { Button } from '@/components/shared-components/button';
 import { createBlog } from '@/lib/api/blog/create-blog.tsx/create-blogs';
-import { FormField } from './input-field';
-import { FileFormField } from './file-input-field';
+import { blogUiFormSchema } from '@/lib/zod';
+import { BlogFormData } from '@/types/blog';
 
 export default function CreateBlogForm() {
-  const [isClientMounted, setIsClientMounted] = React.useState(false);
-  const [state, formAction, pending] = React.useActionState(createBlog, {
-    success: false,
-    message: '',
-    fieldErrors: {
-      errors: [],
-      properties: {},
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      title: '',
+      slug: '',
+      summary: '',
+      markdown: '',
+      featureImage: new File([], '', { type: 'application/octet-stream' }),
+      previewImage: new File([], '', { type: 'application/octet-stream' }),
+      tags: [],
+      publishedAt: '',
     },
+    validate: zod4Resolver(blogUiFormSchema),
   });
 
-  const [inputs, setInputs] = React.useState({
-    title: '',
-    slug: '',
-    summary: '',
-    markdown: '',
-    featureImage: new File([], '', { type: 'application/octet-stream' }),
-    previewImage: new File([], '', { type: 'application/octet-stream' }),
-    tags: '',
-    publishedAt: '',
-  });
-
-  // Ensure component is fully mounted before rendering form
-  React.useEffect(() => {
-    setIsClientMounted(true);
-  }, []);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setInputs((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name } = e.target;
-    const file = e.target.files?.[0] || null;
-    setInputs((prev) => ({ ...prev, [name]: file }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData();
-    Object.entries(inputs).forEach(([key, value]) => {
-      if (value instanceof File) formData.append(key, value);
-      else formData.append(key, value ?? '');
-    });
-
-    startTransition(() => {
-      formAction(formData);
-    });
-  };
-
-  React.useEffect(() => {
-    if (state.success) {
-      setInputs({
-        title: '',
-        slug: '',
-        summary: '',
-        markdown: '',
-        featureImage: new File([], '', { type: 'application/octet-stream' }),
-        previewImage: new File([], '', { type: 'application/octet-stream' }),
-        tags: '',
-        publishedAt: '',
-      });
-    }
-  }, [state.success]);
-
-  // Don't render the form until the component is fully mounted on the client
-  if (!isClientMounted) {
-    return (
-      <div 
-        className="relative flex flex-col max-w-2xl mx-auto min-h-[400px]"
-        data-testid="form-loading"
-      />
-    );
-  }
+  const [success, setSuccess] = useState(false);
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={form.onSubmit(
+        async (values: BlogFormData) => {
+          const payload: BlogFormData = {
+            ...values,
+            publishedAt: values.publishedAt || new Date().toISOString(),
+          };
+          const result = await createBlog(payload);
+          if (result.success) {
+            setSuccess(true);
+            form.reset();
+          } else {
+            setSuccess(false);
+            if (result.message) {
+              form.setFieldError('root', result.message);
+            }
+          }
+        },
+        () => {
+          form.setFieldError('root', 'Please fix the errors above.');
+        }
+      )}
       className="relative flex flex-col max-w-2xl mx-auto"
       autoComplete="off"
     >
-      <FormField
-        label="Blog Title:"
+      <TextInput
+        label="Blog Title"
         name="title"
-        value={inputs.title}
-        onChange={handleChange}
-        errors={state.fieldErrors?.properties?.title?.errors[0]}
-        testId="input-blog-title"
-        type="text"
+        wrapperProps={{ 'data-testid': 'field-blog-title' }}
+        data-testid="input-blog-title"
+        withAsterisk
+        {...form.getInputProps('title')}
       />
-      <FormField
+      <TextInput
         label="Blog Slug:"
         name="slug"
-        value={inputs.slug}
-        onChange={handleChange}
-        errors={state.fieldErrors?.properties?.slug?.errors[0]}
-        testId="input-blog-slug"
-        type="text"
+        wrapperProps={{ 'data-testid': 'field-blog-slug' }}
+        data-testid="input-blog-slug"
+        withAsterisk
+        {...form.getInputProps('slug')}
       />
-      <FormField
+      <TextInput
         label="Blog Summary:"
         name="summary"
-        value={inputs.summary}
-        onChange={handleChange}
-        errors={state.fieldErrors?.properties?.summary?.errors[0]}
-        testId="input-blog-summary"
-        type="text"
+        wrapperProps={{ 'data-testid': 'field-blog-summary' }}
+        data-testid="input-blog-summary"
+        withAsterisk
+        {...form.getInputProps('summary')}
       />
-      <FormField
+      <Textarea
         label="Blog Content:"
         name="markdown"
-        value={inputs.markdown}
-        onChange={handleChange}
-        errors={state.fieldErrors?.properties?.markdown?.errors[0]}
-        testId="input-blog-markdown"
-        type="textarea"
+        wrapperProps={{ 'data-testid': 'field-blog-markdown' }}
+        data-testid="input-blog-markdown"
+        withAsterisk
+        {...form.getInputProps('markdown')}
       />
-      <FileFormField
+      <FileInput
         label="Feature Image:"
         name="featureImage"
-        value={inputs.featureImage}
-        onChange={handleFileChange}
-        errors={state.fieldErrors?.properties?.featureImage?.errors[0]}
-        testId="input-blog-feature-image"
+        wrapperProps={{ 'data-testid': 'field-blog-feature-image' }}
+        data-testid="input-blog-feature-image"
+        withAsterisk
+        {...form.getInputProps('featureImage')}
+        onChange={(file) =>
+          form.setFieldValue(
+            'featureImage',
+            file ?? new File([], '', { type: 'application/octet-stream' })
+          )
+        }
       />
-      <FileFormField
+      <FileInput
         label="Preview Image:"
         name="previewImage"
-        value={inputs.previewImage}
-        onChange={handleFileChange}
-        errors={state.fieldErrors?.properties?.previewImage?.errors[0]}
-        testId="input-blog-preview-image"
+        wrapperProps={{ 'data-testid': 'field-blog-preview-image' }}
+        data-testid="input-blog-preview-image"
+        withAsterisk
+        {...form.getInputProps('previewImage')}
+        onChange={(file) =>
+          form.setFieldValue(
+            'previewImage',
+            file ?? new File([], '', { type: 'application/octet-stream' })
+          )
+        }
       />
-      <FormField
+      <TagsInput
         label="Blog Tags:"
         name="tags"
-        value={inputs.tags}
-        onChange={handleChange}
-        errors={state.fieldErrors?.properties?.tags?.errors[0]}
-        testId="input-blog-tags"
-        type="text"
+        wrapperProps={{ 'data-testid': 'field-blog-tags' }}
+        data-testid="input-blog-tags"
+        withAsterisk
+        {...form.getInputProps('tags')}
       />
-      <FormField
+      <DateTimePicker
         label="Publish Date:"
         name="publishedAt"
-        value={inputs.publishedAt}
-        onChange={handleChange}
-        errors={state.fieldErrors?.properties?.publishedAt?.errors[0]}
-        testId="input-blog-publishedAt"
-        type="datetime-local"
+        wrapperProps={{ 'data-testid': 'field-blog-publishedAt' }}
+        data-testid="input-blog-publishedAt"
+        {...form.getInputProps('publishedAt')}
       />
       <Button
         type="submit"
         className="Button-primary mt-4 mx-auto"
-        disabled={pending}
+        disabled={form.submitting}
         data-testid="btn-blog-publish"
       >
-        {pending ? 'Publishing...' : 'Publish Blog'}
+        {form.submitting ? 'Publishing...' : 'Publish Blog'}
       </Button>
-      {state.success && (
+      {success && (
         <p
           className="text-green-600 text-center mt-4"
           data-testid="form-success-message"
@@ -177,12 +148,12 @@ export default function CreateBlogForm() {
           Blog submitted successfully!
         </p>
       )}
-      {!state.success && (
+      {!success && (
         <p
           className="text-red-600 text-center mt-4"
           data-testid="form-error-message"
         >
-          {state.message}
+          {form.errors.root}
         </p>
       )}
     </form>
