@@ -46,7 +46,7 @@ export default function CreateBlogForm() {
       autoComplete="off"
     >
       <TextInput
-        label="Blog Title"
+        label="Title"
         name="title"
         wrapperProps={{ 'data-testid': 'field-blog-title' }}
         data-testid="input-blog-title"
@@ -54,7 +54,7 @@ export default function CreateBlogForm() {
         {...form.getInputProps('title')}
       />
       <TextInput
-        label="Blog Slug:"
+        label="Slug:"
         name="slug"
         wrapperProps={{ 'data-testid': 'field-blog-slug' }}
         data-testid="input-blog-slug"
@@ -62,7 +62,7 @@ export default function CreateBlogForm() {
         {...form.getInputProps('slug')}
       />
       <TextInput
-        label="Blog Summary:"
+        label="Summary:"
         name="summary"
         wrapperProps={{ 'data-testid': 'field-blog-summary' }}
         data-testid="input-blog-summary"
@@ -70,7 +70,7 @@ export default function CreateBlogForm() {
         {...form.getInputProps('summary')}
       />
       <Textarea
-        label="Blog Content:"
+        label="Markdown:"
         name="markdown"
         wrapperProps={{ 'data-testid': 'field-blog-markdown' }}
         data-testid="input-blog-markdown"
@@ -80,7 +80,7 @@ export default function CreateBlogForm() {
       <FileInput
         leftSection={<CiImageOn />}
         rightSection={<FaPaperclip />}
-        label="Upload feature image:"
+        label="Upload Feature Image:"
         name="featureImage"
         wrapperProps={{ 'data-testid': 'field-blog-feature-image' }}
         data-testid="input-blog-feature-image"
@@ -97,7 +97,7 @@ export default function CreateBlogForm() {
       <FileInput
         leftSection={<CiImageOn />}
         rightSection={<FaPaperclip />}
-        label="Upload preview image:"
+        label="Upload Preview Image:"
         name="previewImage"
         wrapperProps={{ 'data-testid': 'field-blog-preview-image' }}
         data-testid="input-blog-preview-image"
@@ -112,7 +112,7 @@ export default function CreateBlogForm() {
         }
       />
       <TagsInput
-        label="Blog Tags:"
+        label="Tags:"
         name="tags"
         wrapperProps={{ 'data-testid': 'field-blog-tags' }}
         data-testid="input-blog-tags"

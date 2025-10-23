@@ -1,27 +1,58 @@
 import { z } from 'zod';
+export const fieldName = {
+  title: 'Title',
+  slug: 'Slug',
+  summary: 'Summary',
+  markdown: 'Markdown',
+  image: 'Image',
+  tags: 'Tags',
+  publishedAt: 'Publish Date',
+  imageKey: 'Image key',
+  markdownKey: 'Markdown key',
+  sk: 'SK',
+};
+
+const fieldValidationRules = {
+  minStringLength: (length: number, fieldName: string): [number, string] => [
+    length,
+    `${fieldName} must be at least ${length} characters long`,
+  ],
+  maxStringLength: (length: number, fieldName: string): [number, string] => [
+    length,
+    `${fieldName} must be at most ${length} characters long`,
+  ],
+  minArrayLength: (length: number, fieldName: string): [number, string] => [
+    length,
+    `${fieldName} must contain at least ${length} item(s)`,
+  ],
+  maxArrayLength: (length: number, fieldName: string): [number, string] => [
+    length,
+    `${fieldName} must contain at most ${length} item(s)`,
+  ],
+};
 
 const slug = z
   .string()
-  .min(3, 'Slug must be at least 3 characters long')
-  .max(65, 'Slug exceeds maximum length of 65 characters')
+  .min(...fieldValidationRules.minStringLength(3, fieldName.slug))
+  .max(...fieldValidationRules.maxStringLength(65, fieldName.slug))
   .regex(
     /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-    'Slug must contain only lowercase letters, numbers, and hyphens'
+    `${fieldName.slug} must contain only lowercase letters, numbers, and hyphens`
   );
 
 const title = z
   .string()
-  .min(3, 'Title must be at least 3 characters long')
-  .max(65, 'Title must be at most 65 characters long');
+  .min(...fieldValidationRules.minStringLength(3, fieldName.title))
+  .max(...fieldValidationRules.maxStringLength(65, fieldName.title));
 
 const summary = z
   .string()
-  .min(10, 'Summary must be at least 10 characters long')
-  .max(250, 'Summary must be at most 250 characters long');
+  .min(...fieldValidationRules.minStringLength(10, fieldName.summary))
+  .max(...fieldValidationRules.maxStringLength(250, fieldName.summary));
 
 const markdown = z
   .string()
-  .min(10, 'Markdown must be at least 10 characters long');
+  .min(...fieldValidationRules.minStringLength(10, fieldName.markdown));
 
 const image = z
   .instanceof(File)
@@ -31,7 +62,10 @@ const image = z
 
 const imageCategory = z.enum(['feature', 'preview']);
 
-const tags = z.array(z.string()).min(1, 'At least one tag is required');
+const tags = z
+  .array(z.string())
+  .min(...fieldValidationRules.minArrayLength(1, fieldName.tags))
+  .max(...fieldValidationRules.maxArrayLength(5, fieldName.tags));
 
 const date = z
   .string()
@@ -44,20 +78,20 @@ const date = z
 
 const s3ImageKey = z
   .string()
-  .min(5, 'Image key must be at least 5 characters long')
-  .max(150, 'Image key must be at most 150 characters long');
+  .min(...fieldValidationRules.minStringLength(5, fieldName.imageKey))
+  .max(...fieldValidationRules.maxStringLength(150, fieldName.imageKey));
 
 const s3MarkdownKey = z
   .string()
-  .min(5, 'Markdown key must be at least 5 characters long')
-  .max(150, 'Markdown key must be at most 150 characters long');
+  .min(...fieldValidationRules.minStringLength(5, fieldName.markdownKey))
+  .max(...fieldValidationRules.maxStringLength(150, fieldName.markdownKey));
 
 const id = z.uuid();
 
 const sk = z
   .string()
-  .min(5, 'SK must be at least 5 characters long')
-  .max(100, 'SK must be at most 100 characters long');
+  .min(...fieldValidationRules.minStringLength(5, fieldName.sk))
+  .max(...fieldValidationRules.maxStringLength(100, fieldName.sk));
 
 export const FieldSchemas = {
   id,
