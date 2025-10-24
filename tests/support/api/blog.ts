@@ -5,6 +5,7 @@ import { MarkdownResponses } from '@/types/api/markdown';
 import { APIRequestContext } from '@playwright/test';
 import { BlogCreationError } from '@/errors/api-errors';
 import { SuccessResponse } from '@/lib/api/common/response-structures';
+import { ApiResponse } from '@/types/api/common';
 
 export const storeBlogPost = async (
   apiContext: APIRequestContext,
@@ -32,10 +33,11 @@ export const storeBlogPost = async (
     }
   );
 
-  const blogPostJson = await blogPostRes.json();
+  const blogPostJson: ApiResponse<BlogsResponses['Post']> =
+    await blogPostRes.json();
 
   if (!blogPostJson.success) {
-    throw new BlogCreationError(blogPostJson.error.message);
+    throw new BlogCreationError(blogPostJson.message);
   }
 
   return blogPostJson;

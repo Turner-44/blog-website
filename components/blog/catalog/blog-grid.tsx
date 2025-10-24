@@ -13,7 +13,7 @@ export default function BlogGrid({
   initialCursor,
 }: {
   initialBlogs: BlogPost[];
-  initialCursor?: string | undefined;
+  initialCursor?: string | null;
 }) {
   const [blogs, setBlogs] = useState(initialBlogs);
   const [cursor, setCursor] = useState(initialCursor);

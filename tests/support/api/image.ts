@@ -1,6 +1,7 @@
 import { BlogCreationError } from '@/errors/api-errors';
 import { SuccessResponse } from '@/lib/api/common/response-structures';
 import { CreateBlogPostDataAPI, getImageFile } from '@/tests/data/create-blog';
+import { ApiResponse } from '@/types/api/common';
 import { ImageResponses } from '@/types/api/image';
 import { APIRequestContext } from '@playwright/test';
 
@@ -28,10 +29,11 @@ export const storeImage = async (
     }
   );
 
-  const imageJson = await imageResponse.json();
+  const imageJson: ApiResponse<ImageResponses['Post']> =
+    await imageResponse.json();
 
   if (!imageJson.success) {
-    throw new BlogCreationError(imageJson.error.message);
+    throw new BlogCreationError(imageJson.message);
   }
 
   return imageJson;
