@@ -6,7 +6,7 @@ import testData from './data/.temp/test-blog-data.json';
 import path from 'path';
 import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
 import { createBlogPostDataUI } from './data/create-blog';
-import { errorMessages } from '@/lib/api/blog/create-blog.tsx/create-blogs';
+import { errorMessages } from '@/lib/api/blog/create-blog/create-blogs';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
