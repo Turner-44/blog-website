@@ -134,7 +134,7 @@ export const validateResultsFound = (
 ) => {
   if (expectedResult !== actualResult) {
     const error = new ValidationError(
-      `Expected ${expectedResult} to equal ` + actualResult
+      `Expected ${expectedResult} to equal ${actualResult}`
     );
     console.error('API Error: ', error);
 

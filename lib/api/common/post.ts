@@ -27,7 +27,7 @@ export const postJson = async <T>(
       return await errorResponse.json();
     }
 
-    return (await res.json()) as Promise<ApiResponse<T>>;
+    return await res.json();
   } catch (error) {
     console.error('Network error:', error);
     const errorResponse = createErrorResponse(
@@ -51,12 +51,9 @@ export const postForm = async <T>(
       body: formData,
     });
 
-    const formJson = await res.json();
-
-    if (!formJson.success) {
+    if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      console.error('Form request failed:', err);
-
+      console.error('Request failed:', err);
       const errorResponse = createErrorResponse(
         err.error || res.statusText,
         undefined,
@@ -65,7 +62,7 @@ export const postForm = async <T>(
       return await errorResponse.json();
     }
 
-    return formJson;
+    return await res.json();
   } catch (error) {
     console.error('Network error:', error);
     const errorResponse = createErrorResponse(
@@ -73,6 +70,6 @@ export const postForm = async <T>(
       undefined,
       500
     );
-    return await errorResponse.json();
+    return errorResponse.json();
   }
 };

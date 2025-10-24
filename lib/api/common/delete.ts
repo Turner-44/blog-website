@@ -1,11 +1,10 @@
-import { createUIErrorResponse } from '@/lib/error-handling/ui';
+import { ApiResponse } from '@/types/api/common';
+import { createErrorResponse } from './response-structures';
 
 export const deleteRequest = async <T>(
   url: string,
   cookieHeader: string
-): Promise<
-  { success: true; data: T } | { success: false; message: string }
-> => {
+): Promise<ApiResponse<T>> => {
   try {
     const res = await fetch(url, {
       method: 'DELETE',
@@ -18,12 +17,22 @@ export const deleteRequest = async <T>(
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       console.error('Request failed:', err);
-      return createUIErrorResponse(err.error || res.statusText);
+      const errorResponse = createErrorResponse(
+        err.error || res.statusText,
+        undefined,
+        res.status
+      );
+      return await errorResponse.json();
     }
 
-    return { success: true, data: await res.json() };
+    return await res.json();
   } catch (error) {
     console.error('Network error:', error);
-    return createUIErrorResponse('Network error occurred.');
+    const errorResponse = createErrorResponse(
+      'Network error occurred.',
+      undefined,
+      500
+    );
+    return errorResponse.json();
   }
 };

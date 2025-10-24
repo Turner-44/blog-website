@@ -16,9 +16,11 @@ export abstract class AbstractApiError extends Error implements AppError {
   abstract readonly userMessage: string;
   abstract readonly severity: ErrorSeverity;
   abstract readonly statusCode: StatusCodes;
+  readonly context?: Record<string, unknown>;
 
   constructor(message: string, context?: Record<string, unknown>) {
     super(message);
     this.name = this.constructor.name;
+    this.context = context;
   }
 }

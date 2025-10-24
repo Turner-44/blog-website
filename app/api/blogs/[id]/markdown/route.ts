@@ -140,13 +140,7 @@ export async function DELETE(
     );
     if (awsError) return awsError;
 
-    return NextResponse.json<MarkdownResponses['Delete']>(
-      {
-        message: 'File deleted',
-        markdownKey,
-      },
-      { status: StatusCodes.OK }
-    );
+    return createSuccessResponse({ markdownKey }, 'Deleted', StatusCodes.OK);
   } catch (err: Error | unknown) {
     return genericCatchError(err);
   }

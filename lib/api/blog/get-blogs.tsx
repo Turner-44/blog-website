@@ -12,6 +12,7 @@ export async function getBlogList(
   limit: number = 10,
   cursor?: string | undefined
 ): Promise<BlogsResponses['Get']> {
+  //TODO Fixing type is a future problem
   const query = new URLSearchParams({ limit: String(limit) });
   if (cursor) query.append('cursor', cursor);
 
@@ -25,6 +26,7 @@ export async function getBlogList(
     StatusCodes.OK,
     'Failed to fetch blogs'
   );
+  //TODO Need to handle valid response of no blog posts
   if (responseError)
     return {
       blogPosts: [] as BlogPost[],
