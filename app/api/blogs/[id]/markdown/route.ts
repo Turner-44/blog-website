@@ -9,20 +9,21 @@ import { BUCKET_NAME, getS3Client } from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { MarkdownResponses } from '@/types/api/markdown';
 import {
-  createErrorResponse,
   genericCatchError,
   s3ResponseHandler,
   validateRequestAgainstSchema,
-  validateResultFound,
-  validateResponse,
+  validateResultsFound as validateResultFound,
+  validateResponseStatus,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes';
 import { createMarkdownSchema, FieldSchemas } from '@/lib/zod';
 import { AWSCacheValue, SevenDayCacheHeader } from '@/lib/api/common/headers';
+import { NextApiResponse } from '@/types/api/common';
+import { createSuccessResponse } from '@/lib/api/common/response-structures';
 
 export async function GET(
   req: Request
-): Promise<NextResponse | NextResponse<MarkdownResponses['Get']>> {
+): Promise<NextApiResponse | NextApiResponse<MarkdownResponses['Get']>> {
   try {
     const markdownKey = new URL(req.url).searchParams.get('markdownKey') ?? '';
 
@@ -48,18 +49,14 @@ export async function GET(
 
     const markdown: string = (await s3Res.Body?.transformToString()) ?? '';
 
-    const notFoundError = validateResultFound(
-      markdown,
-      createErrorResponse('Markdown not found')
-    );
+    const notFoundError = validateResultFound(markdown.length > 0);
     if (notFoundError) return notFoundError;
 
-    return NextResponse.json<MarkdownResponses['Get']>(
+    return createSuccessResponse(
       { markdown },
-      {
-        status: StatusCodes.OK,
-        headers: { ...SevenDayCacheHeader },
-      }
+      'Retrieved',
+      StatusCodes.OK,
+      SevenDayCacheHeader
     );
   } catch (err: Error | unknown) {
     return genericCatchError(err);
@@ -68,7 +65,7 @@ export async function GET(
 
 export async function POST(
   req: Request
-): Promise<NextResponse | NextResponse<MarkdownResponses['Post']>> {
+): Promise<NextApiResponse | NextApiResponse<MarkdownResponses['Post']>> {
   try {
     const authResponse = await validateUserSession('API');
     if (authResponse instanceof NextResponse) return authResponse;
@@ -99,12 +96,13 @@ export async function POST(
     });
     if (awsError) return awsError;
 
-    return NextResponse.json<MarkdownResponses['Post']>(
+    return createSuccessResponse(
       {
         blogId: reqData.blogId,
         markdownKey,
       },
-      { status: StatusCodes.CREATED }
+      'Uploaded',
+      StatusCodes.CREATED
     );
   } catch (err: Error | unknown) {
     return genericCatchError(err);
@@ -135,7 +133,7 @@ export async function DELETE(
       })
     );
 
-    const awsError = validateResponse(
+    const awsError = validateResponseStatus(
       s3Res.$metadata.httpStatusCode,
       StatusCodes.NO_CONTENT,
       `Failed to delete markdown - ${markdownKey}`

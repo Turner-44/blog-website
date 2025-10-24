@@ -2,13 +2,16 @@ import { BlogPost } from '@/types/blog';
 import { notFound } from 'next/navigation';
 import getBlogMarkdown from './get-markdown';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
-import { validateResponse } from '@/lib/error-handling/api';
+import { validateResponseStatus } from '@/lib/error-handling/api';
 import { SlugResponses } from '@/types/api/blogs-slug';
+import { ApiResponse } from '@/types/api/common';
+import { BlogsResponses } from '@/types/api/blogs';
+import { NotFoundError } from '@/errors/api-errors';
 
 export async function getBlogList(
   limit: number = 10,
   cursor?: string | undefined
-) {
+): Promise<BlogsResponses['Get']> {
   const query = new URLSearchParams({ limit: String(limit) });
   if (cursor) query.append('cursor', cursor);
 
@@ -17,7 +20,7 @@ export async function getBlogList(
     { cache: 'no-store', next: { revalidate: 0 } }
   );
 
-  const responseError = validateResponse(
+  const responseError = validateResponseStatus(
     res.status,
     StatusCodes.OK,
     'Failed to fetch blogs'
@@ -25,38 +28,50 @@ export async function getBlogList(
   if (responseError)
     return {
       blogPosts: [] as BlogPost[],
+      nextCursor: null,
     };
 
-  const {
-    blogPosts,
-    nextCursor,
-  }: { blogPosts: BlogPost[]; nextCursor?: string | undefined } =
-    await res.json();
+  const resJson = await res.json();
+
+  const { blogPosts, nextCursor } = resJson.data;
 
   return {
-    blogPosts: (blogPosts ?? []) as BlogPost[],
-    nextCursor: nextCursor ?? undefined,
+    blogPosts,
+    nextCursor,
   };
 }
 
-export async function getBlogBySlug(slug: string) {
+export async function getBlogBySlug(
+  slug: string
+): Promise<ApiResponse<SlugResponses['Get']> | void> {
   const blogPostRes = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/slug/${encodeURIComponent(slug)}`,
     { cache: 'no-store', next: { revalidate: 0 } }
   );
 
-  if (blogPostRes.status !== StatusCodes.OK) {
-    console.error('Failed to fetch blog post:', blogPostRes.statusText);
-    return notFound();
-  }
+  const blogPostResJson: ApiResponse<SlugResponses['Get']> =
+    await blogPostRes.json();
 
-  const blogPostResJson: SlugResponses['Get'] = await blogPostRes.json();
+  if (!blogPostResJson.success) {
+    const validationError = new NotFoundError('Blog post not found', {
+      slugProvided: slug,
+      blogPostResJson,
+    });
+
+    console.error('API Error: ', validationError);
+    return;
+  }
 
   return blogPostResJson;
 }
 
 export async function getBlogPosts(slug: string) {
-  const blogPosts: SlugResponses['Get'] = await getBlogBySlug(slug);
+  const result = await getBlogBySlug(slug);
+  if (!result || !result.success) {
+    return notFound();
+  }
+
+  const blogPosts = result.data;
 
   const markdown = await getBlogMarkdown(blogPosts.blogPost);
 

@@ -1,7 +1,6 @@
 'use server';
 
 import { BlogsRequestBody, BlogsResponses } from '@/types/api/blogs';
-import { Result } from '@/types/api/common';
 import { ImageResponses } from '@/types/api/image';
 import { MarkdownResponses } from '@/types/api/markdown';
 import { postForm, postJson } from '../../common/post';
@@ -10,10 +9,11 @@ import { revalidateBlogCache } from '../../common/revalidate-cache';
 import { createUIErrorResponse } from '@/lib/error-handling/ui';
 import { BlogFormData } from '@/types/blog';
 import { cookies } from 'next/headers';
+import { ApiResponse } from '@/types/api/common';
 
-export type MarkdownResult = Result<MarkdownResponses['Post']>;
-export type ImageResult = Result<ImageResponses['Post']>;
-export type BlogPostResult = Result<BlogsResponses['Post']>;
+export type MarkdownResult = ApiResponse<MarkdownResponses['Post']>;
+export type ImageResult = ApiResponse<ImageResponses['Post']>;
+export type BlogPostResult = ApiResponse<BlogsResponses['Post']>;
 
 export const storeBlogPost = async (
   blogPost: BlogsRequestBody['Post'],

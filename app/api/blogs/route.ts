@@ -16,13 +16,14 @@ import {
   dynamoDBResponseHandler,
   genericCatchError,
   validateRequestAgainstSchema,
-  validateResultFound,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
+import { NextApiResponse } from '@/types/api/common';
+import { createSuccessResponse } from '@/lib/api/common/response-structures';
 
 export async function GET(
   req: Request
-): Promise<NextResponse | NextResponse<BlogsResponses['Get']>> {
+): Promise<NextApiResponse | NextApiResponse<BlogsResponses['Get']>> {
   try {
     const url = new URL(req.url);
 
@@ -42,25 +43,19 @@ export async function GET(
     });
     if (awsError) return awsError;
 
-    const notFoundError = validateResultFound(
-      (dynamodbRes.Items ?? []).length > 0
-    );
-    if (notFoundError) return notFoundError;
-
     const nextCursor = dynamodbRes.LastEvaluatedKey
       ? Buffer.from(JSON.stringify(dynamodbRes.LastEvaluatedKey)).toString(
           'base64'
         )
       : null;
 
-    return NextResponse.json<BlogsResponses['Get']>(
+    return createSuccessResponse(
       {
-        blogPosts: dynamodbRes.Items as BlogPost[],
+        blogPosts: (dynamodbRes.Items ?? []) as BlogPost[],
         nextCursor,
       },
-      {
-        status: StatusCodes.OK,
-      }
+      'Retrieved',
+      StatusCodes.OK
     );
   } catch (err: Error | unknown) {
     return genericCatchError(err);
@@ -69,7 +64,7 @@ export async function GET(
 
 export async function POST(
   req: Request
-): Promise<NextResponse | NextResponse<BlogsResponses['Post']>> {
+): Promise<NextApiResponse | NextApiResponse<BlogsResponses['Post']>> {
   try {
     const authResponse = await validateUserSession('API');
     if (authResponse instanceof NextResponse) return authResponse;
@@ -101,9 +96,7 @@ export async function POST(
     });
     if (awsError) return awsError;
 
-    return NextResponse.json<BlogsResponses['Post']>(blogPost, {
-      status: StatusCodes.CREATED,
-    });
+    return createSuccessResponse(blogPost, 'Created', StatusCodes.CREATED);
   } catch (err: Error | unknown) {
     return genericCatchError(err);
   }
@@ -111,7 +104,7 @@ export async function POST(
 
 export async function DELETE(
   req: Request
-): Promise<NextResponse | NextResponse<BlogsResponses['Delete']>> {
+): Promise<NextApiResponse | NextApiResponse<BlogsResponses['Delete']>> {
   try {
     const authResponse = await validateUserSession('API');
     if (authResponse instanceof NextResponse) return authResponse;
@@ -137,13 +130,13 @@ export async function DELETE(
     });
     if (awsError) return awsError;
 
-    return NextResponse.json<BlogsResponses['Delete']>(
+    return createSuccessResponse(
       {
-        message: 'Blog was deleted',
         PK: 'BLOG',
         SK: sk,
       },
-      { status: StatusCodes.OK }
+      'Deleted',
+      StatusCodes.OK
     );
   } catch (err: Error | unknown) {
     return genericCatchError(err);

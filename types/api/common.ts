@@ -1,6 +1,11 @@
-export interface ErrorResponse {
-  message: string;
-  success: false;
-}
+import {
+  ErrorResponse,
+  SuccessResponse,
+} from '@/lib/api/common/response-structures';
+import { NextResponse } from 'next/server';
 
-export type Result<T> = { success: true; data: T } | ErrorResponse;
+export type ApiResponse<TData = unknown> =
+  | SuccessResponse<TData>
+  | ErrorResponse;
+
+export type NextApiResponse<TData = unknown> = NextResponse<ApiResponse<TData>>;

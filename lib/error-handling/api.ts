@@ -1,7 +1,7 @@
-import { ErrorResponse } from '@/types/api/common';
-import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
+import { DynamoDbError, S3Error, ValidationError } from '@/errors/api-errors';
+import { createErrorResponse } from '@/lib/api/common/response-structures';
 
 const sanitizedClientStatusCodes = (actualStatus: number | undefined) => {
   return typeof actualStatus === 'number' &&
@@ -11,25 +11,24 @@ const sanitizedClientStatusCodes = (actualStatus: number | undefined) => {
     : StatusCodes.INTERNAL_SERVER_ERROR;
 };
 
-export const createErrorResponse = (message: string): ErrorResponse => ({
-  message,
-  success: false,
-});
-
 export const validateRequestAgainstSchema = (
   data: unknown,
   schema: z.ZodSchema
 ) => {
   const result = schema.safeParse(data);
   if (!result.success) {
-    console.error('API Error: ', {
+    const validationError = new ValidationError(result.error.message, {
       name: result.error.name,
-      message: result.error.message,
-      data,
+      expected: schema,
+      received: data,
     });
-    return NextResponse.json<ErrorResponse>(
-      createErrorResponse(result.error.message),
-      { status: StatusCodes.BAD_REQUEST }
+    console.error('API Error: ', validationError);
+
+    return createErrorResponse(
+      validationError.userMessage,
+      validationError.code,
+      StatusCodes.BAD_REQUEST,
+      { validationErrors: result.error.message }
     );
   }
   return null;
@@ -51,18 +50,22 @@ export const dynamoDBResponseHandler = <
   const actualStatus = response?.$metadata?.httpStatusCode;
 
   if (actualStatus !== expectedStatus) {
-    const fallbackMessage = `DynamoDB request failed with status ${actualStatus}`;
-    const message = errorMessage ?? fallbackMessage;
+    const dynamoDbError = new DynamoDbError(
+      errorMessage ?? `DynamoDB request failed with status ${actualStatus}`,
+      {
+        expectedStatus,
+        actualStatus,
+        awsResponse: response,
+      }
+    );
 
-    console.error('DynamoDB Error:', {
-      expectedStatus,
-      actualStatus,
-      awsResponse: response,
-    });
+    console.error('DynamoDB Error:', dynamoDbError);
 
-    return NextResponse.json<ErrorResponse>(createErrorResponse(message), {
-      status: sanitizedClientStatusCodes(actualStatus),
-    });
+    return createErrorResponse(
+      dynamoDbError.userMessage,
+      dynamoDbError.code,
+      sanitizedClientStatusCodes(actualStatus)
+    );
   }
   return null;
 };
@@ -83,46 +86,63 @@ export const s3ResponseHandler = <
   const actualStatus = response?.$metadata?.httpStatusCode;
 
   if (actualStatus !== expectedStatus) {
-    const fallbackMessage = `S3 request failed with status ${actualStatus}`;
-    const message = errorMessage ?? fallbackMessage;
+    const s3Error = new S3Error(
+      errorMessage ?? `S3 request failed with status ${actualStatus}`,
+      {
+        expectedStatus,
+        actualStatus,
+        awsResponse: response,
+      }
+    );
 
-    console.error('S3 Error:', {
-      expectedStatus,
-      actualStatus,
-      awsResponse: response,
-    });
+    console.error('S3 Error:', s3Error);
 
-    return NextResponse.json<ErrorResponse>(createErrorResponse(message), {
-      status: sanitizedClientStatusCodes(actualStatus),
-    });
+    return createErrorResponse(
+      s3Error.userMessage,
+      s3Error.code,
+      sanitizedClientStatusCodes(actualStatus)
+    );
   }
   return null;
 };
 
-export const validateResponse = (
+export const validateResponseStatus = (
   actualStatus: StatusCodes | undefined,
   expectedStatus: StatusCodes,
   errorMessage: string
 ) => {
   if (actualStatus !== expectedStatus) {
-    console.error('API Error: ', {
+    const validationError = new ValidationError(errorMessage, {
       expectedStatus,
       actualStatus,
     });
-    return NextResponse.json<ErrorResponse>(createErrorResponse(errorMessage), {
-      status: actualStatus,
-    });
+
+    console.error('API Error: ', validationError);
+
+    return createErrorResponse(
+      validationError.userMessage,
+      validationError.code,
+      actualStatus
+    );
   }
   return null;
 };
 
-export const validateResultFound = (
-  result: unknown,
-  ErrorResponse: ErrorResponse = createErrorResponse('No result found')
+export const validateResultsFound = (
+  expectedResult: unknown,
+  actualResult: unknown = true
 ) => {
-  if (!result) {
-    console.error('API Error: ', ErrorResponse);
-    return NextResponse.json<ErrorResponse>(ErrorResponse, { status: 404 });
+  if (expectedResult !== actualResult) {
+    const error = new ValidationError(
+      `Expected ${expectedResult} to equal ` + actualResult
+    );
+    console.error('API Error: ', error);
+
+    return createErrorResponse(
+      error.userMessage,
+      error.code,
+      StatusCodes.NOT_FOUND
+    );
   }
 };
 
@@ -130,7 +150,9 @@ export const genericCatchError = (err: Error | unknown) => {
   console.error('API Error: ', err);
   const message = err instanceof Error ? err.message : 'Unknown API error';
 
-  return NextResponse.json<ErrorResponse>(createErrorResponse(message), {
-    status: StatusCodes.INTERNAL_SERVER_ERROR,
-  });
+  return createErrorResponse(
+    message,
+    'UNKNOWN_ERROR',
+    StatusCodes.INTERNAL_SERVER_ERROR
+  );
 };

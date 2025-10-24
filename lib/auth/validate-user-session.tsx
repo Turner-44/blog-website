@@ -1,10 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { createErrorResponse } from '../error-handling/api';
-import { ErrorResponse } from '@/types/api/common';
-import { NextResponse } from 'next/server';
+import {
+  createErrorResponse,
+  ErrorResponse,
+} from '@/lib/api/common/response-structures';
 import { buildAuthOptions } from './next-auth-options';
+import { NextResponse } from 'next/server';
 
 type ValidationLocation = 'UI' | 'API';
 
@@ -23,18 +25,16 @@ export const validateUserSession = async (
     }
   } else {
     if (!session)
-      return NextResponse.json<ErrorResponse>(
-        createErrorResponse('Unauthorized'),
-        {
-          status: StatusCodes.UNAUTHORIZED,
-        }
+      return createErrorResponse(
+        'Unauthorized',
+        'UNAUTHORIZED',
+        StatusCodes.UNAUTHORIZED
       );
     if (session.user?.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json<ErrorResponse>(
-        createErrorResponse('Forbidden'),
-        {
-          status: StatusCodes.FORBIDDEN,
-        }
+      return createErrorResponse(
+        'Forbidden',
+        'FORBIDDEN',
+        StatusCodes.FORBIDDEN
       );
     }
   }
