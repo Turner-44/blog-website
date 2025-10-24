@@ -5,7 +5,7 @@ import { BlogFormData } from '@/types/blog';
 import type { UseFormReturnType } from '@mantine/form';
 import { checkSlugAvailability } from '../blog-slug-check';
 
-const errorMessages = {
+export const errorMessages = {
   slugExists: 'This slug is already in use.',
   fixErrorsAbove: 'Please fix the errors above.',
   unknownError: 'An unknown error occurred.',

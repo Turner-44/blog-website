@@ -26,7 +26,7 @@ export async function getBlogList(
     StatusCodes.OK,
     'Failed to fetch blogs'
   );
-  //TODO Need to handle valid response of no blog posts
+  //TODO: Need to handle valid response when there are no blog posts
   if (responseError)
     return {
       blogPosts: [] as BlogPost[],

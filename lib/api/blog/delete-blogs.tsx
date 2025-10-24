@@ -65,13 +65,6 @@ export async function deleteCompleteBlogPost(blog: BlogPost) {
         deleteBlogPost(blog.SK, cookieHeader),
       ]);
 
-    console.log('Delete responses:', {
-      markdownRes: JSON.stringify(markdownRes),
-      imageFeatureRes: JSON.stringify(imageFeatureRes),
-      imagePreviewRes: JSON.stringify(imagePreviewRes),
-      blogPostRes: JSON.stringify(blogPostRes),
-    });
-
     if (
       !markdownRes.success ||
       !imageFeatureRes.success ||

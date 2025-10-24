@@ -1,5 +1,6 @@
 import { ApiResponse } from '@/types/api/common';
 import { createErrorResponse } from './response-structures';
+import { StatusCodes } from 'http-status-codes';
 
 export const deleteRequest = async <T>(
   url: string,
@@ -31,7 +32,7 @@ export const deleteRequest = async <T>(
     const errorResponse = createErrorResponse(
       'Network error occurred.',
       undefined,
-      500
+      StatusCodes.INTERNAL_SERVER_ERROR
     );
     return errorResponse.json();
   }

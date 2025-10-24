@@ -6,6 +6,7 @@ import testData from './data/.temp/test-blog-data.json';
 import path from 'path';
 import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
 import { createBlogPostDataUI } from './data/create-blog';
+import { errorMessages } from '@/lib/api/blog/create-blog.tsx/create-blogs';
 
 test.use({ storageState: 'tests/.auth/cookies.json' });
 
@@ -28,7 +29,7 @@ test.describe(
       await page.getByTestId('btn-blog-publish').click();
 
       await expect(page.getByTestId('form-error-message')).toContainText(
-        'Please fix the errors above.',
+        errorMessages.fixErrorsAbove,
         {
           timeout: 30000,
         }
@@ -75,7 +76,9 @@ test.describe(
       await expect(
         page
           .getByTestId('field-blog-tags')
-          .getByText('Tags must contain at least 1 item(s)')
+          .getByText(
+            `Tags must contain at least 1 ${length === 1 ? 'item' : 'items'}`
+          )
       ).toBeVisible();
     });
 
@@ -133,16 +136,14 @@ test.describe(
       await page.getByTestId('btn-blog-publish').click();
 
       await expect(page.getByTestId('form-error-message')).toContainText(
-        'Please fix the errors above.',
+        errorMessages.fixErrorsAbove,
         {
           timeout: 30000,
         }
       );
 
       await expect(
-        page
-          .getByTestId('field-blog-slug')
-          .getByText('This slug is already in use.')
+        page.getByTestId('field-blog-slug').getByText(errorMessages.slugExists)
       ).toBeVisible();
     });
   }

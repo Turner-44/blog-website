@@ -1,5 +1,6 @@
 import { ApiResponse } from '@/types/api/common';
 import { createErrorResponse } from './response-structures';
+import { StatusCodes } from 'http-status-codes';
 
 export const postJson = async <T>(
   url: string,
@@ -33,7 +34,7 @@ export const postJson = async <T>(
     const errorResponse = createErrorResponse(
       'Network error occurred.',
       undefined,
-      500
+      StatusCodes.INTERNAL_SERVER_ERROR
     );
     return errorResponse.json();
   }
@@ -68,7 +69,7 @@ export const postForm = async <T>(
     const errorResponse = createErrorResponse(
       'Network error occurred.',
       undefined,
-      500
+      StatusCodes.INTERNAL_SERVER_ERROR
     );
     return errorResponse.json();
   }

@@ -11,7 +11,10 @@ import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 
 import { Button } from '@/components/shared-components/button';
-import { createBlogPost } from '@/lib/api/blog/create-blog.tsx/create-blogs';
+import {
+  createBlogPost,
+  errorMessages,
+} from '@/lib/api/blog/create-blog.tsx/create-blogs';
 import { blogUiFormSchema } from '@/lib/zod';
 import { BlogFormData } from '@/types/blog';
 
@@ -39,7 +42,7 @@ export default function CreateBlogForm() {
           await createBlogPost(values, form, setSuccess);
         },
         () => {
-          form.setFieldError('root', 'Please fix the errors above.');
+          form.setFieldError('root', errorMessages.fixErrorsAbove);
         }
       )}
       className="relative flex flex-col max-w-2xl mx-auto"

@@ -23,11 +23,11 @@ const fieldValidationRules = {
   ],
   minArrayLength: (length: number, fieldName: string): [number, string] => [
     length,
-    `${fieldName} must contain at least ${length} item(s)`,
+    `${fieldName} must contain at least ${length} ${length === 1 ? 'item' : 'items'}`,
   ],
   maxArrayLength: (length: number, fieldName: string): [number, string] => [
     length,
-    `${fieldName} must contain at most ${length} item(s)`,
+    `${fieldName} must contain at most ${length} ${length === 1 ? 'item' : 'items'}`,
   ],
 };
 
