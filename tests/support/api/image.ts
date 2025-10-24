@@ -1,4 +1,7 @@
+import { BlogCreationError } from '@/errors/api-errors';
+import { SuccessResponse } from '@/lib/api/common/response-structures';
 import { CreateBlogPostDataAPI, getImageFile } from '@/tests/data/create-blog';
+import { ApiResponse } from '@/types/api/common';
 import { ImageResponses } from '@/types/api/image';
 import { APIRequestContext } from '@playwright/test';
 
@@ -6,7 +9,7 @@ export const storeImage = async (
   apiContext: APIRequestContext,
   blogPost: CreateBlogPostDataAPI,
   category: 'feature' | 'preview'
-): Promise<ImageResponses['Post']> => {
+): Promise<SuccessResponse<ImageResponses['Post']>> => {
   const imageFileName =
     category === 'feature'
       ? blogPost.featureImageFileName
@@ -26,5 +29,12 @@ export const storeImage = async (
     }
   );
 
-  return await imageResponse.json();
+  const imageJson: ApiResponse<ImageResponses['Post']> =
+    await imageResponse.json();
+
+  if (!imageJson.success) {
+    throw new BlogCreationError(imageJson.message);
+  }
+
+  return imageJson;
 };

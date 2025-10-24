@@ -1,5 +1,3 @@
-import { NextResponse } from 'next/server';
-
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 
 import {
@@ -10,19 +8,20 @@ import {
 import { FieldSchemas } from '@/lib/zod';
 import { BlogPost } from '@/types/blog';
 import {
-  createErrorResponse,
   dynamoDBResponseHandler,
   genericCatchError,
   validateRequestAgainstSchema,
-  validateResultFound,
+  validateResultsFound,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { SlugResponses } from '@/types/api/blogs-slug';
+import { NextApiResponse } from '@/types/api/common';
+import { createSuccessResponse } from '@/lib/api/common/response-structures';
 
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ slug: string }> }
-): Promise<NextResponse | NextResponse<SlugResponses['Get']>> {
+): Promise<NextApiResponse | NextApiResponse<SlugResponses['Get']>> {
   try {
     const { slug } = await params;
 
@@ -41,10 +40,7 @@ export async function GET(
 
     const result = (dynamodbRes.Items ?? []) as BlogPost[];
 
-    const notFoundError = validateResultFound(
-      result.length === 1,
-      createErrorResponse('Expected 1 blog post but found ' + result)
-    );
+    const notFoundError = validateResultsFound(result.length === 1);
     if (notFoundError) return notFoundError;
 
     const dynamodbPrevRes = await dynamoDBClient.send(
@@ -58,15 +54,14 @@ export async function GET(
     const prevBlogs = (dynamodbPrevRes.Items ?? []) as BlogPost[];
     const nextBlogs = (dynamodbNextRes.Items ?? []) as BlogPost[];
 
-    return NextResponse.json<SlugResponses['Get']>(
+    return createSuccessResponse(
       {
         blogPost: result[0],
         prevBlogPost: prevBlogs[0],
         nextBlogPost: nextBlogs[0],
       },
-      {
-        status: StatusCodes.OK,
-      }
+      'Retrieved',
+      StatusCodes.OK
     );
   } catch (err: Error | unknown) {
     return genericCatchError(err);

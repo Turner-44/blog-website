@@ -1,4 +1,4 @@
-import { revalidateIn1Year, revalidateIn7Days } from '@/lib/utils/dates';
+import { revalidateIn1Year } from '@/lib/utils/dates';
 import { BlogPost } from '@/types/blog';
 import { notFound } from 'next/navigation';
 
@@ -13,7 +13,9 @@ export default async function getBlogMarkdown(blogPost: BlogPost) {
     return notFound();
   }
 
-  const { markdown } = await markdownRes.json();
+  const {
+    data: { markdown },
+  } = await markdownRes.json();
 
   return markdown;
 }

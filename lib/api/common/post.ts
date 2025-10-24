@@ -1,12 +1,12 @@
-import { createUIErrorResponse } from '@/lib/error-handling/ui';
+import { ApiResponse } from '@/types/api/common';
+import { createErrorResponse } from './response-structures';
+import { StatusCodes } from 'http-status-codes';
 
 export const postJson = async <T>(
   url: string,
   body: unknown,
   cookieHeader: string
-): Promise<
-  { success: true; data: T } | { success: false; message: string }
-> => {
+): Promise<ApiResponse<T>> => {
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -20,13 +20,23 @@ export const postJson = async <T>(
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       console.error('Request failed:', err);
-      return createUIErrorResponse(err.error || res.statusText);
+      const errorResponse = createErrorResponse(
+        err.error || res.statusText,
+        undefined,
+        res.status
+      );
+      return await errorResponse.json();
     }
 
-    return { success: true, data: await res.json() };
+    return await res.json();
   } catch (error) {
     console.error('Network error:', error);
-    return createUIErrorResponse('Network error occurred.');
+    const errorResponse = createErrorResponse(
+      'Network error occurred.',
+      undefined,
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+    return errorResponse.json();
   }
 };
 
@@ -34,23 +44,33 @@ export const postForm = async <T>(
   url: string,
   formData: FormData,
   cookieHeader: string
-): Promise<
-  { success: true; data: T } | { success: false; message: string }
-> => {
+): Promise<ApiResponse<T>> => {
   try {
     const res = await fetch(url, {
       method: 'POST',
       headers: { Cookie: cookieHeader },
       body: formData,
     });
+
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      console.error('Form request failed:', err);
-      return createUIErrorResponse(err.error || res.statusText);
+      console.error('Request failed:', err);
+      const errorResponse = createErrorResponse(
+        err.error || res.statusText,
+        undefined,
+        res.status
+      );
+      return await errorResponse.json();
     }
-    return { success: true, data: await res.json() };
+
+    return await res.json();
   } catch (error) {
     console.error('Network error:', error);
-    return createUIErrorResponse('Network error occurred.');
+    const errorResponse = createErrorResponse(
+      'Network error occurred.',
+      undefined,
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+    return errorResponse.json();
   }
 };

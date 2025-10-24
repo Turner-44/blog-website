@@ -11,13 +11,15 @@ import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 
 import { Button } from '@/components/shared-components/button';
-import { createBlog } from '@/lib/api/blog/create-blog.tsx/create-blogs';
+import {
+  createBlogPost,
+  errorMessages,
+} from '@/lib/api/blog/create-blog/create-blogs';
 import { blogUiFormSchema } from '@/lib/zod';
 import { BlogFormData } from '@/types/blog';
-import { checkSlugAvailability } from '@/lib/api/blog/blog-slug-check';
 
 export default function CreateBlogForm() {
-  const form = useForm({
+  const form = useForm<BlogFormData>({
     initialValues: {
       title: '',
       slug: '',
@@ -35,53 +37,19 @@ export default function CreateBlogForm() {
 
   return (
     <form
-      // TODO Abstract submit handler logic into a separate function
       onSubmit={form.onSubmit(
-        async (values: BlogFormData) => {
-          try {
-            const payload: BlogFormData = {
-              ...values,
-              publishedAt: values.publishedAt || new Date().toISOString(),
-            };
-
-            const isSlugAvailable = await checkSlugAvailability(payload.slug);
-            if (!isSlugAvailable) {
-              form.setFieldError('slug', 'This slug is already in use.');
-              form.setFieldError('root', 'Please fix the errors above.');
-              setSuccess(false);
-              return;
-            }
-
-            const result = await createBlog(payload);
-
-            if (result.success) {
-              setSuccess(true);
-              form.reset();
-            } else {
-              setSuccess(false);
-              form.setFieldError(
-                'root',
-                result.message ?? 'An unknown error occurred.'
-              );
-            }
-          } catch (error) {
-            console.error(error);
-            form.setFieldError(
-              'root',
-              'Something went wrong. Please try again.'
-            );
-            setSuccess(false);
-          }
+        async (values) => {
+          await createBlogPost(values, form, setSuccess);
         },
         () => {
-          form.setFieldError('root', 'Please fix the errors above.');
+          form.setFieldError('root', errorMessages.fixErrorsAbove);
         }
       )}
       className="relative flex flex-col max-w-2xl mx-auto"
       autoComplete="off"
     >
       <TextInput
-        label="Blog Title"
+        label="Title"
         name="title"
         wrapperProps={{ 'data-testid': 'field-blog-title' }}
         data-testid="input-blog-title"
@@ -89,7 +57,7 @@ export default function CreateBlogForm() {
         {...form.getInputProps('title')}
       />
       <TextInput
-        label="Blog Slug:"
+        label="Slug:"
         name="slug"
         wrapperProps={{ 'data-testid': 'field-blog-slug' }}
         data-testid="input-blog-slug"
@@ -97,7 +65,7 @@ export default function CreateBlogForm() {
         {...form.getInputProps('slug')}
       />
       <TextInput
-        label="Blog Summary:"
+        label="Summary:"
         name="summary"
         wrapperProps={{ 'data-testid': 'field-blog-summary' }}
         data-testid="input-blog-summary"
@@ -105,7 +73,7 @@ export default function CreateBlogForm() {
         {...form.getInputProps('summary')}
       />
       <Textarea
-        label="Blog Content:"
+        label="Markdown:"
         name="markdown"
         wrapperProps={{ 'data-testid': 'field-blog-markdown' }}
         data-testid="input-blog-markdown"
@@ -115,7 +83,7 @@ export default function CreateBlogForm() {
       <FileInput
         leftSection={<CiImageOn />}
         rightSection={<FaPaperclip />}
-        label="Upload feature image:"
+        label="Upload Feature Image:"
         name="featureImage"
         wrapperProps={{ 'data-testid': 'field-blog-feature-image' }}
         data-testid="input-blog-feature-image"
@@ -132,7 +100,7 @@ export default function CreateBlogForm() {
       <FileInput
         leftSection={<CiImageOn />}
         rightSection={<FaPaperclip />}
-        label="Upload preview image:"
+        label="Upload Preview Image:"
         name="previewImage"
         wrapperProps={{ 'data-testid': 'field-blog-preview-image' }}
         data-testid="input-blog-preview-image"
@@ -147,7 +115,7 @@ export default function CreateBlogForm() {
         }
       />
       <TagsInput
-        label="Blog Tags:"
+        label="Tags:"
         name="tags"
         wrapperProps={{ 'data-testid': 'field-blog-tags' }}
         data-testid="input-blog-tags"

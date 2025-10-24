@@ -12,10 +12,12 @@ import {
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { FieldSchemas, createImageSchema } from '@/lib/zod';
 import { AWSCacheValue } from '@/lib/api/common/headers';
+import { createSuccessResponse } from '@/lib/api/common/response-structures';
+import { NextApiResponse } from '@/types/api/common';
 
 export async function POST(
   req: Request
-): Promise<NextResponse | NextResponse<ImageResponses['Post']>> {
+): Promise<NextApiResponse | NextApiResponse<ImageResponses['Post']>> {
   try {
     const authResponse = await validateUserSession('API');
     if (authResponse instanceof NextResponse) return authResponse;
@@ -53,13 +55,14 @@ export async function POST(
     });
     if (awsError) return awsError;
 
-    return NextResponse.json<ImageResponses['Post']>(
+    return createSuccessResponse(
       {
         blogId,
         slug,
         imageKey,
       },
-      { status: StatusCodes.CREATED }
+      'Uploaded',
+      StatusCodes.CREATED
     );
   } catch (err: Error | unknown) {
     return genericCatchError(err);
@@ -68,7 +71,7 @@ export async function POST(
 
 export async function DELETE(
   req: Request
-): Promise<NextResponse | NextResponse<ImageResponses['Delete']>> {
+): Promise<NextApiResponse | NextApiResponse<ImageResponses['Delete']>> {
   try {
     const authResponse = await validateUserSession('API');
     if (authResponse instanceof NextResponse) return authResponse;
@@ -95,13 +98,7 @@ export async function DELETE(
     });
     if (awsError) return awsError;
 
-    return NextResponse.json<ImageResponses['Delete']>(
-      {
-        message: 'File deleted',
-        imageKey,
-      },
-      { status: StatusCodes.OK }
-    );
+    return createSuccessResponse({ imageKey }, 'Deleted', StatusCodes.OK);
   } catch (err: Error | unknown) {
     return genericCatchError(err);
   }

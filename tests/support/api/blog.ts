@@ -3,6 +3,9 @@ import { ImageResponses } from '@/types/api/image';
 import { BlogsResponses } from '@/types/api/blogs';
 import { MarkdownResponses } from '@/types/api/markdown';
 import { APIRequestContext } from '@playwright/test';
+import { BlogCreationError } from '@/errors/api-errors';
+import { SuccessResponse } from '@/lib/api/common/response-structures';
+import { ApiResponse } from '@/types/api/common';
 
 export const storeBlogPost = async (
   apiContext: APIRequestContext,
@@ -10,7 +13,7 @@ export const storeBlogPost = async (
   featureImageJson: ImageResponses['Post'],
   previewImageJson: ImageResponses['Post'],
   markdownJson: MarkdownResponses['Post']
-): Promise<BlogsResponses['Post']> => {
+): Promise<SuccessResponse<BlogsResponses['Post']>> => {
   const blogPostBody = JSON.stringify({
     id: blogPost.id,
     title: blogPost.title,
@@ -29,8 +32,15 @@ export const storeBlogPost = async (
       data: blogPostBody,
     }
   );
-  const resJson = await blogPostRes.json();
-  return resJson;
+
+  const blogPostJson: ApiResponse<BlogsResponses['Post']> =
+    await blogPostRes.json();
+
+  if (!blogPostJson.success) {
+    throw new BlogCreationError(blogPostJson.message);
+  }
+
+  return blogPostJson;
 };
 
 export const deleteBlogPost = async (
@@ -40,5 +50,13 @@ export const deleteBlogPost = async (
   const blogPostRes = await apiContext.delete(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?sk=${encodeURIComponent(blogPost.SK)}`
   );
-  return await blogPostRes.json();
+  const blogPostJson = await blogPostRes.json();
+
+  if (!blogPostJson.success) {
+    throw new Error(
+      `Failed to delete blog post: ${blogPostRes.status} ${blogPostRes.statusText}`
+    );
+  }
+
+  return blogPostJson;
 };

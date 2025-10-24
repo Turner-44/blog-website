@@ -1,11 +1,14 @@
+import { BlogCreationError } from '@/errors/api-errors';
+import { SuccessResponse } from '@/lib/api/common/response-structures';
 import { CreateBlogPostDataAPI } from '@/tests/data/create-blog';
+import { ApiResponse } from '@/types/api/common';
 import { MarkdownResponses } from '@/types/api/markdown';
 import type { APIRequestContext } from '@playwright/test';
 
 export const storeMarkdown = async (
   apiContext: APIRequestContext,
   blogPost: CreateBlogPostDataAPI
-): Promise<MarkdownResponses['Post']> => {
+): Promise<SuccessResponse<MarkdownResponses['Post']>> => {
   const markdownBody = JSON.stringify({
     blogId: blogPost.id,
     markdown: blogPost.markdown,
@@ -18,5 +21,12 @@ export const storeMarkdown = async (
     }
   );
 
-  return await markdownRes.json();
+  const markdownJson: ApiResponse<MarkdownResponses['Post']> =
+    await markdownRes.json();
+
+  if (!markdownJson.success) {
+    throw new BlogCreationError(markdownJson.message);
+  }
+
+  return markdownJson;
 };
