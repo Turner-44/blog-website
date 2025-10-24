@@ -76,9 +76,7 @@ test.describe(
       await expect(
         page
           .getByTestId('field-blog-tags')
-          .getByText(
-            `Tags must contain at least 1 ${length === 1 ? 'item' : 'items'}`
-          )
+          .getByText(`Tags must contain at least 1 item}`)
       ).toBeVisible();
     });
 
