@@ -14,7 +14,7 @@ import { Button } from '@/components/shared-components/button';
 import {
   createBlogPost,
   errorMessages,
-} from '@/lib/api/blog/create-blog.tsx/create-blogs';
+} from '@/lib/api/blog/create-blog/create-blogs';
 import { blogUiFormSchema } from '@/lib/zod';
 import { BlogFormData } from '@/types/blog';
 
