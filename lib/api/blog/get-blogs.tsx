@@ -1,4 +1,3 @@
-import { BlogPost } from '@/types/blog';
 import { notFound } from 'next/navigation';
 import getBlogMarkdown from './get-markdown';
 import { SlugResponses } from '@/types/api/blogs-slug';
@@ -22,7 +21,7 @@ export async function getBlogList(
   );
 
   if (!blogPostRes.success) {
-    const validationError = new NotFoundError('Not blog posts found', {
+    const validationError = new NotFoundError('No blog posts found', {
       blogPostRes,
     });
     validationError.log();

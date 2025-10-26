@@ -28,6 +28,7 @@ export default function DeletionGrid({ blogPosts }: { blogPosts: BlogPost[] }) {
       await deleteCompleteBlogPost(blog);
       setBlogList((prevBlogs) => prevBlogs.filter((b) => b.id !== blog.id));
     } catch (error) {
+      console.error(error);
       alert(`Failed to delete "${blog.title}". Please try again.`);
     } finally {
       setIsDeleting(null);

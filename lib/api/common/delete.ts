@@ -30,8 +30,9 @@ export const deleteRequest = async <T>(
     const errorResponse = createErrorResponse(
       'Network error occurred.',
       undefined,
-      StatusCodes.INTERNAL_SERVER_ERROR
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      { error }
     );
-    return errorResponse.json();
+    return await errorResponse.json();
   }
 };

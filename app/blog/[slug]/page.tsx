@@ -5,8 +5,6 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { generateBlogMetadata } from '@/utils/seo';
 import { SlugResponses } from '@/types/api/blogs-slug';
-import { notFound } from 'next/navigation';
-import { NotFoundError } from '@/errors/api-errors';
 
 export async function generateMetadata({
   params,

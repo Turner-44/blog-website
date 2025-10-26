@@ -3,6 +3,7 @@ import z from 'zod';
 import { getRequest } from '../common/get';
 import { fetchOptions } from '../common/caching';
 import { SlugResponses } from '@/types/api/blogs-slug';
+import { UnknownError } from '@/errors/api-errors';
 
 export const checkSlugAvailability = async (
   slug: z.infer<typeof FieldSchemas.slug>
@@ -13,7 +14,12 @@ export const checkSlugAvailability = async (
   );
 
   if (!blogPostRes.success) {
-    return false;
+    const unknownError = new UnknownError('Error checking slug availability', {
+      slugProvided: slug,
+      blogPostRes,
+    });
+    unknownError.log();
+    throw unknownError;
   }
 
   return blogPostRes.data.slugAvailable;

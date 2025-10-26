@@ -44,9 +44,9 @@ export async function GET(
       return createSuccessResponse(
         {
           slugAvailable: true,
-          blogPost: {},
-          prevBlogPost: {},
-          nextBlogPost: {},
+          blogPost: null,
+          prevBlogPost: null,
+          nextBlogPost: null,
         },
         `No blog post found with slug - ${slug}`,
         StatusCodes.OK
