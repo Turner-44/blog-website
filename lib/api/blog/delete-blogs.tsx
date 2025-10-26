@@ -78,7 +78,6 @@ export async function deleteCompleteBlogPost(blog: BlogPost) {
 
     return { success: true };
   } catch (error) {
-    console.error('Delete error:', error);
     throw new Error(
       error instanceof Error ? error.message : 'An unknown error occurred'
     );

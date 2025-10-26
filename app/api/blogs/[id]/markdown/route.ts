@@ -12,14 +12,18 @@ import {
   genericCatchError,
   s3ResponseHandler,
   validateRequestAgainstSchema,
-  validateResultsFound as validateResultFound,
   validateResponseStatus,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes';
 import { createMarkdownSchema, FieldSchemas } from '@/lib/zod';
 import { AWSCacheValue, SevenDayCacheHeader } from '@/lib/api/common/headers';
 import { NextApiResponse } from '@/types/api/common';
-import { createSuccessResponse } from '@/lib/api/common/response-structures';
+import {
+  createErrorResponse,
+  createSuccessResponse,
+} from '@/lib/api/common/response-structures';
+import { NotFoundError } from '@/errors/api-errors';
+import { ApiError } from 'next/dist/server/api-utils';
 
 export async function GET(
   req: Request
@@ -49,8 +53,16 @@ export async function GET(
 
     const markdown: string = (await s3Res.Body?.transformToString()) ?? '';
 
-    const notFoundError = validateResultFound(markdown.length > 0);
-    if (notFoundError) return notFoundError;
+    if (markdown.length === 0) {
+      const notFoundError = new NotFoundError('Markdown content not found');
+      notFoundError.log();
+
+      return createErrorResponse(
+        notFoundError.message,
+        notFoundError.code,
+        StatusCodes.NOT_FOUND
+      );
+    }
 
     return createSuccessResponse(
       { markdown },
@@ -144,4 +156,9 @@ export async function DELETE(
   } catch (err: Error | unknown) {
     return genericCatchError(err);
   }
+}
+function sanitizedClientStatusCodes(
+  actualStatus: any
+): StatusCodes | undefined {
+  throw new Error('Function not implemented.');
 }

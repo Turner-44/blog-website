@@ -5,6 +5,8 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { generateBlogMetadata } from '@/lib/utils/seo';
 import { SlugResponses } from '@/types/api/blogs-slug';
+import { notFound } from 'next/navigation';
+import { NotFoundError } from '@/errors/api-errors';
 
 export async function generateMetadata({
   params,
@@ -17,6 +19,12 @@ export async function generateMetadata({
     markdown,
   }: { blogPosts: SlugResponses['Get']; markdown: string } =
     await getBlogPosts(slug);
+
+  if (!blogPosts) {
+    const notFoundError = new NotFoundError('Blog post not found');
+    notFoundError.log();
+    notFound();
+  }
 
   const readTime = estimateReadTime(markdown);
   return generateBlogMetadata(blogPosts.blogPost, readTime);

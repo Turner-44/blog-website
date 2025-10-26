@@ -59,8 +59,7 @@ export async function getBlogBySlug(
       slugProvided: slug,
       blogPostResJson,
     });
-
-    console.error('API Error: ', validationError);
+    validationError.log();
     return;
   }
 

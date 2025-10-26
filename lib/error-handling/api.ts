@@ -22,7 +22,7 @@ export const validateRequestAgainstSchema = (
       expected: schema,
       received: data,
     });
-    console.error('API Error: ', validationError);
+    validationError.log();
 
     return createErrorResponse(
       validationError.userMessage,
@@ -59,7 +59,7 @@ export const dynamoDBResponseHandler = <
       }
     );
 
-    console.error('DynamoDB Error:', dynamoDbError);
+    dynamoDbError.log();
 
     return createErrorResponse(
       dynamoDbError.userMessage,
@@ -95,7 +95,7 @@ export const s3ResponseHandler = <
       }
     );
 
-    console.error('S3 Error:', s3Error);
+    s3Error.log();
 
     return createErrorResponse(
       s3Error.userMessage,
@@ -117,7 +117,7 @@ export const validateResponseStatus = (
       actualStatus,
     });
 
-    console.error('API Error: ', validationError);
+    validationError.log();
 
     return createErrorResponse(
       validationError.userMessage,
@@ -126,24 +126,6 @@ export const validateResponseStatus = (
     );
   }
   return null;
-};
-
-export const validateResultsFound = (
-  expectedResult: unknown,
-  actualResult: unknown = true
-) => {
-  if (expectedResult !== actualResult) {
-    const error = new ValidationError(
-      `Expected ${expectedResult} to equal ${actualResult}`
-    );
-    console.error('API Error: ', error);
-
-    return createErrorResponse(
-      error.userMessage,
-      error.code,
-      StatusCodes.NOT_FOUND
-    );
-  }
 };
 
 export const genericCatchError = (err: Error | unknown) => {

@@ -21,7 +21,6 @@ export const validateBlogFormSchema = (
   const result = schema.safeParse(formDataFixes);
 
   if (!result.success) {
-    console.error('Validation errors:', result.error);
     return {
       success: false as const,
       message: 'Validation failed',

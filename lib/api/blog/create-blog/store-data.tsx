@@ -128,7 +128,6 @@ export async function storeCompleteBlogPost(values: BlogFormData) {
       message: 'Blog created!',
     };
   } catch (error) {
-    console.error('Error creating blog:', error);
     return createUIErrorResponse('An unexpected error occurred.');
   }
 }

@@ -11,7 +11,6 @@ import {
   dynamoDBResponseHandler,
   genericCatchError,
   validateRequestAgainstSchema,
-  validateResultsFound,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { SlugResponses } from '@/types/api/blogs-slug';
@@ -40,8 +39,18 @@ export async function GET(
 
     const result = (dynamodbRes.Items ?? []) as BlogPost[];
 
-    const notFoundError = validateResultsFound(result.length === 1);
-    if (notFoundError) return notFoundError;
+    // No result is valid for slug check - return empty blog post
+    if (result.length === 0) {
+      return createSuccessResponse(
+        {
+          blogPost: {},
+          prevBlogPost: {},
+          nextBlogPost: {},
+        },
+        `No blog post found with slug - ${slug}`,
+        StatusCodes.NOT_FOUND
+      );
+    }
 
     const dynamodbPrevRes = await dynamoDBClient.send(
       new QueryCommand(buildBlogByRelativePublishedAtQuery(result[0], 'before'))

@@ -4,6 +4,7 @@ import { storeCompleteBlogPost } from './store-data';
 import { BlogFormData } from '@/types/blog';
 import type { UseFormReturnType } from '@mantine/form';
 import { checkSlugAvailability } from '../blog-slug-check';
+import { BlogCreationError } from '@/errors/api-errors';
 
 export const errorMessages = {
   slugExists: 'This slug is already in use.',
@@ -63,11 +64,12 @@ export async function createBlogPost(
       handleFormError(handlers, result);
     }
   } catch (error) {
-    console.error('Failed to create blog post:', {
+    const unknownError = new BlogCreationError('Failed to create blog post', {
       error,
-      slug: values.slug,
       timestamp: new Date().toISOString(),
+      slug: values.slug,
     });
+    unknownError.log();
 
     form.setFieldError('root', errorMessages.tryAgain);
     setSuccess(false);

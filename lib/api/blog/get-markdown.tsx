@@ -9,7 +9,6 @@ export default async function getBlogMarkdown(blogPost: BlogPost) {
   );
 
   if (!markdownRes.ok) {
-    console.error('Failed to fetch blog markdown:', markdownRes.statusText);
     return notFound();
   }
 
