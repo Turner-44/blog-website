@@ -7,7 +7,7 @@ import { MarkdownResponses } from '@/types/api/markdown';
 import { deleteRequest } from '../common/delete';
 import z from 'zod';
 import { FieldSchemas } from '@/lib/zod/field-schema';
-import { revalidateBlogCache } from '../common/revalidate-cache';
+import { revalidateBlogCache } from '@/utils/revalidate-cache';
 
 const deleteMarkdown = async (
   blogId: z.infer<typeof FieldSchemas.id>,
@@ -78,7 +78,6 @@ export async function deleteCompleteBlogPost(blog: BlogPost) {
 
     return { success: true };
   } catch (error) {
-    console.error('Delete error:', error);
     throw new Error(
       error instanceof Error ? error.message : 'An unknown error occurred'
     );

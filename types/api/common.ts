@@ -1,7 +1,7 @@
 import {
   ErrorResponse,
   SuccessResponse,
-} from '@/lib/api/common/response-structures';
+} from '@/lib/api/common/response-helper';
 import { NextResponse } from 'next/server';
 
 export type ApiResponse<TData = unknown> =

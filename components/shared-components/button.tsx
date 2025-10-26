@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils/react-class-names';
+import { cn } from '@/utils/react-class-names';
 
 const buttonVariants = cva('rounded transition-colors duration-200', {
   variants: {

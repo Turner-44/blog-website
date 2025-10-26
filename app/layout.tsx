@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { nunito, poppins } from '@/lib/utils/fonts';
+import { nunito, poppins } from '@/utils/fonts';
 import Navbar from '@/components/navigation/navbar';
 import Footer from '@/components/navigation/footer';
-import { liveSiteUrl, siteName } from '@/lib/utils/seo';
+import { liveSiteUrl, siteName } from '@/utils/seo';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';

@@ -4,19 +4,18 @@ import {
   dynamoDBClient,
   buildBlogByRelativePublishedAtQuery,
   buildBlogBySlugQuery,
+  dynamoDBResponseErrorCheck,
 } from '@/lib/api/aws/dynamo';
 import { FieldSchemas } from '@/lib/zod';
 import { BlogPost } from '@/types/blog';
 import {
-  dynamoDBResponseHandler,
   genericCatchError,
   validateRequestAgainstSchema,
-  validateResultsFound,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { SlugResponses } from '@/types/api/blogs-slug';
 import { NextApiResponse } from '@/types/api/common';
-import { createSuccessResponse } from '@/lib/api/common/response-structures';
+import { createSuccessResponse } from '@/lib/api/common/response-helper';
 
 export async function GET(
   req: Request,
@@ -32,7 +31,7 @@ export async function GET(
       new QueryCommand(buildBlogBySlugQuery(slug))
     );
 
-    const awsError = dynamoDBResponseHandler(dynamodbRes, {
+    const awsError = dynamoDBResponseErrorCheck(dynamodbRes, {
       expectedStatus: StatusCodes.OK,
       errorMessage: `Failed to retrieve blog posts`,
     });
@@ -40,8 +39,19 @@ export async function GET(
 
     const result = (dynamodbRes.Items ?? []) as BlogPost[];
 
-    const notFoundError = validateResultsFound(result.length === 1);
-    if (notFoundError) return notFoundError;
+    // No result is valid for slug check - return empty blog post
+    if (result.length === 0) {
+      return createSuccessResponse(
+        {
+          slugAvailable: true,
+          blogPost: null,
+          prevBlogPost: null,
+          nextBlogPost: null,
+        },
+        `No blog post found with slug - ${slug}`,
+        StatusCodes.OK
+      );
+    }
 
     const dynamodbPrevRes = await dynamoDBClient.send(
       new QueryCommand(buildBlogByRelativePublishedAtQuery(result[0], 'before'))
@@ -56,6 +66,7 @@ export async function GET(
 
     return createSuccessResponse(
       {
+        slugAvailable: false,
         blogPost: result[0],
         prevBlogPost: prevBlogs[0],
         nextBlogPost: nextBlogs[0],

@@ -1,8 +1,8 @@
 import { ApiResponse } from '@/types/api/common';
-import { createErrorResponse } from './response-structures';
+import { createErrorResponse } from './response-helper';
 import { StatusCodes } from 'http-status-codes';
 
-export const postJson = async <T>(
+export const postJsonRequest = async <T>(
   url: string,
   body: unknown,
   cookieHeader: string
@@ -19,7 +19,6 @@ export const postJson = async <T>(
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      console.error('Request failed:', err);
       const errorResponse = createErrorResponse(
         err.error || res.statusText,
         undefined,
@@ -30,17 +29,17 @@ export const postJson = async <T>(
 
     return await res.json();
   } catch (error) {
-    console.error('Network error:', error);
     const errorResponse = createErrorResponse(
       'Network error occurred.',
       undefined,
-      StatusCodes.INTERNAL_SERVER_ERROR
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      { error }
     );
-    return errorResponse.json();
+    return await errorResponse.json();
   }
 };
 
-export const postForm = async <T>(
+export const postFormRequest = async <T>(
   url: string,
   formData: FormData,
   cookieHeader: string
@@ -54,7 +53,6 @@ export const postForm = async <T>(
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      console.error('Request failed:', err);
       const errorResponse = createErrorResponse(
         err.error || res.statusText,
         undefined,
@@ -65,12 +63,12 @@ export const postForm = async <T>(
 
     return await res.json();
   } catch (error) {
-    console.error('Network error:', error);
     const errorResponse = createErrorResponse(
       'Network error occurred.',
       undefined,
-      StatusCodes.INTERNAL_SERVER_ERROR
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      { error }
     );
-    return errorResponse.json();
+    return await errorResponse.json();
   }
 };

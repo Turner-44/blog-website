@@ -5,6 +5,10 @@ import {
   QueryCommandInput,
 } from '@aws-sdk/lib-dynamodb';
 import { sdkClientConfig } from './shared';
+import { StatusCodes } from 'http-status-codes';
+import { DynamoDbError } from '@/errors/api-errors';
+import { createErrorResponse } from '../common/response-helper';
+import { sanitizedClientStatusCodes } from '@/lib/error-handling/api';
 
 const getDbClient = () => new DynamoDBClient(sdkClientConfig);
 
@@ -69,4 +73,49 @@ export const buildBlogByRelativePublishedAtQuery = (
     ProjectionExpression: projectionExpression,
     Limit: limit,
   };
+};
+
+interface DynamoResponseCheckOptions {
+  expectedStatus?: number;
+  errorMessage?: string;
+  customerFacing?: boolean;
+}
+
+export const dynamoDBResponseErrorCheck = <
+  T extends { $metadata?: { httpStatusCode?: number } },
+>(
+  response: T,
+  options: DynamoResponseCheckOptions = {}
+) => {
+  const {
+    expectedStatus = StatusCodes.OK,
+    errorMessage,
+    customerFacing,
+  } = options;
+
+  const actualStatus = response?.$metadata?.httpStatusCode;
+
+  if (actualStatus !== expectedStatus) {
+    const dynamoDbError = new DynamoDbError(
+      errorMessage ?? `DynamoDB request failed with status ${actualStatus}`,
+      {
+        expectedStatus,
+        actualStatus,
+        awsResponse: response,
+      }
+    );
+
+    dynamoDbError.log();
+
+    const statusCode = !customerFacing
+      ? sanitizedClientStatusCodes(actualStatus)
+      : actualStatus;
+
+    return createErrorResponse(
+      dynamoDbError.userMessage,
+      dynamoDbError.code,
+      statusCode
+    );
+  }
+  return null;
 };

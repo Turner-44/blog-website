@@ -1,4 +1,9 @@
+import {
+  createErrorResponse,
+  ErrorResponse,
+} from '@/lib/api/common/response-helper';
 import { StatusCodes } from 'http-status-codes';
+import { NextResponse } from 'next/server';
 
 export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
 
@@ -22,5 +27,31 @@ export abstract class AbstractApiError extends Error implements AppError {
     super(message);
     this.name = this.constructor.name;
     this.context = context;
+  }
+
+  log(): void {
+    console.group(`Api Error: [${this.severity.toUpperCase()}] ${this.name}`);
+    console.error('Message:', this.message);
+    console.error('User Message:', this.userMessage);
+    console.error('Code:', this.code);
+    console.error('Status Code:', this.statusCode);
+
+    if (this.context && Object.keys(this.context).length > 0) {
+      console.error('Context:', this.context);
+    }
+
+    if (this.stack) {
+      console.error('Stack Trace:', this.stack);
+    }
+    console.groupEnd();
+  }
+
+  createApiErrorResponse(
+    message: string = this.userMessage,
+    code = this.code,
+    statusCode: StatusCodes = this.statusCode,
+    details?: Record<string, unknown>
+  ): NextResponse<ErrorResponse> {
+    return createErrorResponse(message, code, statusCode, details);
   }
 }

@@ -6,6 +6,7 @@ import {
   dynamoDBClient,
   TABLE_NAME,
   buildAllBlogsQuery,
+  dynamoDBResponseErrorCheck,
 } from '@/lib/api/aws/dynamo';
 import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
@@ -13,13 +14,12 @@ import { BlogsResponses } from '@/types/api/blogs';
 import { FieldSchemas, createBlogSchema } from '@/lib/zod';
 import { BlogPost } from '@/types/blog';
 import {
-  dynamoDBResponseHandler,
   genericCatchError,
   validateRequestAgainstSchema,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { NextApiResponse } from '@/types/api/common';
-import { createSuccessResponse } from '@/lib/api/common/response-structures';
+import { createSuccessResponse } from '@/lib/api/common/response-helper';
 
 export async function GET(
   req: Request
@@ -37,7 +37,7 @@ export async function GET(
       new QueryCommand(buildAllBlogsQuery(url, startKey))
     );
 
-    const awsError = dynamoDBResponseHandler(dynamodbRes, {
+    const awsError = dynamoDBResponseErrorCheck(dynamodbRes, {
       expectedStatus: StatusCodes.OK,
       errorMessage: `Failed to retrieve blog posts`,
     });
@@ -90,7 +90,7 @@ export async function POST(
       })
     );
 
-    const awsError = dynamoDBResponseHandler(dynamodbRes, {
+    const awsError = dynamoDBResponseErrorCheck(dynamodbRes, {
       expectedStatus: StatusCodes.OK,
       errorMessage: `Failed to create blog post - ${reqData.title}`,
     });
@@ -124,7 +124,7 @@ export async function DELETE(
       })
     );
 
-    const awsError = dynamoDBResponseHandler(dynamodbRes, {
+    const awsError = dynamoDBResponseErrorCheck(dynamodbRes, {
       expectedStatus: StatusCodes.OK,
       errorMessage: `Failed to delete blog post - ${sk}`,
     });

@@ -1,12 +1,11 @@
-import { BlogPost } from '@/types/blog';
 import { notFound } from 'next/navigation';
 import getBlogMarkdown from './get-markdown';
-import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
-import { validateResponseStatus } from '@/lib/error-handling/api';
 import { SlugResponses } from '@/types/api/blogs-slug';
 import { ApiResponse } from '@/types/api/common';
 import { BlogsResponses } from '@/types/api/blogs';
 import { NotFoundError } from '@/errors/api-errors';
+import { getRequest } from '../common/get';
+import { fetchOptions } from '../common/caching';
 
 export async function getBlogList(
   limit: number = 10,
@@ -16,26 +15,20 @@ export async function getBlogList(
   const query = new URLSearchParams({ limit: String(limit) });
   if (cursor) query.append('cursor', cursor);
 
-  const res = await fetch(
+  const blogPostRes = await getRequest<BlogsResponses['Get']>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs?${query.toString()}`,
-    { cache: 'no-store', next: { revalidate: 0 } }
+    fetchOptions.blogPost
   );
 
-  const responseError = validateResponseStatus(
-    res.status,
-    StatusCodes.OK,
-    'Failed to fetch blogs'
-  );
-  //TODO: Need to handle valid response when there are no blog posts
-  if (responseError)
-    return {
-      blogPosts: [] as BlogPost[],
-      nextCursor: null,
-    };
+  if (!blogPostRes.success) {
+    const validationError = new NotFoundError('No blog posts found', {
+      blogPostRes,
+    });
+    validationError.log();
+    notFound();
+  }
 
-  const resJson = await res.json();
-
-  const { blogPosts, nextCursor } = resJson.data;
+  const { blogPosts, nextCursor } = blogPostRes.data;
 
   return {
     blogPosts,
@@ -46,25 +39,21 @@ export async function getBlogList(
 export async function getBlogBySlug(
   slug: string
 ): Promise<ApiResponse<SlugResponses['Get']> | void> {
-  const blogPostRes = await fetch(
+  const blogPostRes = await getRequest<SlugResponses['Get']>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/slug/${encodeURIComponent(slug)}`,
-    { cache: 'no-store', next: { revalidate: 0 } }
+    fetchOptions.blogPost
   );
 
-  const blogPostResJson: ApiResponse<SlugResponses['Get']> =
-    await blogPostRes.json();
-
-  if (!blogPostResJson.success) {
+  if (!blogPostRes.success) {
     const validationError = new NotFoundError('Blog post not found', {
       slugProvided: slug,
-      blogPostResJson,
+      blogPostRes,
     });
-
-    console.error('API Error: ', validationError);
-    return;
+    validationError.log();
+    notFound();
   }
 
-  return blogPostResJson;
+  return blogPostRes;
 }
 
 export async function getBlogPosts(slug: string) {

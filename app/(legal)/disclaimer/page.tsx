@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import classes from '../legal.module.css';
-import { liveSiteUrl } from '@/lib/utils/seo';
+import { liveSiteUrl } from '@/utils/seo';
 
 export const metadata: Metadata = {
   title: 'Disclaimer',

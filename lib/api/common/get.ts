@@ -2,17 +2,24 @@ import { ApiResponse } from '@/types/api/common';
 import { createErrorResponse } from './response-helper';
 import { StatusCodes } from 'http-status-codes';
 
-export const deleteRequest = async <T>(
+interface FetchOptions extends RequestInit {
+  cache?: RequestCache;
+  next?: {
+    revalidate: number;
+  };
+}
+
+export const getRequest = async <T>(
   url: string,
-  cookieHeader: string
+  fetchOptions: FetchOptions
 ): Promise<ApiResponse<T>> => {
   try {
     const res = await fetch(url, {
-      method: 'DELETE',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Cookie: cookieHeader,
       },
+      ...fetchOptions,
     });
 
     if (!res.ok) {

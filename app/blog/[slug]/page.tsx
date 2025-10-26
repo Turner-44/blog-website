@@ -1,9 +1,9 @@
 import Blog from '@/components/blog/blog';
 import { getBlogPosts } from '@/lib/api/blog/get-blogs';
-import { estimateReadTime } from '@/lib/utils/read-time';
+import { estimateReadTime } from '@/utils/read-time';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import { generateBlogMetadata } from '@/lib/utils/seo';
+import { generateBlogMetadata } from '@/utils/seo';
 import { SlugResponses } from '@/types/api/blogs-slug';
 
 export async function generateMetadata({

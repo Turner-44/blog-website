@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 import createMDX from '@next/mdx';
-import { securityHeaders } from './lib/utils/headers';
+import { securityHeaders } from './utils/headers';
 
 const nextConfig: NextConfig = {
   pageExtensions: ['mdx', 'ts', 'tsx'],

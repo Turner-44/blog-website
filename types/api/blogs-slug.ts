@@ -5,6 +5,7 @@ export type SlugResponses = {
 };
 
 interface SlugGetResponse {
+  slugAvailable: boolean;
   blogPost: BlogPost;
   prevBlogPost?: BlogPost;
   nextBlogPost?: BlogPost;

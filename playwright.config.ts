@@ -5,7 +5,7 @@ import { defineConfig, devices } from '@playwright/test';
  * https://github.com/motdotla/dotenv
  */
 import dotenv from 'dotenv';
-import { resolveFromRoot } from './lib/utils/paths';
+import { resolveFromRoot } from './utils/paths';
 
 process.env.CI
   ? dotenv.config({ path: resolveFromRoot('.env') })

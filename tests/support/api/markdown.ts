@@ -1,5 +1,5 @@
 import { BlogCreationError } from '@/errors/api-errors';
-import { SuccessResponse } from '@/lib/api/common/response-structures';
+import { SuccessResponse } from '@/lib/api/common/response-helper';
 import { CreateBlogPostDataAPI } from '@/tests/data/create-blog';
 import { ApiResponse } from '@/types/api/common';
 import { MarkdownResponses } from '@/types/api/markdown';
