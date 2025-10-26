@@ -47,7 +47,7 @@ export abstract class AbstractApiError extends Error implements AppError {
   }
 
   createApiErrorResponse(
-    message: string,
+    message: string = this.userMessage,
     code = this.code,
     statusCode: StatusCodes = this.statusCode,
     details?: Record<string, unknown>

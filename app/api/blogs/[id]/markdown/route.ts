@@ -5,14 +5,16 @@ import {
 } from '@aws-sdk/client-s3';
 
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
-import { BUCKET_NAME, getS3Client } from '@/lib/api/aws/s3';
+import {
+  BUCKET_NAME,
+  getS3Client,
+  s3ResponseErrorCheck,
+} from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { MarkdownResponses } from '@/types/api/markdown';
 import {
   genericCatchError,
-  s3ResponseHandler,
   validateRequestAgainstSchema,
-  validateResponseStatus,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes';
 import { createMarkdownSchema, FieldSchemas } from '@/lib/zod';
@@ -22,8 +24,7 @@ import {
   createErrorResponse,
   createSuccessResponse,
 } from '@/lib/api/common/response-structures';
-import { NotFoundError } from '@/errors/api-errors';
-import { ApiError } from 'next/dist/server/api-utils';
+import { FailedToDeleteError, NotFoundError } from '@/errors/api-errors';
 
 export async function GET(
   req: Request
@@ -45,7 +46,7 @@ export async function GET(
       })
     );
 
-    const awsError = s3ResponseHandler(s3Res, {
+    const awsError = s3ResponseErrorCheck(s3Res, {
       expectedStatus: StatusCodes.OK,
       errorMessage: `Failed to retrieve markdown - ${markdownKey}`,
     });
@@ -102,7 +103,7 @@ export async function POST(
       })
     );
 
-    const awsError = s3ResponseHandler(s3Res, {
+    const awsError = s3ResponseErrorCheck(s3Res, {
       expectedStatus: StatusCodes.OK,
       errorMessage: `Failed to upload markdown - ${reqData.markdownKey}`,
     });
@@ -145,20 +146,19 @@ export async function DELETE(
       })
     );
 
-    const awsError = validateResponseStatus(
-      s3Res.$metadata.httpStatusCode,
-      StatusCodes.NO_CONTENT,
-      `Failed to delete markdown - ${markdownKey}`
-    );
-    if (awsError) return awsError;
+    if (s3Res.$metadata.httpStatusCode !== StatusCodes.NO_CONTENT) {
+      const validationError = new FailedToDeleteError(
+        `Failed to delete markdown - ${markdownKey}`,
+        {
+          StatusCode: s3Res.$metadata.httpStatusCode,
+        }
+      );
+      validationError.log();
+      return validationError.createApiErrorResponse();
+    }
 
     return createSuccessResponse({ markdownKey }, 'Deleted', StatusCodes.OK);
   } catch (err: Error | unknown) {
     return genericCatchError(err);
   }
-}
-function sanitizedClientStatusCodes(
-  actualStatus: any
-): StatusCodes | undefined {
-  throw new Error('Function not implemented.');
 }

@@ -4,11 +4,11 @@ import {
   dynamoDBClient,
   buildBlogByRelativePublishedAtQuery,
   buildBlogBySlugQuery,
+  dynamoDBResponseErrorCheck,
 } from '@/lib/api/aws/dynamo';
 import { FieldSchemas } from '@/lib/zod';
 import { BlogPost } from '@/types/blog';
 import {
-  dynamoDBResponseHandler,
   genericCatchError,
   validateRequestAgainstSchema,
 } from '@/lib/error-handling/api';
@@ -31,7 +31,7 @@ export async function GET(
       new QueryCommand(buildBlogBySlugQuery(slug))
     );
 
-    const awsError = dynamoDBResponseHandler(dynamodbRes, {
+    const awsError = dynamoDBResponseErrorCheck(dynamodbRes, {
       expectedStatus: StatusCodes.OK,
       errorMessage: `Failed to retrieve blog posts`,
     });

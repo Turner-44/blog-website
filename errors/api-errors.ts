@@ -43,3 +43,17 @@ export class NotFoundError extends AbstractApiError {
   readonly severity = 'medium' as const;
   readonly statusCode = StatusCodes.NOT_FOUND;
 }
+
+export class FailedToDeleteError extends AbstractApiError {
+  readonly code = 'FAILED_TO_DELETE_ERROR';
+  readonly userMessage = 'Failed to delete the requested resource.';
+  readonly severity = 'medium' as const;
+  readonly statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+}
+
+export class FailedToCreateError extends AbstractApiError {
+  readonly code = 'FAILED_TO_CREATE_ERROR';
+  readonly userMessage = 'Failed to create the requested resource.';
+  readonly severity = 'medium' as const;
+  readonly statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+}

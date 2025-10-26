@@ -1,12 +1,15 @@
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { NextResponse } from 'next/dist/server/web/spec-extension/response';
 
-import { BUCKET_NAME, getS3Client } from '@/lib/api/aws/s3';
+import {
+  BUCKET_NAME,
+  getS3Client,
+  s3ResponseErrorCheck,
+} from '@/lib/api/aws/s3';
 import { validateUserSession } from '@/lib/auth/validate-user-session';
 import { ImageResponses } from '@/types/api/image';
 import {
   genericCatchError,
-  s3ResponseHandler,
   validateRequestAgainstSchema,
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
@@ -49,7 +52,7 @@ export async function POST(
       })
     );
 
-    const awsError = s3ResponseHandler(s3Res, {
+    const awsError = s3ResponseErrorCheck(s3Res, {
       expectedStatus: StatusCodes.OK,
       errorMessage: `Failed to upload image - ${imageKey}`,
     });
@@ -92,7 +95,7 @@ export async function DELETE(
       })
     );
 
-    const awsError = s3ResponseHandler(s3Res, {
+    const awsError = s3ResponseErrorCheck(s3Res, {
       expectedStatus: StatusCodes.NO_CONTENT,
       errorMessage: `Failed to delete image - ${imageKey}`,
     });

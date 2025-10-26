@@ -1,9 +1,11 @@
 import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
-import { DynamoDbError, S3Error, ValidationError } from '@/errors/api-errors';
+import { ValidationError } from '@/errors/api-errors';
 import { createErrorResponse } from '@/lib/api/common/response-structures';
 
-const sanitizedClientStatusCodes = (actualStatus: number | undefined) => {
+export const sanitizedClientStatusCodes = (
+  actualStatus: number | undefined
+) => {
   return typeof actualStatus === 'number' &&
     actualStatus >= StatusCodes.BAD_REQUEST &&
     actualStatus < 600
@@ -34,78 +36,6 @@ export const validateRequestAgainstSchema = (
   return null;
 };
 
-interface DynamoResponseCheckOptions {
-  expectedStatus?: number;
-  errorMessage?: string;
-}
-
-export const dynamoDBResponseHandler = <
-  T extends { $metadata?: { httpStatusCode?: number } },
->(
-  response: T,
-  options: DynamoResponseCheckOptions = {}
-) => {
-  const { expectedStatus = StatusCodes.OK, errorMessage } = options;
-
-  const actualStatus = response?.$metadata?.httpStatusCode;
-
-  if (actualStatus !== expectedStatus) {
-    const dynamoDbError = new DynamoDbError(
-      errorMessage ?? `DynamoDB request failed with status ${actualStatus}`,
-      {
-        expectedStatus,
-        actualStatus,
-        awsResponse: response,
-      }
-    );
-
-    dynamoDbError.log();
-
-    return createErrorResponse(
-      dynamoDbError.userMessage,
-      dynamoDbError.code,
-      sanitizedClientStatusCodes(actualStatus)
-    );
-  }
-  return null;
-};
-
-interface S3ResponseCheckOptions {
-  expectedStatus?: number;
-  errorMessage?: string;
-}
-
-export const s3ResponseHandler = <
-  T extends { $metadata?: { httpStatusCode?: number } },
->(
-  response: T,
-  options: S3ResponseCheckOptions = {}
-) => {
-  const { expectedStatus = StatusCodes.OK, errorMessage } = options;
-
-  const actualStatus = response?.$metadata?.httpStatusCode;
-
-  if (actualStatus !== expectedStatus) {
-    const s3Error = new S3Error(
-      errorMessage ?? `S3 request failed with status ${actualStatus}`,
-      {
-        expectedStatus,
-        actualStatus,
-        awsResponse: response,
-      }
-    );
-
-    s3Error.log();
-
-    return createErrorResponse(
-      s3Error.userMessage,
-      s3Error.code,
-      sanitizedClientStatusCodes(actualStatus)
-    );
-  }
-  return null;
-};
-
 export const validateResponseStatus = (
   actualStatus: StatusCodes | undefined,
   expectedStatus: StatusCodes,
@@ -119,11 +49,7 @@ export const validateResponseStatus = (
 
     validationError.log();
 
-    return createErrorResponse(
-      validationError.userMessage,
-      validationError.code,
-      actualStatus
-    );
+    return validationError.createApiErrorResponse();
   }
   return null;
 };
