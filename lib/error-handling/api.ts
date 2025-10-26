@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
 import { ValidationError } from '@/errors/api-errors';
-import { createErrorResponse } from '@/lib/api/common/response-structures';
+import { createErrorResponse } from '@/lib/api/common/response-helper';
 
 export const sanitizedClientStatusCodes = (
   actualStatus: number | undefined
@@ -32,24 +32,6 @@ export const validateRequestAgainstSchema = (
       StatusCodes.BAD_REQUEST,
       { validationErrors: result.error.message }
     );
-  }
-  return null;
-};
-
-export const validateResponseStatus = (
-  actualStatus: StatusCodes | undefined,
-  expectedStatus: StatusCodes,
-  errorMessage: string
-) => {
-  if (actualStatus !== expectedStatus) {
-    const validationError = new ValidationError(errorMessage, {
-      expectedStatus,
-      actualStatus,
-    });
-
-    validationError.log();
-
-    return validationError.createApiErrorResponse();
   }
   return null;
 };

@@ -1,6 +1,6 @@
 import BlogGrid from '@/components/blog/catalog/blog-grid';
 import { getBlogList } from '@/lib/api/blog/get-blogs';
-import { liveSiteUrl, siteName } from '@/lib/utils/seo';
+import { liveSiteUrl, siteName } from '@/utils/seo';
 import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';

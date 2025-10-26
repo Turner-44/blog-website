@@ -1,4 +1,4 @@
-import { liveSiteUrl, siteName } from '@/lib/utils/seo';
+import { liveSiteUrl, siteName } from '@/utils/seo';
 import { Metadata } from 'next';
 
 const description =

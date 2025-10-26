@@ -19,7 +19,7 @@ import {
 } from '@/lib/error-handling/api';
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { NextApiResponse } from '@/types/api/common';
-import { createSuccessResponse } from '@/lib/api/common/response-structures';
+import { createSuccessResponse } from '@/lib/api/common/response-helper';
 
 export async function GET(
   req: Request

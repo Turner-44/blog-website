@@ -5,7 +5,7 @@ import BlogCarousel from '@/components/blog/carousel/blog-carousel';
 import { Button } from '@/components/shared-components/button';
 import BlogCardSkeleton from '@/components/blog/carousel/loading-skeleton';
 import { Metadata } from 'next';
-import { liveSiteUrl, siteName } from '@/lib/utils/seo';
+import { liveSiteUrl, siteName } from '@/utils/seo';
 
 export const dynamic = 'force-dynamic';
 

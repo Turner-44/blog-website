@@ -15,7 +15,7 @@ import {
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { FieldSchemas, createImageSchema } from '@/lib/zod';
 import { AWSCacheValue } from '@/lib/api/common/headers';
-import { createSuccessResponse } from '@/lib/api/common/response-structures';
+import { createSuccessResponse } from '@/lib/api/common/response-helper';
 import { NextApiResponse } from '@/types/api/common';
 
 export async function POST(

@@ -1,7 +1,7 @@
 import { S3Client } from '@aws-sdk/client-s3';
 import { sdkClientConfig } from './shared';
 import { S3Error } from '@/errors/api-errors';
-import { createErrorResponse } from '../common/response-structures';
+import { createErrorResponse } from '../common/response-helper';
 import { StatusCodes } from 'http-status-codes';
 import { sanitizedClientStatusCodes } from '@/lib/error-handling/api';
 

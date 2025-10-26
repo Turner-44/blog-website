@@ -3,9 +3,9 @@
 import { BlogsRequestBody, BlogsResponses } from '@/types/api/blogs';
 import { ImageResponses } from '@/types/api/image';
 import { MarkdownResponses } from '@/types/api/markdown';
-import { postForm, postJson } from '../../common/post';
+import { postFormRequest, postJsonRequest } from '../../common/post';
 import { cleanupOnFailure } from '../delete-blogs';
-import { revalidateBlogCache } from '../../common/revalidate-cache';
+import { revalidateBlogCache } from '@/utils/revalidate-cache';
 import { createUIErrorResponse } from '@/lib/error-handling/ui';
 import { BlogFormData } from '@/types/blog';
 import { cookies } from 'next/headers';
@@ -19,7 +19,7 @@ export const storeBlogPost = async (
   blogPost: BlogsRequestBody['Post'],
   cookieHeader: string
 ): Promise<BlogPostResult> => {
-  const blogResponse = await postJson<BlogsResponses['Post']>(
+  const blogResponse = await postJsonRequest<BlogsResponses['Post']>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`,
     blogPost,
     cookieHeader
@@ -44,7 +44,7 @@ export const storeFile = async (
   form.append('slug', slug);
   form.append('image', file);
   form.append('category', category);
-  return await postForm<ImageResponses['Post']>(
+  return await postFormRequest<ImageResponses['Post']>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}/image`,
     form,
     cookie
@@ -56,7 +56,7 @@ export const storeMarkdown = async (
   markdown: string,
   cookieHeader: string
 ): Promise<MarkdownResult> => {
-  return postJson<MarkdownResponses['Post']>(
+  return postJsonRequest<MarkdownResponses['Post']>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${blogId}/markdown`,
     { blogId, markdown },
     cookieHeader

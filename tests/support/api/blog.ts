@@ -4,7 +4,7 @@ import { BlogsResponses } from '@/types/api/blogs';
 import { MarkdownResponses } from '@/types/api/markdown';
 import { APIRequestContext } from '@playwright/test';
 import { BlogCreationError } from '@/errors/api-errors';
-import { SuccessResponse } from '@/lib/api/common/response-structures';
+import { SuccessResponse } from '@/lib/api/common/response-helper';
 import { ApiResponse } from '@/types/api/common';
 
 export const storeBlogPost = async (

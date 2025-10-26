@@ -4,7 +4,7 @@ import { storeBlogPost } from './support/api/blog';
 import { createBlogPostDataAPI } from './data/create-blog';
 import { storeMarkdown } from './support/api/markdown';
 import { storeImage } from './support/api/image';
-import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
+import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
 import { test as setup } from '@playwright/test';
 
 setup('Create blogs', async ({}) => {

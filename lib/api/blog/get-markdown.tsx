@@ -1,4 +1,4 @@
-import { revalidateIn1Year } from '@/lib/utils/dates';
+import { revalidateIn1Year } from '@/utils/dates';
 import { BlogPost } from '@/types/blog';
 import { notFound } from 'next/navigation';
 

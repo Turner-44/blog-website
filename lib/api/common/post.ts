@@ -1,8 +1,8 @@
 import { ApiResponse } from '@/types/api/common';
-import { createErrorResponse } from './response-structures';
+import { createErrorResponse } from './response-helper';
 import { StatusCodes } from 'http-status-codes';
 
-export const postJson = async <T>(
+export const postJsonRequest = async <T>(
   url: string,
   body: unknown,
   cookieHeader: string
@@ -38,7 +38,7 @@ export const postJson = async <T>(
   }
 };
 
-export const postForm = async <T>(
+export const postFormRequest = async <T>(
   url: string,
   formData: FormData,
   cookieHeader: string

@@ -15,7 +15,7 @@ import {
 import { StatusCodes } from 'http-status-codes/build/cjs/status-codes';
 import { SlugResponses } from '@/types/api/blogs-slug';
 import { NextApiResponse } from '@/types/api/common';
-import { createSuccessResponse } from '@/lib/api/common/response-structures';
+import { createSuccessResponse } from '@/lib/api/common/response-helper';
 
 export async function GET(
   req: Request,
@@ -43,12 +43,13 @@ export async function GET(
     if (result.length === 0) {
       return createSuccessResponse(
         {
+          slugAvailable: true,
           blogPost: {},
           prevBlogPost: {},
           nextBlogPost: {},
         },
         `No blog post found with slug - ${slug}`,
-        StatusCodes.NOT_FOUND
+        StatusCodes.OK
       );
     }
 
@@ -65,6 +66,7 @@ export async function GET(
 
     return createSuccessResponse(
       {
+        slugAvailable: false,
         blogPost: result[0],
         prevBlogPost: prevBlogs[0],
         nextBlogPost: nextBlogs[0],

@@ -7,7 +7,7 @@ import {
 import { sdkClientConfig } from './shared';
 import { StatusCodes } from 'http-status-codes';
 import { DynamoDbError } from '@/errors/api-errors';
-import { createErrorResponse } from '../common/response-structures';
+import { createErrorResponse } from '../common/response-helper';
 import { sanitizedClientStatusCodes } from '@/lib/error-handling/api';
 
 const getDbClient = () => new DynamoDBClient(sdkClientConfig);

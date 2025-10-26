@@ -1,7 +1,7 @@
 import {
   createErrorResponse,
   ErrorResponse,
-} from '@/lib/api/common/response-structures';
+} from '@/lib/api/common/response-helper';
 import { StatusCodes } from 'http-status-codes';
 import { NextResponse } from 'next/server';
 

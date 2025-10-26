@@ -1,6 +1,6 @@
 import { request } from '@playwright/test';
 import fs from 'fs';
-import { resolveFromRoot, TEST_PATHS } from '@/lib/utils/paths';
+import { resolveFromRoot, TEST_PATHS } from '@/utils/paths';
 
 export const createApiContextDefaultTestCookies = async () => {
   const cookieJson = JSON.parse(

@@ -23,7 +23,7 @@ import { NextApiResponse } from '@/types/api/common';
 import {
   createErrorResponse,
   createSuccessResponse,
-} from '@/lib/api/common/response-structures';
+} from '@/lib/api/common/response-helper';
 import { FailedToDeleteError, NotFoundError } from '@/errors/api-errors';
 
 export async function GET(

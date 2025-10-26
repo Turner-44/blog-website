@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import {
   createErrorResponse,
   ErrorResponse,
-} from '@/lib/api/common/response-structures';
+} from '@/lib/api/common/response-helper';
 import { buildAuthOptions } from './next-auth-options';
 import { NextResponse } from 'next/server';
 
