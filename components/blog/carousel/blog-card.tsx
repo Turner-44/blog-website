@@ -16,7 +16,7 @@ export default function BlogCard({ blog }: { blog: BlogPost }) {
           <Image
             src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.previewImageKey}`}
             alt={blog.title || 'Blog image'}
-            className="object-auto rounded-2xl"
+            className="object-cover rounded-2xl"
             fill
             data-testid={`img-blog-feature-${blog.slug}`}
           />
@@ -42,7 +42,7 @@ export default function BlogCard({ blog }: { blog: BlogPost }) {
               </p>
 
               <p
-                className="font"
+                className="font-normal"
                 data-testid={`text-blog-card-summary-${blog.slug}`}
               >
                 {blog.summary}
