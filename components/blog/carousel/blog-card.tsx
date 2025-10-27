@@ -8,8 +8,7 @@ export default function BlogCard({ blog }: { blog: BlogPost }) {
   return (
     <Link href={`/blog/${blog.slug}`} className="no-underline">
       <div
-        className="relative mx-auto max-w-sm
-          h-60 bg-black rounded-2xl hover:scale-105 shadow-lg"
+        className="relative w-96 h-60 bg-black rounded-2xl hover:scale-105 shadow-lg"
         key={blog.id}
         data-testid={`blog-card-${blog.slug}`}
       >
