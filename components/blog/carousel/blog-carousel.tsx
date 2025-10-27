@@ -11,7 +11,7 @@ export default async function BlogCarousel() {
       {result.blogPosts.length === 0 ? (
         <p>No blogs available.</p>
       ) : (
-        <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-5">
+        <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-10 p-5">
           <Suspense
             fallback={
               <div>
