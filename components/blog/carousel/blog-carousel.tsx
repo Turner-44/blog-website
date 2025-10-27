@@ -7,18 +7,18 @@ export default async function BlogCarousel() {
   const result = await getBlogList(3);
 
   return (
-    <div data-testid="blog-carousel" className="w-full">
+    <div data-testid="blog-carousel" className="mx-auto max-w-10xl px-4 py-5">
       {result.blogPosts.length === 0 ? (
         <p>No blogs available.</p>
       ) : (
-        <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-5">
+        <div className="flex flex-col gap-10 2xl:gap-20 xl:flex-row xl:flex-wrap justify-around w-full">
           <Suspense
             fallback={
-              <div>
+              <>
                 <BlogCardSkeleton />
                 <BlogCardSkeleton />
                 <BlogCardSkeleton />
-              </div>
+              </>
             }
           >
             {result.blogPosts.map((blog, index) => {
