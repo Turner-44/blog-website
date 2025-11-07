@@ -9,7 +9,7 @@ export default async function BlogCarousel() {
   const result = await getBlogList(3);
 
   return (
-    <div data-testid="blog-carousel" className="py-10 px-5 md:px-20">
+    <div data-testid="blog-carousel" className="py-5 md:py-10 md:px-20">
       {result.blogPosts.length === 0 ? (
         <p>No blogs available.</p>
       ) : (
@@ -20,10 +20,10 @@ export default async function BlogCarousel() {
               <div className="mx-auto w-3/4 mt-0.5 duration-500 border-b-2 border-black rounded" />
             </header>
           </div>
-          <div className="flex flex-col justify-center gap-10">
+          <div className="flex flex-col justify-center gap-5 md:gap-10">
             <Suspense
               fallback={
-                <div className="flex flex-col gap-10">
+                <div className="flex flex-col gap-5 md:gap-10">
                   <BlogCardSkeleton />
                   <BlogCardSkeleton />
                   <BlogCardSkeleton />
