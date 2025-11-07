@@ -35,7 +35,7 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className="group text-2xl no-underline active:text-xl md:active:text-2xl"
+              className="group text-2xl no-underline active:font-bold"
             >
               {label}
               <div className="mx-2 mt-1 duration-500 border-b-2 opacity-0 border-black group-hover:opacity-100 group-hover:-translate-y-0.5 group-active:opacity-100 group-active:-translate-y-0.5" />
