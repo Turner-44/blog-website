@@ -24,7 +24,7 @@ export default function Navbar() {
           />
         </div>
         <div className="flex flex-col flex-5 justify-center items-center md:items-start pl-5">
-          <div className="text-2xl font-semi -mb-1 font-poppins">Becoming</div>
+          <div className="text-2xl -mb-1 font-poppins">Becoming</div>
           <div className="text-3xl font-bold -mt-1.5 font-poppins">Matthew</div>
         </div>
         <div
@@ -35,7 +35,7 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className="group text-2xl font-semi no-underline"
+              className="group text-2xl no-underline"
             >
               {label}
               <div className="mx-2 mt-1 duration-500 border-b-2 opacity-0 border-black group-hover:opacity-100 group-hover:-translate-y-0.5" />

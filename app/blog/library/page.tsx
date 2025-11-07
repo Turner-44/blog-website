@@ -24,7 +24,7 @@ export default async function BlogLibrary() {
   const result = await getBlogList(10);
 
   return (
-    <div className="flex flex-col py-5 items-center">
+    <main className="flex flex-col py-5 items-center">
       {result.blogPosts.length === 0 ? (
         <p>No blogs available.</p>
       ) : (
@@ -33,6 +33,6 @@ export default async function BlogLibrary() {
           initialCursor={result.nextCursor}
         />
       )}
-    </div>
+    </main>
   );
 }

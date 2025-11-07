@@ -39,7 +39,7 @@ export default async function BlogCarousel() {
             <Link href="/blog/library">
               <Button
                 size={'extraWide'}
-                className="Button-primary "
+                className="Button-primary"
                 data-testid="btn-show-all-blogs"
               >
                 Find More

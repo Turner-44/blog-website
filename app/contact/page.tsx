@@ -21,15 +21,13 @@ export const metadata: Metadata = {
 export default function Contact() {
   return (
     <main className="narrow-page-format">
-      <header>
-        <h1
-          className="text-3xl font-bold tracking-tight text-center p-5"
-          data-testid="header-contact-page"
-        >
-          Contact Details
-          <div className="mx-auto w-1/4 mt-0.5 duration-500 border-b-2 border-black rounded" />
-        </h1>
-      </header>
+      <h1
+        className="text-3xl font-bold tracking-tight text-center p-5"
+        data-testid="header-contact-page"
+      >
+        Contact Details
+        <div className="mx-auto w-1/4 mt-0.5 duration-500 border-b-2 border-black rounded" />
+      </h1>
       <section aria-labelledby="contact-instructions">
         <p>
           I am always looking for opportunities to connect and collaborate with

@@ -46,7 +46,7 @@ export default function BlogGrid({
                   fill
                 />
               </div>
-              <div className="flex-2">
+              <div className="flex-[2]">
                 <h3>{blog.title}</h3>
                 <p>{blog.summary}</p>
               </div>
