@@ -37,7 +37,7 @@ export default function BlogGrid({
           className="hover:scale-105 opacity-90 py-5 px-5 -mt-2"
         >
           <Link href={`/blog/${blog.slug}`}>
-            <div className="flex flex-col sm:flex-row gap-10 pl-5 items-center">
+            <div className="flex flex-col sm:flex-row gap-2 md:gap-10 pl-5 items-center">
               <div className="flex-1 relative w-72 aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
                   src={`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/${blog.featureImageKey}`}

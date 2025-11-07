@@ -30,7 +30,7 @@ export default function About() {
           <div className="mx-auto w-1/7 mt-0.5 duration-500 border-b-2 border-black rounded" />
         </h1>
       </header>
-      <div className="mx-auto relative aspect-[3/2] w-3/4 mt-5">
+      <div className="mx-auto relative aspect-[3/2] w-full md:w-3/4 mt-5">
         <Image
           src={`/images/about.png`}
           alt={'About Me Image'}
