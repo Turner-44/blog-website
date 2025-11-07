@@ -8,7 +8,7 @@ export default function BlogCard({ blog }: { blog: BlogPost }) {
   return (
     <Link href={`/blog/${blog.slug}`} className="no-underline">
       <div
-        className="relative w-96 h-60 bg-black rounded-2xl hover:scale-105 shadow-lg"
+        className="mx-auto relative w-90 h-60 bg-black rounded-2xl hover:scale-105 shadow-lg"
         key={blog.id}
         data-testid={`blog-card-${blog.slug}`}
       >
@@ -22,9 +22,9 @@ export default function BlogCard({ blog }: { blog: BlogPost }) {
           />
         </div>
         <div className="absolute h-full w-full top-0 flex flex-col">
-          <div className="flex-1"></div>
+          <div className="flex-1" />
           <div className="flex-1 flex flex-col px-5 py-3 bg-gradient-to-t from-black rounded-2xl">
-            <div className="flex-1"></div>
+            <div className="flex-1" />
             <div>
               <h2
                 className="text-white"

@@ -20,19 +20,20 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <main className="narrow-page-format">
+    <div className="narrow-page-format">
       <header>
         <h1
-          className="tracking-tight text-center p-5"
+          className="tracking-tight text-center mt-2"
           data-testid="header-about-page"
         >
           About Me
+          <div className="mx-auto w-1/7 mt-0.5 duration-500 border-b-2 border-black rounded" />
         </h1>
-        <div className="relative h-100 aspect-w-1 aspect-h-1">
+        <div className="mx-auto relative aspect-[3/2] w-3/4 mt-5">
           <Image
             src={`/images/about.png`}
             alt={'About Me Image'}
-            className="object-cover object-center rounded-2xl"
+            className="object-cover object-top rounded-2xl"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill
           />
@@ -148,7 +149,7 @@ export default function About() {
 
       <section
         aria-labelledby="contact"
-        className="space-y-3 mx-auto text-center"
+        className="space-y-3 mx-auto text-center mb-3"
       >
         <h2 id="contact" className="py-5">
           Find Me Elsewhere
@@ -177,6 +178,6 @@ export default function About() {
           <a href="https://becomingmatthew.com/contact">Reach out here</a>.
         </p>
       </section>
-    </main>
+    </div>
   );
 }

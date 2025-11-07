@@ -7,22 +7,17 @@ const navLinks = [
 ];
 export default function Footer() {
   return (
-    <footer className="pt-5 ">
-      <div className="mt-auto bg-black">
-        <div className="mx-auto max-w-4xl">
-          <nav className="flex flex-col sm:grid sm:grid-cols-3">
-            {navLinks.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="py-3 text-center text-sm text-white/85 font-bold no-underline nav-hover-effect"
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
+    <footer className="flex flex-col items-center justify-center md:flex-row md:space-x-10 mt-auto">
+      {navLinks.map(({ href, label }) => (
+        <Link
+          key={href}
+          href={href}
+          className="group py-3 text-center text-sm text-black font-bold no-underline nav-hover-effect"
+        >
+          {label}
+          <div className="mx-2 mt-1 duration-500 border-b-2 opacity-0 border-black group-hover:opacity-100 group-hover:-translate-y-0.5" />
+        </Link>
+      ))}
     </footer>
   );
 }

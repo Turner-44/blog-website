@@ -87,7 +87,7 @@ export const schema = {
 
 export default function BlogContent({ markdown }: { markdown: string }) {
   return (
-    <article>
+    <article className="px-10">
       <MDXRemote
         source={markdown}
         components={components}
