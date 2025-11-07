@@ -34,7 +34,7 @@ export default function BlogGrid({
       {blogs.map((blog) => (
         <li
           key={blog.id}
-          className="hover:scale-105 opacity-90 py-5 px-5 -mt-2"
+          className="hover:scale-105 opacity-90 py-5 px-5 -mt-2 active:scale-95"
         >
           <Link href={`/blog/${blog.slug}`}>
             <div className="flex flex-col sm:flex-row gap-2 md:gap-10 pl-5 items-center">
