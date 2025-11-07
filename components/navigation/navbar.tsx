@@ -23,11 +23,11 @@ export default function Navbar() {
             priority={true}
           />
         </div>
-        <div className="flex flex-col flex-5 justify-center items-center md:items-start pl-5">
+        <header className="flex flex-col flex-5 justify-center items-center md:items-start pl-5">
           <div className="text-2xl -mb-1 font-poppins">Becoming</div>
           <div className="text-3xl font-bold -mt-1.5 font-poppins">Matthew</div>
-        </div>
-        <div
+        </header>
+        <nav
           className="flex flex-col mx-auto md:flex-row md:flex-3 md:space-x-7 items-center justify-end"
           data-testid="navigation-bar"
         >
@@ -41,7 +41,7 @@ export default function Navbar() {
               <div className="mx-2 mt-1 duration-500 border-b-2 opacity-0 border-black group-hover:opacity-100 group-hover:-translate-y-0.5" />
             </Link>
           ))}
-        </div>
+        </nav>
       </div>
       <div className="w-3/4 md:hidden border-b mx-auto border-gray-400 my-5 rounded" />
     </div>

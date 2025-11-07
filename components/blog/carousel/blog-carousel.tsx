@@ -15,10 +15,10 @@ export default async function BlogCarousel() {
       ) : (
         <div>
           <div className="pb-10">
-            <div className="text-3xl font-bold md:text-4xl font-poppins text-center">
+            <header className="text-3xl font-bold md:text-4xl font-poppins text-center">
               Welcome to the blog
               <div className="mx-auto w-3/4 mt-0.5 duration-500 border-b-2 border-black rounded" />
-            </div>
+            </header>
           </div>
           <div className="flex flex-col justify-center gap-10">
             <Suspense

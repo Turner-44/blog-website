@@ -21,13 +21,15 @@ export const metadata: Metadata = {
 export default function About() {
   return (
     <main className="narrow-page-format">
-      <h1
-        className="tracking-tight text-center mt-2"
-        data-testid="header-about-page"
-      >
-        About Me
-        <div className="mx-auto w-1/7 mt-0.5 duration-500 border-b-2 border-black rounded" />
-      </h1>
+      <header>
+        <h1
+          className="tracking-tight text-center mt-2"
+          data-testid="header-about-page"
+        >
+          About Me
+          <div className="mx-auto w-1/7 mt-0.5 duration-500 border-b-2 border-black rounded" />
+        </h1>
+      </header>
       <div className="mx-auto relative aspect-[3/2] w-3/4 mt-5">
         <Image
           src={`/images/about.png`}
