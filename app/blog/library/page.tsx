@@ -24,7 +24,7 @@ export default async function BlogLibrary() {
   const result = await getBlogList(10);
 
   return (
-    <main className="narrow-page-format">
+    <main className="flex flex-col py-5 items-center">
       {result.blogPosts.length === 0 ? (
         <p>No blogs available.</p>
       ) : (

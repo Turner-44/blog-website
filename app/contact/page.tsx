@@ -27,9 +27,10 @@ export default function Contact() {
           data-testid="header-contact-page"
         >
           Contact Details
+          <div className="mx-auto w-1/4 mt-0.5 duration-500 border-b-2 border-black rounded" />
         </h1>
       </header>
-      <section aria-labelledby="contact-instructions">
+      <section aria-labelledby="contact-instructions" className="text-">
         <p>
           I am always looking for opportunities to connect and collaborate with
           others.

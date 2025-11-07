@@ -29,14 +29,8 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-center py-5">
-      <h1 className="text-center py-5">Welcome to my blog!</h1>
+    <main className="flex flex-col items-center justify-center">
       <BlogCarousel />
-      <Link href="/blog/library">
-        <Button className="Button-primary" data-testid="btn-show-all-blogs">
-          Find More
-        </Button>
-      </Link>
     </main>
   );
 }

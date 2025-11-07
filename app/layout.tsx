@@ -34,22 +34,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${nunito.variable} ${poppins.variable} min-h-screen flex flex-col`}
-      >
-        <MantineProvider
-          defaultColorScheme="light"
-          theme={{
-            primaryColor: 'blue',
-            fontFamily: 'var(--font-nunito), sans-serif',
-            headings: { fontFamily: 'var(--font-poppins), sans-serif' },
-          }}
+      <body>
+        {/* Global Container */}
+        <div
+          className={`${nunito.variable} ${poppins.variable} min-h-screen flex flex-col bg-slate-100`}
         >
-          <Navbar />
-          <main className="flex-1">{children}</main>
+          {/* Parent Container */}
+          <div className="mx-auto justify-center shadow-2xl rounded-2xl bg-white mt-5 px-2 w-full max-w-2xl md:px-4 md:max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl 3xl:max-w-7xl md:mt-10 4xl:mt-20">
+            <MantineProvider
+              defaultColorScheme="light"
+              theme={{
+                primaryColor: 'blue',
+                fontFamily: 'var(--font-nunito), sans-serif',
+                headings: { fontFamily: 'var(--font-poppins), sans-serif' },
+              }}
+            >
+              <Navbar />
+              <main>{children}</main>
+            </MantineProvider>
+            <GoogleAnalytics gaId="G-8Q7SX0LTWY" />
+          </div>
           <Footer />
-        </MantineProvider>
-        <GoogleAnalytics gaId="G-8Q7SX0LTWY" />
+        </div>
       </body>
     </html>
   );

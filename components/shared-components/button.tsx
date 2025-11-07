@@ -14,7 +14,7 @@ const buttonVariants = cva('rounded transition-colors duration-200', {
     },
     size: {
       default: 'px-4 py-2',
-      extraWide: 'px-10 py-2',
+      extraWide: 'px-10 py-3',
     },
     font: {
       default: 'font-poppins font-medium',
