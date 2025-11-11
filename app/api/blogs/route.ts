@@ -4,7 +4,7 @@ import { QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 import {
   dynamoDBClient,
-  TABLE_NAME,
+  BLOG_POSTS_TABLE_NAME,
   buildAllBlogsQuery,
   dynamoDBResponseErrorCheck,
 } from '@/lib/api/aws/dynamo';
@@ -85,7 +85,7 @@ export async function POST(
 
     const dynamodbRes = await dynamoDBClient.send(
       new PutCommand({
-        TableName: TABLE_NAME,
+        TableName: BLOG_POSTS_TABLE_NAME,
         Item: blogPost,
       })
     );
@@ -116,7 +116,7 @@ export async function DELETE(
 
     const dynamodbRes = await dynamoDBClient.send(
       new DeleteItemCommand({
-        TableName: TABLE_NAME,
+        TableName: BLOG_POSTS_TABLE_NAME,
         Key: {
           PK: { S: 'BLOG' },
           SK: { S: sk },

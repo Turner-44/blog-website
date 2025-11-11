@@ -20,12 +20,20 @@ const buttonVariants = cva('rounded transition-colors duration-200', {
       default: 'font-poppins font-medium',
       bold: 'font-poppins font-bold',
       semibold: 'font-poppins font-semibold',
+      thin: 'font-poppins font-thin',
+    },
+    fontSize: {
+      default: '!text-md',
+      large: '!text-lg',
+      small: '!text-sm',
+      tiny: '!text-xs',
     },
   },
   defaultVariants: {
     variant: 'default',
     size: 'default',
     font: 'default',
+    fontSize: 'default',
   },
 });
 
@@ -36,12 +44,16 @@ interface ButtonProps
 const Button: React.FC<ButtonProps> = ({
   className,
   size,
+  font,
+  fontSize,
   variant,
   ...props
 }) => {
   return (
     <button
-      className={cn(buttonVariants({ size, variant, className }))}
+      className={cn(
+        buttonVariants({ size, font, fontSize, variant, className })
+      )}
       {...props}
     >
       {props.children}

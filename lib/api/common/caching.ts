@@ -13,8 +13,13 @@ export const blogPostFetchOptions = {
   next: { revalidate: 0, tags: ['blog-post'] },
 };
 
+export const questionFetchOptions = {
+  next: { revalidate: 0, tags: ['question'] },
+};
+
 export const fetchOptions = {
   markdown: markdownFetchOptions,
   image: imageFetchOptions,
   blogPost: blogPostFetchOptions,
+  question: questionFetchOptions,
 };

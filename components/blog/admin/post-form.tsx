@@ -45,7 +45,7 @@ export default function CreateBlogForm() {
           form.setFieldError('root', errorMessages.fixErrorsAbove);
         }
       )}
-      className="relative flex flex-col max-w-2xl mx-auto"
+      className="relative flex flex-col"
       autoComplete="off"
     >
       <TextInput

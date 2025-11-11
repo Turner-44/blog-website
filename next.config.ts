@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
   },
   env: {
     BLOG_POSTS_TABLE_NAME: process.env.BLOG_POSTS_TABLE_NAME,
+    QUESTIONS_TABLE_NAME: process.env.QUESTIONS_TABLE_NAME,
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     NEXT_PUBLIC_S3_CDN_HOST_NAME: process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME,
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,

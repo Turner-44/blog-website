@@ -60,6 +60,7 @@ jobs:
           echo "NEXT_PUBLIC_S3_CDN_HOST_NAME=${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}" >> .env
           echo "REGION_AWS=${{ vars.REGION_AWS }}" >> .env
           echo "BLOG_POSTS_TABLE_NAME=${{ vars.BLOG_POSTS_TABLE_NAME }}" >> .env
+          echo "QUESTIONS_TABLE_NAME=${{ vars.QUESTIONS_TABLE_NAME }}" >> .env
           echo "S3_BUCKET_NAME=${{ vars.S3_BUCKET_NAME }}" >> .env
           echo "ADMIN_EMAIL=${{ vars.ADMIN_EMAIL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env

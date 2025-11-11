@@ -1,9 +1,4 @@
-import Link from 'next/link';
-import { Suspense } from 'react';
-
 import BlogCarousel from '@/components/blog/carousel/blog-carousel';
-import { Button } from '@/components/shared-components/button';
-import BlogCardSkeleton from '@/components/blog/carousel/loading-skeleton';
 import { Metadata } from 'next';
 import { liveSiteUrl, siteName } from '@/utils/seo';
 
