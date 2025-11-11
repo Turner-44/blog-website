@@ -13,10 +13,18 @@ export type StoreQuestionFormData = {
 };
 
 export type QuestionResponses = {
-  // Post: ;
+  Post: QuestionPostResponse;
   Get: QuestionGetResponse;
   Delete: QuestionDeleteResponse;
 };
+
+interface QuestionPostResponse {
+  PK: 'QUESTION';
+  SK: string;
+  id: string;
+  createdAt: Date;
+  question: string;
+}
 
 interface QuestionGetResponse {
   questions: Question[];
@@ -24,6 +32,6 @@ interface QuestionGetResponse {
 
 interface QuestionDeleteResponse {
   message: string;
-  PK: string;
+  PK: 'QUESTION';
   SK: string;
 }

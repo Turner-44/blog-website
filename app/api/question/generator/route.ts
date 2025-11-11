@@ -26,14 +26,13 @@ export async function POST(req: Request) {
     Ensure that the question is open-ended and thought-provoking.
     Also that it respects the question rules of ${JSON.stringify(FieldSchemas.question)}`;
 
-    const response = await client.responses.create({
+    const response = await client.chat.completions.create({
       model: 'gpt-5-nano',
-      input: prompt,
+      messages: [{ role: 'user', content: prompt }],
     });
-
     return createSuccessResponse(
       {
-        question: response.output_text,
+        question: response.choices[0].message.content,
       },
       'Retrieved',
       StatusCodes.OK

@@ -18,5 +18,5 @@ export const getLatestQuestion = async (): Promise<Question> => {
     notFound();
   }
 
-  return questionRes.data.questions[0] ?? '';
+  return questionRes.data.questions[0];
 };

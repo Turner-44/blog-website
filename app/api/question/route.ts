@@ -66,7 +66,6 @@ export async function GET(req: Request) {
       'Retrieved',
       StatusCodes.OK
     );
-    // Go to dynamo and fetch stored questions
   } catch (err: Error | unknown) {
     return genericCatchError(err);
   }
@@ -105,7 +104,7 @@ export async function POST(req: Request) {
 
     const awsError = dynamoDBResponseErrorCheck(dynamodbRes, {
       expectedStatus: StatusCodes.OK,
-      errorMessage: `Failed to create blog post - ${reqData.title}`,
+      errorMessage: `Failed to create question - ${reqData.question}`,
     });
     if (awsError) return awsError;
 

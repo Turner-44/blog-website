@@ -27,7 +27,6 @@ export default function GenerateQuestionForm({
   const [success, setSuccess] = useState(false);
   const [question, setQuestion] = useState<string>(currentQuestion);
   const [newQuestion, setNewQuestion] = useState('');
-  useState(false);
 
   return (
     <div className="flex flex-col mx-auto my-3">
