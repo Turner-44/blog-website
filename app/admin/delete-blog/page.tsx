@@ -8,8 +8,8 @@ export default async function DeleteBlogPage() {
   const result = await getBlogList(10);
 
   return (
-    <main className="standard-page-format">
-      <h1 className="text-2xl font-bold mb-6">Delete Blog Posts</h1>
+    <main className="flex flex-col w-full">
+      <h1 className="text-2xl font-bold mb-6 text-center">Delete Blog Posts</h1>
       {result.blogPosts.length === 0 ? (
         <p>No blogs available.</p>
       ) : (

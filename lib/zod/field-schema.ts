@@ -93,6 +93,16 @@ const sk = z
   .min(...fieldValidationRules.minStringLength(5, fieldName.sk))
   .max(...fieldValidationRules.maxStringLength(100, fieldName.sk));
 
+const question = z
+  .string()
+  .min(...fieldValidationRules.minStringLength(10, 'Question'))
+  .max(...fieldValidationRules.maxStringLength(100, 'Question'));
+
+const customiseQuestion = z
+  .string()
+  .max(...fieldValidationRules.maxStringLength(200, 'Question'))
+  .optional();
+
 export const FieldSchemas = {
   id,
   slug,
@@ -103,7 +113,10 @@ export const FieldSchemas = {
   imageCategory,
   tags,
   publishedAt: date,
+  createdAt: date,
   imageKey: s3ImageKey,
   markdownKey: s3MarkdownKey,
   sk,
+  question,
+  customiseQuestion,
 };
