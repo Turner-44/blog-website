@@ -4,6 +4,8 @@ import { Question, QuestionResponses } from '@/types/api/question';
 import { notFound } from 'next/navigation';
 import { NotFoundError } from '@/errors/api-errors';
 
+// TODO: Make return object type for Question
+
 export const getLatestQuestion = async (): Promise<Question> => {
   const questionRes = await getRequest<QuestionResponses['Get']>(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/question?`,
@@ -18,5 +20,9 @@ export const getLatestQuestion = async (): Promise<Question> => {
     notFound();
   }
 
-  return questionRes.data.questions[0];
+  return (
+    questionRes.data.questions[0] ?? {
+      question: 'Waiting for you to generate a question',
+    }
+  );
 };
