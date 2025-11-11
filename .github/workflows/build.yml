@@ -26,6 +26,7 @@ jobs:
           echo "NEXT_PUBLIC_S3_CDN_HOST_NAME: ${{ vars.NEXT_PUBLIC_S3_CDN_HOST_NAME }}"
           echo "REGION_AWS: ${{ vars.REGION_AWS }}"
           echo "BLOG_POSTS_TABLE_NAME: ${{ vars.BLOG_POSTS_TABLE_NAME }}"
+          echo "QUESTIONS_TABLE_NAME: ${{ vars.QUESTIONS_TABLE_NAME }}"
           echo "S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}"
           echo "ADMIN_EMAIL: ${{ vars.ADMIN_EMAIL }}"
           echo "NEXT_PUBLIC_POINTED_AT_TEST: ${{ vars.NEXT_PUBLIC_POINTED_AT_TEST }}"
