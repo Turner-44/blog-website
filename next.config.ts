@@ -10,14 +10,9 @@ const nextConfig: NextConfig = {
 
   /* config options here */
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME as string,
-        port: '',
-        pathname: '/**',
-      },
-    ],
+    remotePatterns: process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME
+      ? [new URL(`https://${process.env.NEXT_PUBLIC_S3_CDN_HOST_NAME}/**`)]
+      : [],
   },
   experimental: {
     serverActions: {
